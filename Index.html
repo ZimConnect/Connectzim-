@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ConnectZim - Zimbabwe Yese Muri Pano</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+  body{background:#f0f2f5;padding-bottom:60px}
+  .header{background:linear-gradient(135deg,#007A3D,#CE1126,#FFD100);color:white;padding:15px;text-align:center;position:sticky;top:0;z-index:100}
+  .header h1{font-size:22px;font-weight:bold}
+  .nav{display:flex;justify-content:space-around;background:white;border-bottom:2px solid #ddd;position:sticky;top:70px;z-index:100;overflow-x:auto}
+  .nav button{flex:1;min-width:65px;padding:12px 3px;border:none;background:white;font-weight:bold;cursor:pointer;font-size:10px}
+  .nav button.active{background:#007A3D;color:white;border-bottom:3px solid #FFD100}
+  .page{display:none;padding:15px}
+  .page.active{display:block}
+  .card{background:white;border-radius:10px;padding:15px;margin-bottom:15px;box-shadow:0 2px 5px rgba(0,0,0,0.1)}
+  .card h3{color:#007A3D;margin-bottom:10px}
+  .btn{padding:10px 15px;border:none;border-radius:8px;cursor:pointer;font-weight:bold;margin:5px 5px 0 0;font-size:14px}
+  .btn-green{background:#25D366;color:white}
+  .btn-blue{background:#0084FF;color:white}
+  .btn-red{background:#CE1126;color:white}
+  .btn-orange{background:#FF8C00;color:white}
+  .product-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .product-card{background:white;border-radius:10px;padding:10px;text-align:center;box-shadow:0 2px 5px rgba(0,0,0,0.1)}
+  .product-card img{width:100%;height:120px;object-fit:cover;border-radius:8px;background:#eee}
+  .price{color:#CE1126;font-weight:bold;font-size:16px}
+  .event-card{border-left:4px solid #FFD100}
+  .job-card{border-left:4px solid #25D366}
+  .store-card{border-left:4px solid #0084FF}
+  .date-badge{background:#CE1126;color:white;padding:5px 10px;border-radius:20px;font-size:12px;display:inline-block;margin-bottom:8px}
+  .footer{font-size:10px;color:#666;padding:20px;text-align:center;background:white;margin-top:20px}
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🇿🇼 CONNECTZIM</h1>
+  <p>Zimbabwe Yese Muri Pano</p>
+</div>
+
+<div class="nav">
+  <button class="active" onclick="showPage('home')">🏠 HOME</button>
+  <button onclick="showPage('store')">🛒 STORE</button>
+  <button onclick="showPage('ads')">📢 ADS</button>
+  <button onclick="showPage('events')">🎉 EVENTS</button>
+  <button onclick="showPage('news')">📰 NEWS</button>
+  <button onclick="showPage('radio')">📻 RADIO</button>
+  <button onclick="showPage('chat')">💬 CHAT</button>
+  <button onclick="showPage('pros')">👨‍💼 PROS</button>
+</div>
+
+<!-- HOME -->
+<div id="home" class="page active">
+  <div class="card">
+    <h3>Welcome to ConnectZim!</h3>
+    <p>The #1 app for Zimbabweans. Shop, Jobs, Events, News, Radio all in one place.</p>
+  </div>
+  <div class="grid-2">
+    <div class="card"><h3>🛒 Store</h3></div>
+    <div class="card"><h3>📢 Jobs</h3></div>
+    <div class="card"><h3>🎉 Events</h3></div>
+    <div class="card"><h3>📻 Radio</h3></div>
+  </div>
+</div>
+
+<!-- STORE PAGE NEW -->
+<div id="store" class="page">
+  <div class="card store-card">
+    <h3>🛒 CONNECTZIM MARKETPLACE</h3>
+    <p>Shop directly. Pay on Delivery or WhatsApp seller.</p>
+  </div>
+  
+  <div class="product-grid">
+    <div class="product-card">
+      <img src="https://via.placeholder.com/150/25D366/FFFFFF?text=Phone" alt="Phone">
+      <h4>Infinix Hot 40</h4>
+      <p class="price">$180</p>
+      <button class="btn btn-green" onclick="chatNow('I want to buy Infinix Hot 40 for $180')">💬 Buy on WhatsApp</button>
+    </div>
+    
+    <div class="product-card">
+      <img src="https://via.placeholder.com/150/FFD100/000000?text=Shoes" alt="Shoes">
+      <h4>Nike Sneakers</h4>
+      <p class="price">$45</p>
+      <button class="btn btn-green" onclick="chatNow('I want Nike Sneakers for $45')">💬 Buy on WhatsApp</button>
+    </div>
+    
+    <div class="product-card">
+      <img src="https://via.placeholder.com/150/CE1126/FFFFFF?text=Maize" alt="Maize">
+      <h4>50kg Maize Meal</h4>
+      <p class="price">$25</p>
+      <button class="btn btn-green" onclick="chatNow('I want 50kg Maize Meal for $25')">💬 Buy on WhatsApp</button>
+    </div>
+    
+    <div class="product-card">
+      <img src="https://via.placeholder.com/150/0084FF/FFFFFF?text=Dress" alt="Dress">
+      <h4>Ladies Dress</h4>
+      <p class="price">$30</p>
+      <button class="btn btn-green" onclick="chatNow('I want Ladies Dress for $30')">💬 Buy on WhatsApp</button>
+    </div>
+  </div>
+  
+  <div class="card">
+    <h3>📦 SELL ON CONNECTZIM</h3>
+    <p>Got products? Chat admin to list them here for FREE</p>
+    <button class="btn btn-orange" onclick="chatNow('I want to sell products on ConnectZim')">💬 List Your Products</button>
+  </div>
+</div>
+
+<!-- ADS -->
+<div id="ads" class="page">
+  <div class="card job-card">
+    <h3>🚢 CRUISE SHIP HIRING</h3>
+    <p><b>Salary:</b> $2000 - $3500/month</p>
+    <button class="btn btn-green" onclick="chatNow('Apply Cruise Ship Job')">💬 Apply</button>
+  </div>
+</div>
+
+<!-- EVENTS -->
+<div id="events" class="page">
+  <div class="card event-card">
+    <span class="date-badge">SAT 27 APR 2026</span>
+    <h3>🎤 GOSPEL NIGHT WITH DJ TEWE</h3>
+    <p><b>Venue:</b> Harare Gardens</p>
+    <button class="btn btn-green" onclick="chatNow('Gospel Night Tickets')">💬 Get Tickets</button>
+  </div>
+</div>
+
+<!-- NEWS -->
+<div id="news" class="page"><div class="card"><h3>📰 LATEST NEWS</h3><p>Zim Economy Grows 4.5%</p></div></div>
+
+<!-- RADIO -->
+<div id="radio" class="page">
+  <div class="card">
+    <h3>📻 GROOVE FM 95.9 ONLINE</h3>
+    <button id="playBtn" onclick="toggleRadio()">▶️ PLAY</button>
+    <audio id="radio" src="https://stream.zeno.fm/0r0a792kwz8uv"></audio>
+  </div>
+</div>
+
+<!-- CHAT -->
+<div id="chat" class="page"><div class="card"><h3>💬 CHAT COMING SOON</h3></div></div>
+
+<!-- PROS -->
+<div id="pros" class="page">
+  <div class="card">
+    <h3>👨‍🏫 MALVIN NYAGUZE - MATHS</h3>
+    <button class="btn btn-green" onclick="callNow('+263783218647')">📞 Call</button>
+  </div>
+</div>
+
+<div class="footer">Privacy: We do not collect data. © 2026 ConnectZim</div>
+
+<script>
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+}
+function callNow(num){window.location.href = 'tel:' + num;}
+function chatNow(msg){window.open('https://wa.me/263771347356?text=' + encodeURIComponent(msg),'_blank');}
+let radio = document.getElementById('radio');
+let playBtn = document.getElementById('playBtn');
+function toggleRadio(){
+  if(radio.paused){radio.play();playBtn.innerHTML = '⏸️ PAUSE';} 
+  else {radio.pause();playBtn.innerHTML = '▶️ PLAY';}
+</script>
+</body>
+</html>
