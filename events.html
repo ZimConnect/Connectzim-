@@ -1,21 +1,48 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ConnectZim Events</title>
-  <style>
-    body {font-family: Arial; text-align: center; padding: 40px; background: #f5f5f5;}
-    .box {background: white; padding: 30px; border-radius: 12px; max-width: 500px; margin: auto;}
-    a {display: inline-block; margin-top: 20px; padding: 12px 24px; background: green; color: white; text-decoration: none; border-radius: 8px;}
-  </style>
-</head>
-<body>
-  <div class="box">
-    <h1>🎉 ConnectZim Events</h1>
-    <p>Discover events happening around Zimbabwe. Coming Soon!</p>
-    <p>From Harare to Bulawayo - never miss out.</p>
-    <a href="index.html">← Back Home</a>
-  </div>
-</body>
-</html>
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getFirestore, collection, addDoc, getDocs, orderBy, query } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "PASTE-YOURS", // SAME CONFIG AS JOBS
+      authDomain: "zimconnect.firebaseapp.com",
+      projectId: "zimconnect",
+      storageBucket: "zimconnect.appspot.com",
+      messagingSenderId: "123",
+      appId: "1:123:web:abc"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    async function loadEvents(){
+      const q = query(collection(db, "events"), orderBy("date", "asc"));
+      const snap = await getDocs(q);
+      let html = "<h2 style='color:#FFD700;margin-bottom:15px'>Upcoming Events</h2>";
+      snap.forEach(doc => {
+        const e = doc.data();
+        html += `
+        <div class="card">
+          <div class="event-date">${e.date}</div>
+          <h3>${e.title}</h3>
+          <p style="color:#aaa">${e.venue}</p>
+          <p>${e.desc}</p>
+          <button class="btn-small">RSVP</button>
+        </div>`;
+      });
+      document.getElementById("eventsList").innerHTML = html;
+    }
+    loadEvents();
+
+    window.postEvent = async function(){
+      await addDoc(collection(db, "events"), {
+        title: eventTitle.value,
+        venue: eventVenue.value,
+        date: eventDate.value,
+        desc: eventDesc.value,
+        created: new Date()
+      });
+      alert("Event Posted!");
+      document.getElementById('eventModal').classList.remove('active');
+      loadEvents();
+    }
+  </script>
