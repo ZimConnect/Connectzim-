@@ -6,12 +6,14 @@
 <title>ZimConnect Store</title>
 <style>
 body { background: #000; color: white; font-family: Arial; margin: 0; padding: 20px; }
-h1 { color: #FFD700; }
-.product { background: #111; padding: 15px; margin: 10px 0; border-radius: 10px; }
-.product img { width: 100%; max-width: 300px; border-radius: 8px; }
-button { background: #FFD700; color: black; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; }
-input, textarea { width: 95%; padding: 8px; margin: 5px 0; border-radius: 5px; border: none; }
+h1 { color: #FFD700; text-align: center; }
+.product { background: #111; padding: 15px; margin: 15px 0; border-radius: 10px; border: 1px solid #333; }
+.product img { width: 100%; max-width: 300px; border-radius: 8px; display: block; margin: auto; }
+.product h2 { color: #FFD700; margin: 10px 0 5px; }
+button { background: #FFD700; color: black; border: none; padding: 12px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 10px; }
+input, textarea { width: 95%; padding: 10px; margin: 8px 0; border-radius: 5px; border: none; background: #333; color: white; }
 #addForm { background: #222; padding: 15px; border-radius: 10px; margin-bottom: 20px; display: none; }
+#products { max-width: 600px; margin: auto; }
 </style>
 </head>
 <body>
@@ -21,55 +23,73 @@ input, textarea { width: 95%; padding: 8px; margin: 5px 0; border-radius: 5px; b
 
 <div id="addForm">
   <h3>Add New Product</h3>
-  <input id="pName" placeholder="Product Name">
-  <input id="pPrice" placeholder="Price" type="number">
+  <input id="pName" placeholder="Product Name e.g. iPhone 14">
+  <input id="pPrice" placeholder="Price in $" type="number">
   <input id="pImage" placeholder="Image URL - paste link here">
   <textarea id="pDesc" placeholder="Description"></textarea>
   <button onclick="addProduct()">Save Product</button>
 </div>
 
-<div id="products"></div>
+<div id="products">Loading products...</div>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-  import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+  import { getFirestore, collection, addDoc, getDocs, orderBy, query } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
+  // Your Firebase config
   const firebaseConfig = {
-    apiKey: "AIzaSyC...", // REPLACE THIS WITH YOURS
-    authDomain: "zimconnect.firebaseapp.com",
-    projectId: "zimconnect",
-    storageBucket: "zimconnect.appspot.com",
-    messagingSenderId: "123...",
-    appId: "1:123..."
+    apiKey: "AIzaSyDrC2Q1hKYOhXxXNWRq-XbNqN3r-u7L6BY",
+    authDomain: "zimconnect-54b36.firebaseapp.com",
+    projectId: "zimconnect-54b36",
+    storageBucket: "zimconnect-54b36.firebasestorage.app",
+    messagingSenderId: "975076570057",
+    appId: "1:975076570057:web:26fb478bd26a5b1ea76e18"
   };
 
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
   async function loadProducts() {
-    const querySnapshot = await getDocs(collection(db, "products"));
+    const q = query(collection(db, "products"), orderBy("created", "desc"));
+    const querySnapshot = await getDocs(q);
     let html = "";
+    if(querySnapshot.empty) {
+      html = "<p>No products yet. Add the first one!</p>"
+    }
     querySnapshot.forEach((doc) => {
       const p = doc.data();
       html += `<div class="product">
-        <img src="${p.image}">
+        <img src="${p.image}" onerror="this.src='https://via.placeholder.com/300'">
         <h2>${p.name}</h2>
-        <p>$${p.price}</p>
+        <p><b>$${p.price}</b></p>
         <p>${p.desc}</p>
-        <button>Buy</button>
+        <button onclick="alert('Contact seller to buy ${p.name}')">Buy Now</button>
       </div>`;
     });
     document.getElementById("products").innerHTML = html;
   }
 
   window.addProduct = async function() {
+    const name = document.getElementById("pName").value;
+    const price = document.getElementById("pPrice").value;
+    const image = document.getElementById("pImage").value;
+    const desc = document.getElementById("pDesc").value;
+    
+    if(!name || !price || !image) { alert("Please fill Name, Price and Image URL"); return; }
+
     await addDoc(collection(db, "products"), {
-      name: document.getElementById("pName").value,
-      price: document.getElementById("pPrice").value,
-      image: document.getElementById("pImage").value,
-      desc: document.getElementById("pDesc").value
+      name: name,
+      price: price,
+      image: image,
+      desc: desc,
+      created: new Date()
     });
-    alert("Product Added!");
+    alert("Product Added Successfully!");
+    document.getElementById("addForm").style.display='none';
+    document.getElementById("pName").value = "";
+    document.getElementById("pPrice").value = "";
+    document.getElementById("pImage").value = "";
+    document.getElementById("pDesc").value = "";
     loadProducts();
   }
 
