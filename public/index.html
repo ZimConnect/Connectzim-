@@ -1,0 +1,13 @@
+async function showFlights() {
+  let res = await fetch('/api/flights');
+  let flights = await res.json();
+  // ... same loop as before
+}
+
+async function addFlight() {
+  await fetch('/api/flights', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(flight)
+  });
+}
