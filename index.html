@@ -1,1 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ZimConnect - Connect Zimbabwe</title>
+  
+  <link rel="icon" href="/images/logo.png?v=1" type="image/png">
+  <link rel="apple-touch-icon" href="/images/logo.png?v=1">
+  <meta name="theme-color" content="#006400">
 
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial,sans-serif}
+    body{background:#000;color:#fff;padding-bottom:80px}
+    header{background:linear-gradient(90deg,#FFD700,#FF0000,#006400);color:#000;padding:15px;text-align:center;font-weight:bold;font-size:22px;display:flex;align-items:center;justify-content:center;gap:10px;position:sticky;top:0;z-index:10}
+    header img{width:40px;height:40px;border-radius:8px;background:#fff;padding:3px}
+    .page{display:none;padding:20px;max-width:900px;margin:auto}
+    .page.active{display:block}
+    .card{background:#111;margin:15px 0;padding:15px;border-radius:12px;border:1px solid #333}
+    .btn{background:linear-gradient(90deg,#FFD700,#FF0000);color:#000;padding:12px;border:none;border-radius:8px;font-weight:bold;cursor:pointer;width:100%;margin-top:10px}
+    .btn-small{background:#333;color:#FFD700;padding:8px 12px;border:none;border-radius:6px;font-size:12px;margin:5px;cursor:pointer}
+    .btn-whatsapp{background:#25D366;color:#fff;padding:10px;border:none;border-radius:8px;font-weight:bold;cursor:pointer;width:100%;margin-top:10px;text-decoration:none;display:block;text-align:center}
+    .btn-dj{background:linear-gradient(90deg,#006400,#FFD700);color:#000;padding:15px;border:none;border-radius:50px;font-weight:bold;cursor:pointer;width:100%;font-size:16px}
+    nav{position:fixed;bottom:0;left:0;right:0;background:#0a0a0a;display:flex;justify-content:space-around;padding:8px 0;border-top:2px solid #FFD700;flex-wrap:wrap}
+    nav button{background:none;border:none;color:#aaa;font-size:9px;cursor:pointer;padding:4px}
+    nav button.active{color:#FFD700}
+    audio, video{width:100%;border-radius:8px;margin-top:10px;background:#000}
+    h2{color:#FFD700;margin-bottom:10px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:15px}
+    .tag{background:#FF0000;color:#fff;padding:3px 8px;border-radius:5px;font-size:10px;margin-left:5px}
+  </style>
+</head>
+<body>
+  <header>
+    <img src="/images/logo.png?v=1" alt="ZimConnect Logo"> ZIMCONNECT
+  </header>
+
+  <!-- HOME -->
+  <div id="home" class="page active">
+    <h2>Welcome to ZimConnect 🇿🇼</h2>
+    <div class="grid">
+      <div class="card"><h3>💼 Jobs</h3><p>Find work across Zimbabwe</p><button class="btn" onclick="showPage('jobs')">View Jobs</button></div>
+      <div class="card"><h3>📅 Events</h3><p>What's happening near you</p><button class="btn" onclick="showPage('events')">View Events</button></div>
+      <div class="card"><h3>🛍️ Store</h3><p>Support Zim businesses</p><button class="btn" onclick="showPage('store')">Shop Now</button></div>
+      <div class="card"><h3>📺 TV</h3><p>ZimConnect TV Live</p><button class="btn" onclick="showPage('tv')">Watch TV</button></div>
+      <div class="card"><h3>🎙️ Podcast</h3><p>Latest Zim Podcasts</p><button class="btn" onclick="showPage('podcast')">Listen</button></div>
+      <div class="card"><h3>📻 Radio</h3><p>Live Radio Stations</p><button class="btn" onclick="showPage('radio')">Tune In</button></div>
+      <div class="card"><h3>✈️ Travel <span class="tag">NEW</span></h3><p>Book lodges & tours</p><button class="btn" onclick="showPage('travel')">Explore</button></div>
+      <div class="card"><h3>🎬 Video Club <span class="tag">NEW</span></h3><p>Watch Zim movies</p><button class="btn" onclick="showPage('video')">Join Club</button></div>
+      <div class="card"><h3>💕 Dating <span class="tag">NEW</span></h3><p>Meet people in Zim</p><button class="btn" onclick="showPage('dating')">Find Love</button></div>
+    </div>
+  </div>
+
+  <!-- OLD PAGES -->
+  <div id="jobs" class="page"><h2>Jobs in Zimbabwe</h2><div class="card"><h3>Software Developer</h3><p>Harare | $800/month</p><button class="btn-small">Apply</button></div><button class="btn" onclick="showPage('home')">Back Home</button></div>
+  <div id="events" class="page"><h2>Events</h2><div class="card"><h3>Zim Tech Meetup</h3><p>Sat 16 Aug | Harare</p><button class="btn-small">RSVP</button></div><button class="btn" onclick="showPage('home')">Back Home</button></div>
+  <div id="store" class="page"><h2>ZimConnect Store</h2><div class="card"><h3>Zim T-Shirt</h3><p>$15</p><button class="btn-small">Buy</button></div><button class="btn" onclick="showPage('home')">Back Home</button></div>
+  <div id="tv" class="page"><h2>ZimConnect TV</h2><div class="card"><h3>Live Stream</h3><video controls poster="/images/poster.eider.jpg?v=1"><source src="your-video.mp4" type="video/mp4"></video></div><button class="btn" onclick="showPage('home')">Back Home</button></div>
+  <div id="podcast" class="page"><h2>Podcasts</h2><div class="card"><h3>Zim Business Talk</h3><audio controls><source src="podcast1.mp3" type="audio/mpeg"></audio></div><button class="btn" onclick="showPage('home')">Back Home</button></div>
+  <div id="radio" class="page"><h2>Live Radio</h2><div class="card"><h3>ZimConnect Radio</h3><audio controls><source src="radio-stream.mp3" type="audio/mpeg"></audio></div><button class="btn" onclick="showPage('home')">Back Home</button></div>
+
+  <!-- NEW PAGES -->
+  <div id="travel" class="page">
+    <h2>Travel & Tourism</h2>
+    <div class="card"><h3>Victoria Falls Lodge</h3><p>$120/night | 2 guests</p><button class="btn-small">Book Now</button></div>
+    <div class="card"><h3>Nyanga Mountain Resort</h3><p>$80/night | 4 guests</p><button class="btn-small">Book Now</button></div>
+    <button class="btn" onclick="showPage('home')">Back Home</button>
+  </div>
+
+  <div id="video" class="page">
+    <h2>Video Club</h2>
+    <p style="color:#aaa;margin-bottom:10px">Highest profit - Subscription: $2/month</p>
+    <div class="card"><h3>Gonarezhou</h3><p>Latest Zim Movie</p><button class="btn-small">Watch</button></div>
+    <button class="btn">Subscribe with EcoCash</button>
+    <button class="btn" onclick="showPage('home')">Back Home</button>
+  </div>
+
+  <div id="dating" class="page">
+    <h2>Dating + Chat</h2>
+    <p style="color:#aaa;margin-bottom:10px">Meet people across Zimbabwe</p>
+    <div class="card"><h3>Sarah, 24 - Harare</h3><p>Loves music & travel</p><button class="btn-small">Chat</button></div>
+    <div class="card"><h3>Tariq, 28 - Bulawayo</h3><p>Entrepreneur</p><button class="btn-small">Chat</button></div>
+    <button class="btn" onclick="showPage('home')">Back Home</button>
+  </div>
+
+  <!-- DJ TEWE TALKING ASSISTANT -->
+  <div id="dj" class="page">
+    <h2>DJ Tewe 🎤</h2>
+    <div class="card" style="text-align:center">
+      <p>Your Talking Assistant</p>
+      <p style="font-size:12px;color:#aaa">Tap to talk to DJ Tewe</p>
+      <button class="btn-dj" onclick="alert('Hey Fada! Ndini DJ Tewe. Ndingakubatsira sei nhasi?')">
+        🔊 TALK TO DJ TEWE
+      </button>
+    </div>
+    <button class="btn" onclick="showPage('home')">Back Home</button>
+  </div>
+
+  <!-- BOTTOM NAV WITH EVERYTHING -->
+  <nav>
+    <button class="active" onclick="showPage('home')">Home</button>
+    <button onclick="showPage('jobs')">Jobs</button>
+    <button onclick="showPage('events')">Events</button>
+    <button onclick="showPage('store')">Store</button>
+    <button onclick="showPage('tv')">TV</button>
+    <button onclick="showPage('podcast')">Pod</button>
+    <button onclick="showPage('radio')">Radio</button>
+    <button onclick="showPage('travel')">Travel</button>
+    <button onclick="showPage('video')">Video</button>
+    <button onclick="showPage('dating')">Dating</button>
+    <button onclick="showPage('dj')">DJ Tewe</button>
+  </nav>
+
+  <script>
+    function showPage(pageId) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById(pageId).classList.add('active');
+      
+      document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active');
+    }
+  </script>
+
+</body>
+</html>
