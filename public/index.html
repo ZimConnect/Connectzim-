@@ -10,13 +10,16 @@
         header { background: linear-gradient(90deg, #009A49, #FFD700, #D21034); color: white; padding: 15px 20px; }
         .container { max-width: 1200px; margin: 20px auto; padding: 0 20px; }
         .card { background: white; padding: 15px; border-radius: 8px; margin-bottom: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .about { display:flex; align-items:center; gap:20px; flex-wrap:wrap; background:white; padding:20px; border-radius:12px; }
+        .about { display:flex; align-items:center; gap:20px; flex-wrap:wrap; }
         .about img { width:200px; height:auto; border-radius:16px; }
+        footer { background:#111; color:white; text-align:center; padding:20px; margin-top:40px; }
+        .btn-whatsapp { display:inline-block; background:#25D366; color:white; padding:12px 24px; border-radius:8px; text-decoration:none; font-weight:bold; }
+        .btn-whatsapp:hover { background:#1ebc57; }
     </style>
 </head>
 <body>
 
-    <!-- HEADER WITH YOUR LOGO -->
+    <!-- HEADER -->
     <header>
         <div style="display:flex; align-items:center; gap:12px;">
             <img src="/images/logo.png" alt="ZimConnect Logo" style="width:50px; height:50px; border-radius:12px;">
@@ -29,7 +32,7 @@
 
     <div class="container">
 
-        <!-- ABOUT US SECTION WITH POSTER -->
+        <!-- ABOUT US -->
         <section id="about" class="card">
             <h2>About ZimConnect</h2>
             <div class="about">
@@ -50,6 +53,16 @@
         <h2>Products</h2>
         <div id="products"></div>
     </div>
+
+    <!-- FOOTER WITH WHATSAPP -->
+    <footer>
+        <h3>Get in Touch</h3>
+        <p>Questions, Ads, or Want to list something on ZimConnect?</p>
+        <a class="btn-whatsapp" href="https://wa.me/263786288903" target="_blank">
+            Chat on WhatsApp +263 78 628 8903
+        </a>
+        <p style="margin-top:15px; opacity:0.7;">© 2026 ZimConnect. Connecting Zimbabwe Together 🇿🇼</p>
+    </footer>
 
     <script>
         async function showFlights() {
