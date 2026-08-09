@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ZimConnect - Connect Zimbabwe</title>
   
-  <!-- YOUR BIRD ICON -->
-  <link rel="icon" href="icon-512.png" type="image/png">
-  <link rel="apple-touch-icon" href="icon-512.png">
+  <!-- YOUR BIRD ICON - FIXED PATH -->
+  <link rel="icon" href="/images/logo.png" type="image/png">
+  <link rel="apple-touch-icon" href="/images/logo.png">
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#006400">
   <meta name="description" content="ZimConnect: Jobs, Events, Store, TV, Podcast, Radio - All in one app for Zimbabwe">
@@ -16,7 +16,7 @@
     *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial,sans-serif}
     body{background:#000;color:#fff;padding-bottom:80px}
     header{background:linear-gradient(90deg,#FFD700,#FF0000,#006400);color:#000;padding:15px;text-align:center;font-weight:bold;font-size:22px;display:flex;align-items:center;justify-content:center;gap:10px;position:sticky;top:0;z-index:10}
-    header img{width:35px;height:35px;border-radius:8px}
+    header img{width:40px;height:40px;border-radius:8px;background:#fff;padding:3px}
     .page{display:none;padding:20px;max-width:900px;margin:auto}
     .page.active{display:block}
     .card{background:#111;margin:15px 0;padding:15px;border-radius:12px;border:1px solid #333}
@@ -36,7 +36,7 @@
 </head>
 <body>
   <header>
-    <img src="icon-512.png" alt="ZimConnect Logo"> ZIMCONNECT
+    <img src="/images/logo.png" alt="ZimConnect Logo"> ZIMCONNECT
   </header>
 
   <!-- HOME -->
@@ -59,6 +59,7 @@
       <h3>Delivery Driver</h3><p>Bulawayo | $300/month</p><button class="btn-small">Apply</button>
     </div>
     <button class="btn">Post a Job</button>
+    <button class="btn" onclick="showPage('home')">Back Home</button>
   </div>
 
   <!-- EVENTS -->
@@ -71,174 +72,38 @@
       <h3>Street Gear Launch</h3><p>Sun 24 Aug | Byo</p><button class="btn-small">RSVP</button>
     </div>
     <button class="btn">Post an Event</button>
+    <button class="btn" onclick="showPage('home')">Back Home</button>
   </div>
 
-  <!-- STORE - UPDATED WITH TABS -->
+  <!-- STORE -->
   <div id="store" class="page">
     <h2>ZimConnect Store</h2>
-    
-    <!-- Store Tabs -->
-    <div class="tabs">
-      <button class="btn-small" onclick="showStoreTab('products')">Products</button>
-      <button class="btn-small" onclick="showStoreTab('flights')">✈️ Flights</button>
+    <div class="card">
+      <h3>Zim T-Shirt</h3><p>$15</p><button class="btn-small">Buy</button>
     </div>
-
-    <!-- PRODUCTS TAB -->
-    <div id="store-products" class="store-tab">
-      <h3>Products</h3>
-      <div class="grid">
-        <div class="card">
-          <h3>Street Gear Hoodie</h3><p>$25</p>
-          <a class="btn-whatsapp" href="https://wa.me/263786288903?text=Hi%20I%20want%20to%20order%20Street%20Gear%20Hoodie%20for%20$25" target="_blank">Order on WhatsApp</a>
-        </div>
-        <div class="card">
-          <h3>ZimConnect Cap</h3><p>$10</p>
-          <a class="btn-whatsapp" href="https://wa.me/263786288903?text=Hi%20I%20want%20to%20order%20ZimConnect%20Cap%20for%20$10" target="_blank">Order on WhatsApp</a>
-        </div>
-      </div>
+    <div class="card">
+      <h3>ZimConnect Cap</h3><p>$10</p><button class="btn-small">Buy</button>
     </div>
-
-    <!-- FLIGHTS TAB -->
-    <div id="store-flights" class="store-tab" style="display:none">
-      <h3>Add New Flight</h3>
-      <input id="flightTitle" placeholder="Route: e.g. HRE to JNB">
-      <input id="flightAirline" placeholder="Airline: e.g. Airlink">
-      <input id="flightPrice" type="number" placeholder="Price USD: e.g. 350">
-      <input id="flightDate" type="date">
-      <button class="btn" onclick="addFlight()">Add Flight</button>
-
-      <hr style="margin:20px 0;border-color:#333">
-      
-      <h3>Available Flights</h3>
-      <div id="flightsList"></div>
-    </div>
+    <button class="btn" onclick="showPage('home')">Back Home</button>
   </div>
 
-  <!-- TV -->
-  <div id="tv" class="page">
-    <h2>ZimConnect TV</h2>
-    <div class="card">
-      <h3>Video Podcast: SHOFeRider Story</h3>
-      <video controls poster="thumb1.jpg"><source src="https://archive.org/download/video1/video1.mp4" type="video/mp4"></video>
-    </div>
-  </div>
-
-  <!-- PODCAST -->
-  <div id="podcast" class="page">
-    <h2>Street Gear Podcast</h2>
-    <div class="card">
-      <h3>Ep 1: Zim Street Fashion</h3>
-      <audio controls><source src="https://archive.org/download/ep1/ep1.mp3" type="audio/mpeg"></audio>
-    </div>
-    <div class="card">
-      <h3>Ep 2: Hustle in Harare</h3>
-      <audio controls><source src="https://archive.org/download/ep2/ep2.mp3" type="audio/mpeg"></audio>
-    </div>
-  </div>
-
-  <!-- RADIO -->
-  <div id="radio" class="page">
-    <h2>Groove FM Online Radio</h2>
-    <div class="card">
-      <p>Live 24/7 Zim Music & Talk</p>
-      <audio controls autoplay><source src="https://stream.zeno.fm/0r0a792kwz8uv" type="audio/mpeg"></audio>
-    </div>
-  </div>
-
-  <!-- PROFILE -->
-  <div id="profile" class="page">
-    <h2>Profile</h2>
-    <div class="card">
-      <h3>Contact Us</h3>
-      <input placeholder="Your Name">
-      <input placeholder="Your Email">
-      <textarea placeholder="Message"></textarea>
-      <button class="btn">Send</button>
-    </div>
-    <div class="card">
-      <h3>Follow Us</h3>
-      <div style="display:flex;gap:10px;justify-content:center">
-        <a href="#" style="color:#FFD700">Facebook</a>
-        <a href="#" style="color:#FFD700">Instagram</a>
-        <a href="#" style="color:#FFD700">TikTok</a>
-        <a href="#" style="color:#FFD700">YouTube</a>
-      </div>
-    </div>
-  </div>
-
+  <!-- BOTTOM NAV -->
   <nav>
-    <button class="active" onclick="showPage('home')">🏠<br>Home</button>
-    <button onclick="showPage('jobs')">💼<br>Jobs</button>
-    <button onclick="showPage('store')">🛍️<br>Store</button>
-    <button onclick="showPage('tv')">📺<br>TV</button>
-    <button onclick="showPage('podcast')">🎙️<br>Podcast</button>
-    <button onclick="showPage('radio')">📻<br>Radio</button>
-    <button onclick="showPage('profile')">👤<br>Profile</button>
+    <button class="active" onclick="showPage('home')">Home</button>
+    <button onclick="showPage('jobs')">Jobs</button>
+    <button onclick="showPage('events')">Events</button>
+    <button onclick="showPage('store')">Store</button>
   </nav>
 
   <script>
-    let flights = [
-      {title: "HRE to JNB", airline: "Airlink", price: 350, date: "2026-08-20"}
-    ];
-
-    function showPage(id){
-      document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-      document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
+    function showPage(pageId) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById(pageId).classList.add('active');
+      
+      document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
       event.target.classList.add('active');
-      window.scrollTo(0,0);
-      if(id === 'store') showFlights();
     }
-
-    function showStoreTab(tab){
-      document.querySelectorAll('.store-tab').forEach(t=>t.style.display='none');
-      document.getElementById('store-'+tab).style.display='block';
-    }
-
-    function addFlight() {
-      let flight = {
-        title: document.getElementById('flightTitle').value,
-        airline: document.getElementById('flightAirline').value,
-        price: document.getElementById('flightPrice').value,
-        date: document.getElementById('flightDate').value
-      };
-      
-      if(!flight.title || !flight.price) {
-        alert("Please enter route and price");
-        return;
-      }
-      
-      flights.push(flight);
-      
-      // Clear form
-      document.getElementById('flightTitle').value = '';
-      document.getElementById('flightAirline').value = '';
-      document.getElementById('flightPrice').value = '';
-      document.getElementById('flightDate').value = '';
-      
-      showFlights();
-    }
-
-    function showFlights() {
-      let list = document.getElementById('flightsList');
-      list.innerHTML = '';
-      flights.forEach(f => {
-        let whatsappMsg = encodeURIComponent(`Hi, I want to book ${f.title} with ${f.airline} on ${f.date} for $${f.price}`);
-        list.innerHTML += `
-          <div class="card">
-            <h3>${f.title}</h3>
-            <p><b>Airline:</b> ${f.airline}</p>
-            <p><b>Date:</b> ${f.date}</p>
-            <p><b>Price:</b> $${f.price}</p>
-            <a class="btn-whatsapp" href="https://wa.me/263786288903?text=${whatsappMsg}" target="_blank">
-              Book on WhatsApp
-            </a>
-          </div>
-        `;
-      });
-    }
-
-    if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js'); }
   </script>
+
 </body>
 </html>
