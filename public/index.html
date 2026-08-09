@@ -10,6 +10,8 @@
         header { background: linear-gradient(90deg, #009A49, #FFD700, #D21034); color: white; padding: 15px 20px; }
         .container { max-width: 1200px; margin: 20px auto; padding: 0 20px; }
         .card { background: white; padding: 15px; border-radius: 8px; margin-bottom: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .about { display:flex; align-items:center; gap:20px; flex-wrap:wrap; background:white; padding:20px; border-radius:12px; }
+        .about img { width:200px; height:auto; border-radius:16px; }
     </style>
 </head>
 <body>
@@ -26,12 +28,26 @@
     </header>
 
     <div class="container">
-        <h2>Welcome to ZimConnect 🇿🇼</h2>
-        
-        <!-- FLIGHTS SECTION -->
+
+        <!-- ABOUT US SECTION WITH POSTER -->
+        <section id="about" class="card">
+            <h2>About ZimConnect</h2>
+            <div class="about">
+                <img src="/images/poster-elders.jpg" alt="Respect the Elders">
+                <div>
+                    <h3>RESPECT THE ELDERS</h3>
+                    <p><b>Bonding with me Timer.</b></p>
+                    <p>Wisdom is our foundation. ZimConnect is built by Zimbabweans, for Zimbabweans. 
+                    Jobs, Events, Store, TV, Podcast & Radio - all in one place.</p>
+                    <p><i>"I n I Rasta faraai with me Timer. Salute Fada 🫡"</i></p>
+                </div>
+            </div>
+        </section>
+
+        <h2>Flights</h2>
         <div id="flights"></div>
 
-        <!-- PRODUCTS SECTION -->
+        <h2>Products</h2>
         <div id="products"></div>
     </div>
 
@@ -39,21 +55,21 @@
         async function showFlights() {
             let res = await fetch('/api/flights');
             let flights = await res.json();
-            // ... same loop as before
             document.getElementById('flights').innerHTML = flights.map(f => 
-                `<div class="card">${f.airline} - ${f.from} to ${f.to}</div>`
+                `<div class="card"><b>${f.airline}</b> - ${f.from} to ${f.to}<br>$${f.price}</div>`
             ).join('');
         }
         
-        async function addFlight() {
-            await fetch('/api/flights', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(flight)
-            });
+        async function showProducts() {
+            let res = await fetch('/api/products');
+            let products = await res.json();
+            document.getElementById('products').innerHTML = products.map(p => 
+                `<div class="card"><b>${p.name}</b> - $${p.price}</div>`
+            ).join('');
         }
 
         showFlights();
+        showProducts();
     </script>
 </body>
 </html>
