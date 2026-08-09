@@ -1,13 +1,59 @@
-async function showFlights() {
-  let res = await fetch('/api/flights');
-  let flights = await res.json();
-  // ... same loop as before
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZimConnect - Connecting Zimbabwe Together</title>
+    <link rel="icon" href="/images/logo.png" type="image/png">
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; background: #f4f4f4; color: #333; }
+        header { background: linear-gradient(90deg, #009A49, #FFD700, #D21034); color: white; padding: 15px 20px; }
+        .container { max-width: 1200px; margin: 20px auto; padding: 0 20px; }
+        .card { background: white; padding: 15px; border-radius: 8px; margin-bottom: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body>
 
-async function addFlight() {
-  await fetch('/api/flights', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify(flight)
-  });
-}
+    <!-- HEADER WITH YOUR LOGO -->
+    <header>
+        <div style="display:flex; align-items:center; gap:12px;">
+            <img src="/images/logo.png" alt="ZimConnect Logo" style="width:50px; height:50px; border-radius:12px;">
+            <div>
+                <h1 style="margin:0;">ZimConnect</h1>
+                <p style="margin:0; opacity:0.8;">Connecting Zimbabwe Together</p>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <h2>Welcome to ZimConnect 🇿🇼</h2>
+        
+        <!-- FLIGHTS SECTION -->
+        <div id="flights"></div>
+
+        <!-- PRODUCTS SECTION -->
+        <div id="products"></div>
+    </div>
+
+    <script>
+        async function showFlights() {
+            let res = await fetch('/api/flights');
+            let flights = await res.json();
+            // ... same loop as before
+            document.getElementById('flights').innerHTML = flights.map(f => 
+                `<div class="card">${f.airline} - ${f.from} to ${f.to}</div>`
+            ).join('');
+        }
+        
+        async function addFlight() {
+            await fetch('/api/flights', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(flight)
+            });
+        }
+
+        showFlights();
+    </script>
+</body>
+</html>
