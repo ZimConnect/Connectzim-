@@ -21,7 +21,8 @@
     .page.active{display:block}
     .card{background:#111;margin:15px 0;padding:15px;border-radius:12px;border:1px solid #333}
     .btn{background:linear-gradient(90deg,#FFD700,#FF0000);color:#000;padding:12px;border:none;border-radius:8px;font-weight:bold;cursor:pointer;width:100%;margin-top:10px}
-    .btn-small{background:#333;color:#FFD700;padding:8px 12px;border:none;border-radius:6px;font-size:12px;margin:5px}
+    .btn-small{background:#333;color:#FFD700;padding:8px 12px;border:none;border-radius:6px;font-size:12px;margin:5px;cursor:pointer}
+    .btn-whatsapp{background:#25D366;color:#fff;padding:10px;border:none;border-radius:8px;font-weight:bold;cursor:pointer;width:100%;margin-top:10px;text-decoration:none;display:block;text-align:center}
     nav{position:fixed;bottom:0;left:0;right:0;background:#0a0a0a;display:flex;justify-content:space-around;padding:10px 0;border-top:2px solid #FFD700}
     nav button{background:none;border:none;color:#aaa;font-size:11px;cursor:pointer}
     nav button.active{color:#FFD700}
@@ -29,6 +30,8 @@
     h2{color:#FFD700;margin-bottom:10px}
     .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:15px}
     input,textarea{width:100%;padding:10px;margin:5px 0;background:#222;border:1px solid #444;border-radius:6px;color:#fff}
+    .tabs{display:flex;gap:10px;margin-bottom:15px}
+    .tabs button{flex:1}
   </style>
 </head>
 <body>
@@ -70,12 +73,44 @@
     <button class="btn">Post an Event</button>
   </div>
 
-  <!-- STORE -->
+  <!-- STORE - UPDATED WITH TABS -->
   <div id="store" class="page">
     <h2>ZimConnect Store</h2>
-    <div class="grid">
-      <div class="card"><h3>Street Gear Hoodie</h3><p>$25</p><button class="btn-small">Buy</button></div>
-      <div class="card"><h3>ZimConnect Cap</h3><p>$10</p><button class="btn-small">Buy</button></div>
+    
+    <!-- Store Tabs -->
+    <div class="tabs">
+      <button class="btn-small" onclick="showStoreTab('products')">Products</button>
+      <button class="btn-small" onclick="showStoreTab('flights')">✈️ Flights</button>
+    </div>
+
+    <!-- PRODUCTS TAB -->
+    <div id="store-products" class="store-tab">
+      <h3>Products</h3>
+      <div class="grid">
+        <div class="card">
+          <h3>Street Gear Hoodie</h3><p>$25</p>
+          <a class="btn-whatsapp" href="https://wa.me/263786288903?text=Hi%20I%20want%20to%20order%20Street%20Gear%20Hoodie%20for%20$25" target="_blank">Order on WhatsApp</a>
+        </div>
+        <div class="card">
+          <h3>ZimConnect Cap</h3><p>$10</p>
+          <a class="btn-whatsapp" href="https://wa.me/263786288903?text=Hi%20I%20want%20to%20order%20ZimConnect%20Cap%20for%20$10" target="_blank">Order on WhatsApp</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- FLIGHTS TAB -->
+    <div id="store-flights" class="store-tab" style="display:none">
+      <h3>Add New Flight</h3>
+      <input id="flightTitle" placeholder="Route: e.g. HRE to JNB">
+      <input id="flightAirline" placeholder="Airline: e.g. Airlink">
+      <input id="flightPrice" type="number" placeholder="Price USD: e.g. 350">
+      <input id="flightDate" type="date">
+      <button class="btn" onclick="addFlight()">Add Flight</button>
+
+      <hr style="margin:20px 0;border-color:#333">
+      
+      <h3>Available Flights</h3>
+      <div id="flightsList"></div>
     </div>
   </div>
 
@@ -134,6 +169,7 @@
   <nav>
     <button class="active" onclick="showPage('home')">🏠<br>Home</button>
     <button onclick="showPage('jobs')">💼<br>Jobs</button>
+    <button onclick="showPage('store')">🛍️<br>Store</button>
     <button onclick="showPage('tv')">📺<br>TV</button>
     <button onclick="showPage('podcast')">🎙️<br>Podcast</button>
     <button onclick="showPage('radio')">📻<br>Radio</button>
@@ -141,13 +177,67 @@
   </nav>
 
   <script>
+    let flights = [
+      {title: "HRE to JNB", airline: "Airlink", price: 350, date: "2026-08-20"}
+    ];
+
     function showPage(id){
       document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
       document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
       document.getElementById(id).classList.add('active');
       event.target.classList.add('active');
       window.scrollTo(0,0);
+      if(id === 'store') showFlights();
     }
+
+    function showStoreTab(tab){
+      document.querySelectorAll('.store-tab').forEach(t=>t.style.display='none');
+      document.getElementById('store-'+tab).style.display='block';
+    }
+
+    function addFlight() {
+      let flight = {
+        title: document.getElementById('flightTitle').value,
+        airline: document.getElementById('flightAirline').value,
+        price: document.getElementById('flightPrice').value,
+        date: document.getElementById('flightDate').value
+      };
+      
+      if(!flight.title || !flight.price) {
+        alert("Please enter route and price");
+        return;
+      }
+      
+      flights.push(flight);
+      
+      // Clear form
+      document.getElementById('flightTitle').value = '';
+      document.getElementById('flightAirline').value = '';
+      document.getElementById('flightPrice').value = '';
+      document.getElementById('flightDate').value = '';
+      
+      showFlights();
+    }
+
+    function showFlights() {
+      let list = document.getElementById('flightsList');
+      list.innerHTML = '';
+      flights.forEach(f => {
+        let whatsappMsg = encodeURIComponent(`Hi, I want to book ${f.title} with ${f.airline} on ${f.date} for $${f.price}`);
+        list.innerHTML += `
+          <div class="card">
+            <h3>${f.title}</h3>
+            <p><b>Airline:</b> ${f.airline}</p>
+            <p><b>Date:</b> ${f.date}</p>
+            <p><b>Price:</b> $${f.price}</p>
+            <a class="btn-whatsapp" href="https://wa.me/263786288903?text=${whatsappMsg}" target="_blank">
+              Book on WhatsApp
+            </a>
+          </div>
+        `;
+      });
+    }
+
     if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js'); }
   </script>
 </body>
