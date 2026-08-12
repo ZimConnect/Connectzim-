@@ -1,141 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZimConnect - Connecting Zimbabwe Together</title>
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: Arial, sans-serif; background: #f4f4f4; color: #333; overflow-x: hidden; }
-        header { background: linear-gradient(90deg, #009A49, #FFD700, #D21034); color: white; padding: 15px 10px; position: sticky; top:0; z-index:10; }
-        .header-top { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
-        .header-top img { width:45px; height:45px; border-radius:10px; }
-        .header-top h1 { font-size:22px; margin:0; }
-        nav { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; }
-        nav a { color:white; text-decoration:none; font-weight:bold; font-size:12px; background:rgba(0,0,0,0.2); padding:6px 10px; border-radius:6px; }
-        .container { max-width: 100%; margin: 10px auto; padding: 0 10px; }
-        .card { background: white; padding: 15px; border-radius: 8px; margin-bottom: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .about img { width:100%; max-width:300px; height:auto; border-radius:16px; margin:10px 0; }
-        .grid { display:grid; grid-template-columns: 1fr; gap:15px; }
-        @media(min-width: 768px) { .grid { grid-template-columns: repeat(2, 1fr); } }
-        
-        .big-btn { display:block; padding:15px; text-decoration:none; font-weight:bold; margin:10px 0; border-radius:10px; text-align:center; font-size:16px; }
-        .btn-radio { background: #004d00; color: #ffcc00; }
-        .btn-shop { background: #000; color: #ffcc00; border: 2px solid #ffcc00; }
-        .btn-tv { background: #D21034; color: white; }
-        .btn-podcast { background: #009A49; color: white; }
-        .btn-video { background: #333; color: #FFD700; border: 2px solid #FFD700; }
-        
-        iframe, video { width:100%; border-radius:8px; }
-        iframe { height:250px; }
-        .buy-btn { background: #ffcc00; color: black; border: none; padding: 12px; border-radius: 8px; font-weight: bold; width: 100%; margin-top: 10px; }
-        footer { background:#111; color:white; text-align:center; padding:20px 10px; margin-top:40px; }
-    </style>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZimConnect</title>
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0} body{font-family:Arial;background:#f4f4f4}
+header{background:linear-gradient(90deg,#009A49,#FFD700,#D21034);color:white;padding:12px;text-align:center;position:sticky;top:0}
+nav{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:8px}
+nav a{color:white;background:rgba(0,0,0,.2);padding:6px 10px;border-radius:6px;text-decoration:none;font-size:12px;font-weight:bold}
+.container{padding:10px;max-width:800px;margin:auto}
+.big-btn{display:block;padding:14px;margin:10px 0;border-radius:10px;text-align:center;font-weight:bold;text-decoration:none;font-size:16px}
+.btn-radio{background:#004d00;color:#ffcc00} .btn-tv{background:#D21034;color:white} 
+.btn-podcast{background:#009A49;color:white} .btn-video{background:#333;color:#FFD700;border:2px solid #FFD700}
+.btn-shop{background:#000;color:#ffcc00;border:2px solid #ffcc00} .btn-tickets{background:#FFD700;color:#000}
+.card{background:white;padding:15px;border-radius:8px;margin-bottom:15px}
+.buy-btn{background:#00A651;color:white;border:none;padding:12px;width:100%;border-radius:8px;font-weight:bold;margin-top:10px}
+.qr-box{background:#000;padding:15px;text-align:center;border-radius:8px;margin-top:10px;display:none}
+</style>
 </head>
 <body>
-
 <header>
-    <div class="header-top">
-        <img src="/images/logo.png" alt="ZimConnect Logo">
-        <div>
-            <h1>ZimConnect</h1>
-            <p style="font-size:12px;">Connecting Zimbabwe Together</p>
-        </div>
-    </div>
-    <nav>
-        <a href="#about">About</a>
-        <a href="#radio">Radio</a>
-        <a href="#tv">TV</a>
-        <a href="#podcast">Podcast</a>
-        <a href="#videos">Video Club</a>
-        <a href="#shop">Shop</a>
-        <a href="store.html">Store & Travel</a>
-        <a href="#jobs">Jobs</a>
-        <a href="#events">Events</a>
-    </nav>
+<h1>ZimConnect</h1><p>Connecting Zimbabwe Together</p>
+<nav>
+<a href="#about">About</a><a href="#radio">Radio</a><a href="#tv">TV</a><a href="#podcast">Podcast</a>
+<a href="#videos">Video Club</a><a href="#shop">Shop</a><a href="#events">Events</a><a href="store.html">Store & Travel</a>
+</nav>
 </header>
-
 <div class="container">
+<a href="#radio" class="big-btn btn-radio">📻 ZimConnect Radio 263 - DJ Tewe LIVE</a>
+<a href="#tv" class="big-btn btn-tv">📺 ZimConnect TV</a>
+<a href="#podcast" class="big-btn btn-podcast">🎙️ ZimConnect Podcast</a>
+<a href="#videos" class="big-btn btn-video">🎬 Video Club</a>
+<a href="#shop" class="big-btn btn-shop">💎 Street Gear Shop</a>
+<a href="#events" class="big-btn btn-tickets">🎟️ Events & Tickets</a>
+<a href="store.html" class="big-btn btn-shop">✈️ Store, Flights, Tours & Resorts</a>
 
-    <a href="#radio" class="big-btn btn-radio">📻 ZimConnect Radio 263 - DJ Tewe LIVE</a>
-    <a href="#tv" class="big-btn btn-tv">📺 ZimConnect TV</a>
-    <a href="#podcast" class="big-btn btn-podcast">🎙️ ZimConnect Podcast</a>
-    <a href="#videos" class="big-btn btn-video">🎬 Video Club</a>
-    <a href="#shop" class="big-btn btn-shop">💎 Street Gear Shop</a>
-    <a href="store.html" class="big-btn btn-shop">✈️ Store, Flights, Tours & Resorts</a>
+<section id="about" class="card"><h2>About ZimConnect</h2><h3>RESPECT THE ELDERS</h3><p>Bonding with me Timer. Wisdom is our foundation.</p></section>
+<section id="radio" class="card" style="background:#004d00;color:white;text-align:center"><h2>📻 ZimConnect Radio 263</h2><h3 style="color:#ffcc00">Hosted by DJ Tewe 🔥</h3><audio controls style="width:100%"><source src="https://stream.zeno.fm/0r0a792kwzshx"></audio></section>
+<section id="tv" class="card"><h2>📺 ZimConnect TV</h2><iframe src="https://www.youtube.com/embed?listType=search&list=zimbabwe music" style="width:100%;height:250px;border:0;border-radius:8px"></iframe></section>
+<section id="podcast" class="card" style="background:#009A49;color:white"><h2>🎙️ Podcast</h2><div class="card" style="background:#000"><h3>Ep 1: Street Gear</h3><audio controls style="width:100%"></audio></div></section>
+<section id="videos" class="card"><h2>🎬 Video Club</h2><video controls style="width:100%"></video></section>
+<section id="shop" class="card"><h2>💎 Street Gear Shop</h2><div class="card" style="border:2px solid #ffcc00;text-align:center"><h3>Blingberry Hoodie</h3><p>$45</p><button class="buy-btn">Buy with EcoCash</button></div></section>
 
-    <section id="about" class="card">
-        <h2>About ZimConnect</h2>
-        <img src="/images/poster-elders.jpg" alt="Respect the Elders">
-        <h3>RESPECT THE ELDERS</h3>
-        <p><b>Bonding with me Timer.</b></p>
-        <p>Wisdom is our foundation. ZimConnect is built by Zimbabweans, for Zimbabweans. Jobs, Events, Store, TV, Podcast, Video Club & Radio - all in one place.</p>
-    </section>
-
-    <section id="radio" class="card" style="background:#004d00; color:white; text-align:center;">
-        <h2 style="color:white;">📻 ZimConnect Radio 263</h2>
-        <h3 style="color: #ffcc00;">Hosted by DJ Tewe 🔥</h3>
-        <p>🔴 LIVE NOW: Street Gear Sessions</p>
-        <audio controls style="width: 100%; margin-top: 10px;">
-          <source src="https://stream.zeno.fm/0r0a792kwzshx" type="audio/mpeg">
-        </audio>
-    </section>
-
-    <section id="tv" class="card">
-        <h2>📺 ZimConnect TV</h2>
-        <iframe src="https://www.youtube.com/embed?listType=search&list=zimbabwe music 2026" allowfullscreen></iframe>
-    </section>
-
-    <section id="podcast" class="card" style="background:#009A49; color:white;">
-        <h2 style="color:white;">🎙️ ZimConnect Podcast</h2>
-        <div class="card" style="background:#000; color:white;">
-            <h3>Episode 1: Street Gear Movement</h3>
-            <audio controls style="width:100%;"><source src="#" type="audio/mpeg"></audio>
-        </div>
-    </section>
-
-    <section id="videos" class="card">
-        <h2>🎬 Video Club</h2>
-        <div class="grid">
-            <div class="card"><h4>#StreetGearChallenge</h4><video controls><source src="#" type="video/mp4"></video></div>
-            <div class="card"><h4>Zim Comedy</h4><video controls><source src="#" type="video/mp4"></video></div>
-        </div>
-    </section>
-
-    <section id="shop">
-        <h2>💎 Street Gear Shop</h2>
-        <div class="grid">
-            <div class="card" style="border:2px solid #ffcc00; text-align:center;">
-                <h3>Blingberry Hoodie</h3><p>$45</p><button class="buy-btn">Buy Now</button>
-            </div>
-            <div class="card" style="border:2px solid #ffcc00; text-align:center;">
-                <h3>Street Gear Cap</h3><p>$25</p><button class="buy-btn">Buy Now</button>
-            </div>
-        </div>
-    </section>
-
-    <section id="jobs" class="card"><h2>💼 Jobs</h2><div id="jobs-list">Loading...</div></section>
-    <section id="events" class="card"><h2>🎉 Events</h2><div id="events-list">Loading...</div></section>
+<section id="events" class="card">
+<h2>🎟️ Events & Tickets</h2>
+<div class="card">
+<h3>Street Gear Braai - Harare</h3><p>📅 30 Aug 2026</p><p>📍 Borrowdale</p><p><b>Ticket: $10</b></p>
+<button class="buy-btn" onclick="buyTicket()">Buy Ticket with EcoCash</button>
+<div id="qrbox" class="qr-box"><p style="color:white">Your Ticket QR:</p><div id="qrcode"></div></div>
 </div>
-
-<footer>© 2026 ZimConnect 🇿🇼</footer>
-
+</section>
+</div>
 <script>
-async function showJobs() {
-    try {
-        let res = await fetch('/api/jobs');
-        let jobs = await res.json();
-        document.getElementById('jobs-list').innerHTML = jobs.map(j => `<div class="card"><b>${j.title}</b></div>`).join('');
-    } catch(e) { document.getElementById('jobs-list').innerHTML = "No jobs yet"; }
-}
-async function showEvents() {
-    try {
-        let res = await fetch('/api/events');
-        let events = await res.json();
-        document.getElementById('events-list').innerHTML = events.map(e => `<div class="card"><b>${e.name}</b></div>`).join('');
-    } catch(e) { document.getElementById('events-list').innerHTML = "No events yet"; }
-}
-showJobs(); showEvents();
+function buyTicket(){
+let phone=prompt("Enter EcoCash Number to pay $10");
+if(phone){alert("Payment sent to "+phone);
+document.getElementById("qrbox").style.display="block";
+new QRCode(document.getElementById("qrcode"), "ZIMCONN-"+Math.random().toString(36).substr(2,9).toUpperCase());
+}}
 </script>
-</body>
-</html>
+</body></html>
