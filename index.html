@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZimConnect v4.0 FINAL</title>
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+<script src="https://unpkg.com/html5-qrcode"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<style>
+body{font-family:Arial;background:#f4f4f4;margin:0}
+header{background:linear-gradient(90deg,#009A49,#FFD700,#D21034);color:white;padding:12px;text-align:center;position:sticky;top:0}
+nav{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+nav a{color:white;background:rgba(0,0,0,.25);padding:7px 12px;border-radius:6px;text-decoration:none;font-size:13px;font-weight:bold}
+.container{padding:10px;max-width:900px;margin:auto}
+.big-btn{display:block;padding:15px;margin:10px 0;border-radius:10px;text-align:center;font-weight:bold;text-decoration:none;font-size:16px}
+.btn-radio{background:#004d00;color:#ffcc00} .btn-tv{background:#D21034;color:white} 
+.btn-podcast{background:#009A49;color:white} .btn-video{background:#333;color:#FFD700;border:2px solid #FFD700}
+.btn-shop{background:#000;color:#ffcc00;border:2px solid #ffcc00} .btn-tickets{background:#FFD700;color:#000}
+.btn-scan{background:#D21034;color:white} .btn-map{background:#009A49;color:white} .btn-lodza{background:#8B4513;color:#FFD700}
+.card{background:white;padding:15px;border-radius:8px;margin-bottom:15px}
+.buy-btn{background:#00A651;color:white;border:none;padding:12px;width:100%;border-radius:8px;font-weight:bold;margin-top:10px}
+.qr-box{background:#000;padding:15px;text-align:center;border-radius:8px;margin-top:10px;display:none}
+#qr-reader { width: 100%; margin-top:10px; display:none; }
+#mapid{height:400px;border-radius:8px}
+#lodza-chat{background:#000;color:#FFD700;padding:10px;border-radius:8px;min-height:120px;margin:10px 0}
+</style>
+</head>
+<body>
+<header>
+<h1>ZimConnect v4.0</h1><p>Connecting Zimbabwe Together</p>
+<nav>
+<a href="#about">About</a><a href="#radio">Radio</a><a href="#tv">TV</a><a href="#podcast">Podcast</a>
+<a href="#videos">Video</a><a href="#shop">Shop</a><a href="#events">Events</a><a href="#scan">Scan</a>
+<a href="#map">Map</a><a href="#lodza">Lodza</a><a href="#jobs">Jobs</a><a href="store.html">Store</a>
+</nav>
+</header>
+<div class="container">
+<a href="#radio" class="big-btn btn-radio">📻 ZimConnect Radio 263 - DJ Tewe LIVE</a>
+<a href="#tv" class="big-btn btn-tv">📺 ZimConnect TV</a>
+<a href="#podcast" class="big-btn btn-podcast">🎙️ Street Gear Sessions</a>
+<a href="#videos" class="big-btn btn-video">🎬 Video Club</a>
+<a href="#shop" class="big-btn btn-shop">💎 Street Gear Shop</a>
+<a href="#events" class="big-btn btn-tickets">🎟️ Events & Tickets</a>
+<a href="#scan" class="big-btn btn-scan">📱 Scan Tickets</a>
+<a href="#map" class="big-btn btn-map">🗺️ ZimConnect Map</a>
+<a href="#lodza" class="big-btn btn-lodza">🦅 Talk to Lodza AI</a>
+<a href="store.html" class="big-btn btn-shop">✈️ Store, Flights, Tours & Resorts</a>
+
+<section id="about" class="card"><h2>About</h2><h3>RESPECT THE ELDERS - Bonding with me Timer</h3></section>
+<section id="radio" class="card" style="background:#004d00;color:white"><h2>📻 ZimConnect Radio 263</h2><h3 style="color:#ffcc00">Hosted by DJ Tewe</h3><audio controls style="width:100%"><source src="https://stream.zeno.fm/0r0a792kwzshx"></audio></section>
+<section id="tv" class="card"><h2>📺 TV</h2><iframe src="https://www.youtube.com/embed?listType=search&list=zimbabwe music" style="width:100%;height:250px;border:0"></iframe></section>
+<section id="podcast" class="card" style="background:#009A49;color:white"><h2>🎙️ Street Gear Sessions</h2><div class="card" style="background:#000"><audio controls style="width:100%"></audio></div></section>
+<section id="videos" class="card"><h2>🎬 Video Club</h2><video controls style="width:100%"></video></section>
+<section id="shop" class="card"><h2>💎 Shop</h2><div class="card" style="border:2px solid #ffcc00"><h3>Hoodie $45</h3><button class="buy-btn">Buy EcoCash</button></div></section>
+<section id="events" class="card"><h2>🎟️ Events</h2><div class="card"><h3>Street Gear Braai $10</h3><button class="buy-btn" onclick="buyTicket()">Buy Ticket</button><div id="qrbox" class="qr-box"><div id="qrcode"></div></div></div></section>
+<section id="scan" class="card" style="background:#D21034;color:white"><h2>📱 Scan</h2><button class="buy-btn" style="background:white;color:#D21034" onclick="startScanner()">Start Scanner</button><div id="qr-reader"></div></section>
+<section id="map" class="card"><h2>🗺️ Map</h2><div id="mapid"></div><button class="buy-btn" onclick="getLocation()">My Location</button></section>
+<section id="lodza" class="card" style="background:#8B4513;color:#FFD700"><h2>🦅 Lodza AI</h2><div id="lodza-chat">Hello I am Lodza</div><input id="lodza-input" style="width:100%;padding:10px"><button class="buy-btn" style="background:#FFD700;color:#000" onclick="askLodza()">Ask</button></section>
+<section id="jobs" class="card"><h2>💼 Jobs</h2><div id="jobs-list">Loading...</div></section>
+</div>
+<script>
+function buyTicket(){document.getElementById("qrbox").style.display="block";new QRCode(document.getElementById("qrcode"), "ZIMCONN-"+Date.now());}
+function startScanner(){document.getElementById("qr-reader").style.display="block";new Html5QrcodeScanner("qr-reader", { fps: 10 }).render(()=>{});}
+function initMap(){var map=L.map('mapid').setView([-19,29],6);L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);}
+function getLocation(){navigator.geolocation.getCurrentPosition(pos=>alert("Lat: "+pos.coords.latitude));}
+async function askLodza(){let q=document.getElementById("lodza-input").value;let res=await fetch("https://zimconnect-backend-up.onrender.com/assistant/ask",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({question:q})});let data=await res.json();document.getElementById("lodza-chat").innerHTML+="Lodza: "+data.reply;speak(data.reply);}
+function speak(t){speechSynthesis.speak(new SpeechSynthesisUtterance(t));}
+window.onload=initMap;
+</script>
+</body></html>
