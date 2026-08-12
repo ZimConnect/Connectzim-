@@ -1,1 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZimConnect - Connecting Zimbabwe Together</title>
+    <link rel="icon" href="/images/logo.png" type="image/png">
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; background: #f4f4f4; color: #333; }
+        header { background: linear-gradient(90deg, #009A49, #FFD700, #D21034); color: white; padding: 15px 20px; position: sticky; top:0; z-index:10; }
+        nav a { color:white; margin-right:15px; text-decoration:none; font-weight:bold; }
+        nav a:hover { text-decoration:underline; }
+        .container { max-width: 1200px; margin: 20px auto; padding: 0 20px; }
+        .card { background: white; padding: 15px; border-radius: 8px; margin-bottom: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .about { display:flex; align-items:center; gap:20px; flex-wrap:wrap; }
+        .about img { width:220px; height:auto; border-radius:16px; }
+        footer { background:#111; color:white; text-align:center; padding:20px; margin-top:40px; }
+        .btn-whatsapp { display:inline-block; background:#25D366; color:white; padding:12px 24px; border-radius:8px; text-decoration:none; font-weight:bold; }
+        .btn-whatsapp:hover { background:#1ebc57; }
+        .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap:15px; }
+        .tag { background:#FFD700; color:#000; padding:4px 8px; border-radius:6px; font-size:12px; margin-right:5px; }
+        h2 { border-left: 5px solid #D21034; padding-left:10px; }
+        
+        /* NEW BUTTONS FOR RADIO + SHOP */
+        .btn-radio { background: #004d00; color: #ffcc00; }
+        .btn-shop { background: #000; color: #ffcc00; border: 2px solid #ffcc00; }
+        .big-btn { display:block; padding:15px; text-decoration:none; font-weight:bold; margin:10px 0; border-radius:10px; text-align:center; font-size:18px; }
+        .buy-btn { background: #ffcc00; color: black; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 10px; }
+    </style>
+</head>
+<body>
 
+    <!-- HEADER + NAV -->
+    <header>
+        <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;">
+            <div style="display:flex; align-items:center; gap:12px;">
+                <img src="/images/logo.png" alt="ZimConnect Logo" style="width:50px; height:50px; border-radius:12px;">
+                <div>
+                    <h1 style="margin:0;">ZimConnect</h1>
+                    <p style="margin:0; opacity:0.8;">Connecting Zimbabwe Together</p>
+                </div>
+            </div>
+            <nav>
+                <a href="#about">About</a>
+                <a href="#radio">Radio</a>
+                <a href="#shop">Shop</a>
+                <a href="store.html">Store & Travel</a> <!-- NEW LINK TO STORE.HTML -->
+                <a href="#jobs">Jobs</a>
+                <a href="#events">Events</a>
+                <a href="#products">Store</a>
+                <a href="#flights">Flights</a>
+                <a href="#contact">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <!-- BIG BUTTONS ON TOP -->
+        <a href="#radio" class="big-btn btn-radio">📻 ZimConnect Radio 263 - DJ Tewe LIVE</a>
+        <a href="#shop" class="big-btn btn-shop">💎 Street Gear Shop - Official Merch</a>
+        <a href="store.html" class="big-btn btn-shop">✈️ Store, Flights, Tours & Resorts</a> <!-- NEW -->
+
+        <!-- ABOUT US -->
+        <section id="about" class="card">
+            <h2>About ZimConnect</h2>
+            <div class="about">
+                <img src="/images/poster-elders.jpg" alt="Respect the Elders">
+                <div>
+                    <h3>RESPECT THE ELDERS</h3>
+                    <p><b>Bonding with me Timer.</b></p>
+                    <p>Wisdom is our foundation. ZimConnect is built by Zimbabweans, for Zimbabweans. 
+                    Jobs, Events, Store, TV, Podcast & Radio - all in one place.</p>
+                    <p><i>"I n I Rasta faraai with me Timer. Salute Fada 🫡"</i></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- RADIO SECTION -->
+        <section id="radio" class="card" style="background:#004d00; color:white; text-align:center;">
+            <h2 style="border-left: 5px solid #ffcc00; color:white;">📻 ZimConnect Radio 263</h2>
+            <h3 style="color: #ffcc00;">Hosted by DJ Tewe 🔥</h3>
+            <p>🔴 LIVE NOW: Street Gear Sessions</p>
+            <audio id="radioPlayer" controls style="width: 100%; margin-top: 10px;">
+              <source src="https://stream.zeno.fm/0r0a792kwzshx" type="audio/mpeg">
+              Your browser does not support audio
+            </audio>
+        </section>
+
+        <!-- SHOP SECTION -->
+        <section id="shop">
+            <h2>💎 Street Gear Shop</h2>
+            <div class="grid">
+                <div class="card" style="border:2px solid #ffcc00; text-align:center;">
+                    <div style="font-size:60px;">🔥</div>
+                    <h3>Blingberry Hoodie</h3>
+                    <p>Black + Gold Street Gear</p>
+                    <div style="color:#D21034; font-size:20px; font-weight:bold;">$45</div>
+                    <button class="buy-btn" onclick="alert('Coming Soon: EcoCash Payment')">Buy Now</button>
+                </div>
+                <div class="card" style="border:2px solid #ffcc00; text-align:center;">
+                    <div style="font-size:60px;">🧢</div>
+                    <h3>Street Gear Cap</h3>
+                    <p>Diamond Logo</p>
+                    <div style="color:#D21034; font-size:20px; font-weight:bold;">$25</div>
+                    <button class="buy-btn" onclick="alert('Coming Soon: EcoCash Payment')">Buy Now</button>
+                </div>
+                <div class="card" style="border:2px solid #ffcc00; text-align:center;">
+                    <div style="font-size:60px;">👕</div>
+                    <h3>ZimConnect Tee</h3>
+                    <p>DJ Tewe Edition</p>
+                    <div style="color:#D21034; font-size:20px; font-weight:bold;">$20</div>
+                    <button class="buy-btn" onclick="alert('Coming Soon: EcoCash Payment')">Buy Now</button>
+                </div>
+                <div class="card" style="border:2px solid #ffcc00; text-align:center;">
+                    <div style="font-size:60px;">👟</div>
+                    <h3>Street Gear Joggers</h3>
+                    <p>Premium Cotton</p>
+                    <div style="color:#D21034; font-size:20px; font-weight:bold;">$35</div>
+                    <button class="buy-btn" onclick="alert('Coming Soon: EcoCash Payment')">Buy Now</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- JOBS SECTION -->
+        <section id="jobs">
+            <h2>💼 Jobs in Zimbabwe</h2>
+            <div id="jobs-list" class="grid">Loading jobs...</div>
+        </section>
+
+        <!-- EVENTS SECTION -->
+        <section id="events">
+            <h2>🎉 Events & Braais</h2>
+            <div id="events-list" class="grid">Loading events...</div>
+        </section>
+
+        <!-- PRODUCTS -->
+        <section id="products">
+            <h2>🛒 ZimConnect Store</h2>
+            <div id="products-list" class="grid">Loading products...</div>
+        </section>
+
+        <!-- FLIGHTS -->
+        <section id="flights">
+            <h2>✈️ Flights</h2>
+            <div id="flights-list" class="grid">Loading flights...</div>
+        </section>
+    </div>
+
+    <!-- FOOTER WITH WHATSAPP -->
+    <footer id="contact">
+        <h3>Get in Touch</h3>
+        <p>List a Job, Event, or Product? Chat us on WhatsApp</p>
+        <a class="btn-whatsapp" href="https://wa.me/263786288903" target="_blank">
+            Chat on WhatsApp +263 78 628 8903
+        </a>
+        <p style="margin-top:15px; opacity:0.7;">© 2026 ZimConnect. Connecting Zimbabwe Together 🇿🇼</p>
+    </footer>
+
+    <script>
+        async function showJobs() {
+            try {
+                let res = await fetch('/api/jobs');
+                let jobs = await res.json();
+                document.getElementById('jobs-list').innerHTML = jobs.map(j => 
+                    `<div class="card"><b>${j.title}</b><br>${j.company || ''}<br><span class="tag">${j.location || 'Zimbabwe'}</span> <span class="tag">${j.type || 'Full Time'}</span></div>`
+                ).join('');
+            } catch(e) { document.getElementById('jobs-list').innerHTML = "No jobs yet"; }
+        }
+
+        async function showEvents() {
+            try {
+                let res = await fetch('/api/events');
+                let events = await res.json();
+                document.getElementById('events-list').innerHTML = events.map(e => 
+                    `<div class="card"><b>${e.name}</b><br>📅 ${e.date || ''}<br>📍 ${e.location || ''}</div>`
+                ).join('');
+            } catch(e) { document.getElementById('events-list').innerHTML = "No events yet"; }
+        }
+
+        async function showProducts() {
+            try {
+                let res = await fetch('/api/products');
+                let products = await res.json();
+                document.getElementById('products-list').innerHTML = products.map(p => 
+                    `<div class="card"><b>${p.name}</b><br>$${p.price}</div>`
+                ).join('');
+            } catch(e) { document.getElementById('products-list').innerHTML = "No products yet"; }
+        }
+
+        async function showFlights() {
+            try {
+                let res = await fetch('/api/flights');
+                let flights = await res.json();
+                document.getElementById('flights-list').innerHTML = flights.map(f => 
+                    `<div class="card"><b>${f.airline}</b><br>${f.from} → ${f.to}<br>$${f.price}</div>`
+                ).join('');
+            } catch(e) { document.getElementById('flights-list').innerHTML = "No flights yet"; }
+        }
+
+        showJobs();
+        showEvents();
+        showProducts();
+        showFlights();
+    </script>
+</body>
+</html>
