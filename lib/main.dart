@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:convert/convert.dart';
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
@@ -52,7 +53,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'ZimConnect',
+      title: "ZimConnect",
       theme: ThemeData(
         primaryColor: Colors.black,
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.black),
@@ -93,7 +94,7 @@ class _HomePageState extends State<HomePage> {
           BottomNavigationBarItem(icon: Icon(Icons.tv), label: "TV"),
           BottomNavigationBarItem(icon: Icon(Icons.music_note), label: "Music"),
           BottomNavigationBarItem(icon: Icon(Icons.mic), label: "Street Gear"),
-          BottomNavigationBarItem(icon: Icon(Icons.shopping_bag), label: "Shop"), // NEW
+          BottomNavigationBarItem(icon: Icon(Icons.shopping_bag), label: "Shop"),
           BottomNavigationBarItem(icon: Icon(Icons.chat), label: "Lodza"),
           BottomNavigationBarItem(icon: Icon(Icons.store), label: "Market"),
         ],
@@ -122,10 +123,11 @@ class _TVScreenState extends State<TVScreen> {
     _controller?.dispose();
     _controller = VideoPlayerController.network(url)..initialize().then((_) { setState(() {}); _controller!.play(); });
   }
+  @override void dispose() { _controller?.dispose(); super.dispose(); }
   @override Widget build(BuildContext context) {
     return Column(children: [
       if(_controller!= null && _controller!.value.isInitialized) AspectRatio(aspectRatio: _controller!.value.aspectRatio, child: VideoPlayer(_controller!)),
-      Expanded(child: ListView.builder(itemCount: videos.length, itemBuilder: (context, i) => Card(child: ListTile(
+      Expanded(child: videos.isEmpty? Center(child: CircularProgressIndicator()) : ListView.builder(itemCount: videos.length, itemBuilder: (context, i) => Card(child: ListTile(
         leading: Icon(Icons.tv, color: Colors.black),
         title: Text(videos[i]['title']?? "Zim Video"), 
         subtitle: Text(videos[i]['isPremium']? "PREMIUM" : "FREE"), 
@@ -135,7 +137,7 @@ class _TVScreenState extends State<TVScreen> {
   }
 }
 
-// ===== MUSIC + RADIO SCREEN - STILL ZIMCONNECT RADIO 263 =====
+// ===== MUSIC + RADIO SCREEN - ZIMCONNECT RADIO 263 =====
 class MusicScreen extends StatefulWidget { @override _MusicScreenState createState() => _MusicScreenState(); }
 class _MusicScreenState extends State<MusicScreen> {
   List songs = []; List radio = []; final player = AudioPlayer();
@@ -145,12 +147,12 @@ class _MusicScreenState extends State<MusicScreen> {
   @override Widget build(BuildContext context) {
     return Column(children: [
       Container(color: Colors.green[900], padding: EdgeInsets.all(12), child: Column(children: [
-        Text("ZimConnect Radio 263", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.white)), // STAYS ZIMCONNECT
+        Text("ZimConnect Radio 263", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.white)),
         Text("Hosted by DJ Tewe 🔥", style: TextStyle(fontSize: 14, color: Colors.amber)),
-    ...radio.map((r) => ListTile(leading: Icon(Icons.radio, color: Colors.red), title: Text(r['name'], style: TextStyle(color: Colors.white)), subtitle: Text("LIVE", style: TextStyle(color: Colors.white)), onTap: () => play(r['streamUrl']))),
+      ...radio.map((r) => ListTile(leading: Icon(Icons.radio, color: Colors.red), title: Text(r['name'], style: TextStyle(color: Colors.white)), subtitle: Text("LIVE", style: TextStyle(color: Colors.white)), onTap: () => play(r['streamUrl']))),
       ])),
       Divider(), Text("Music Library", style: TextStyle(fontWeight: FontWeight.bold)),
-      Expanded(child: ListView.builder(itemCount: songs.length, itemBuilder: (context, i) => ListTile(
+      Expanded(child: songs.isEmpty? Center(child: CircularProgressIndicator()) : ListView.builder(itemCount: songs.length, itemBuilder: (context, i) => ListTile(
         leading: Icon(Icons.music_note, color: Colors.black), 
         title: Text(songs[i]['title']), 
         subtitle: Text(songs[i]['artist']), 
@@ -181,7 +183,7 @@ class _StreetGearPodcastScreenState extends State<StreetGearPodcastScreen> {
           ])
         ])
       ),
-      Expanded(child: ListView.builder(itemCount: podcasts.length, itemBuilder: (context, i) => Card(
+      Expanded(child: podcasts.isEmpty? Center(child: CircularProgressIndicator()) : ListView.builder(itemCount: podcasts.length, itemBuilder: (context, i) => Card(
         color: Colors.grey[900],
         child: ListTile(
           leading: Icon(Icons.mic, color: Colors.amber),
@@ -194,31 +196,33 @@ class _StreetGearPodcastScreenState extends State<StreetGearPodcastScreen> {
   }
 }
 
-// ===== STREET GEAR SHOP SCREEN - NEW =====
+// ===== STREET GEAR SHOP SCREEN =====
 class StreetGearShopScreen extends StatefulWidget { @override _StreetGearShopScreenState createState() => _StreetGearShopScreenState(); }
 class _StreetGearShopScreenState extends State<StreetGearShopScreen> {
   List products = [
     {"name": "Blingberry Hoodie", "price": 45, "image": "🔥", "desc": "Black + Gold Street Gear"},
     {"name": "Street Gear Cap", "price": 25, "image": "🧢", "desc": "Diamond Logo"},
     {"name": "ZimConnect Tee", "price": 20, "image": "👕", "desc": "DJ Tewe Edition"},
+    {"name": "Street Gear Joggers", "price": 35, "image": "👟", "desc": "Premium Cotton"},
   ];
 
   @override Widget build(BuildContext context) {
     return GridView.builder(
       padding: EdgeInsets.all(12),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 0.8),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 0.75, crossAxisSpacing: 10, mainAxisSpacing: 10),
       itemCount: products.length,
       itemBuilder: (context, i) => Card(
         color: Colors.black,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Expanded(child: Center(child: Text(products[i]['image'], style: TextStyle(fontSize: 60)))),
             Text(products[i]['name'], style: TextStyle(color: Colors.amber, fontWeight: FontWeight.bold)),
             Text(products[i]['desc'], style: TextStyle(color: Colors.grey, fontSize: 12)),
-            Text("\$${products[i]['price']}", style: TextStyle(color: Colors.white, fontSize: 16)),
+            Text("\$${products[i]['price']}", style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
             ElevatedButton(
               style: ElevatedButton.styleFrom(backgroundColor: Colors.amber, foregroundColor: Colors.black),
-              onPressed: () {}, 
+              onPressed: () { ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Coming Soon: EcoCash Payment"))); }, 
               child: Text("Buy Now")
             )
           ],
@@ -241,7 +245,7 @@ class _LodzaScreenState extends State<LodzaScreen> {
       SizedBox(height: 20), Card(child: Padding(padding: EdgeInsets.all(12), child: Text(reply))),
       TextField(controller: _ctrl, decoration: InputDecoration(labelText: "Ask Lodza...")),
       SizedBox(height: 10),
-      ElevatedButton(style: ElevatedButton.styleFrom(backgroundColor: Colors.black), onPressed: loading? null : ask, child: loading? CircularProgressIndicator() : Text("Send"))
+      ElevatedButton(style: ElevatedButton.styleFrom(backgroundColor: Colors.black), onPressed: loading? null : ask, child: loading? CircularProgressIndicator(color: Colors.amber) : Text("Send"))
     ]));
   }
 }
@@ -253,7 +257,7 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
   @override void initState() { super.initState(); loadMarket(); }
   loadMarket() async { items = await ApiService.getMarketplace(); setState(() {}); }
   @override Widget build(BuildContext context) {
-    return ListView.builder(itemCount: items.length, itemBuilder: (context, i) => Card(child: ListTile(
+    return items.isEmpty? Center(child: CircularProgressIndicator()) : ListView.builder(itemCount: items.length, itemBuilder: (context, i) => Card(child: ListTile(
       leading: Icon(Icons.store, color: Colors.black),
       title: Text(items[i]['title']), 
       subtitle: Text("\$${items[i]['price']} - ${items[i]['location']}"), 
@@ -268,7 +272,7 @@ class _UploadDialogState extends State<UploadDialog> {
   TextEditingController titleCtrl = TextEditingController(); File? file; final picker = ImagePicker();
   pickFile() async {
     final picked = widget.type == 'tv' 
-  ? await picker.pickVideo(source: ImageSource.gallery)
+ ? await picker.pickVideo(source: ImageSource.gallery)
       : await picker.pickAudio(source: AudioSource.gallery);
     if(picked!= null) setState(() => file = File(picked.path));
   }
@@ -279,6 +283,7 @@ class _UploadDialogState extends State<UploadDialog> {
     String label = widget.type == 'tv'? 'Video' : widget.type == 'music'? 'Music' : 'Street Gear Podcast';
     return AlertDialog(title: Text("Upload $label"), content: Column(mainAxisSize: MainAxisSize.min, children: [
       TextField(controller: titleCtrl, decoration: InputDecoration(labelText: "Episode Title")),
+      SizedBox(height: 10),
       ElevatedButton(style: ElevatedButton.styleFrom(backgroundColor: Colors.black), onPressed: pickFile, child: Text(file == null? "Pick Audio" : "File Selected")),
     ]), actions: [
       TextButton(onPressed: () => Navigator.pop(context), child: Text("Cancel")),
