@@ -1,21 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ConnectZim Radio</title>
+  <title>ZimConnect Radio 263 - DJ Tewe</title>
   <style>
-    body {font-family: Arial; text-align: center; padding: 40px; background: #f5f5f5;}
-    .box {background: white; padding: 30px; border-radius: 12px; max-width: 500px; margin: auto;}
-    a {display: inline-block; margin-top: 20px; padding: 12px 24px; background: green; color: white; text-decoration: none; border-radius: 8px;}
+    body { background: #0a0a0a; color: white; font-family: Arial; text-align: center; padding: 20px; }
+    .radio-box { background: #004d00; padding: 20px; border-radius: 15px; margin: 20px auto; max-width: 500px; }
+    .play-btn { background: #ffcc00; color: black; border: none; padding: 15px 40px; font-size: 18px; font-weight: bold; border-radius: 10px; cursor: pointer; }
+    .play-btn:hover { background: #ffd633; }
   </style>
 </head>
 <body>
-  <div class="box">
-    <h1>📻 ConnectZim Radio</h1>
-    <p>Listen to the best Zim music & talk. Coming Soon!</p>
-    <p>Stream local stations 24/7.</p>
-    <a href="index.html">← Back Home</a>
+  <h1>ZimConnect Radio 263</h1>
+  <h3 style="color: #ffcc00;">Hosted by DJ Tewe 🔥</h3>
+  
+  <div class="radio-box">
+    <h2>🔴 LIVE NOW</h2>
+    <p>Street Gear Sessions with DJ Tewe</p>
+    <audio id="radioPlayer" controls style="width: 100%; margin-top: 10px;">
+      <source src="https://stream.zeno.fm/0r0a792kwzshx" type="audio/mpeg">
+      Your browser does not support audio
+    </audio>
+    <button class="play-btn" onclick="document.getElementById('radioPlayer').play()">PLAY RADIO</button>
   </div>
+
+  <p>Listen 24/7 on ZimConnect</p>
 </body>
 </html>
