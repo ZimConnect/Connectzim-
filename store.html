@@ -123,7 +123,6 @@ input, textarea { width: 95%; padding: 10px; margin: 8px 0; border-radius: 5px; 
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
-  // FIX 1: Added 'e' parameter so tabs work
   window.showTab = function(e, tab) {
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
     e.target.classList.add('active');
@@ -158,7 +157,6 @@ input, textarea { width: 95%; padding: 10px; margin: 8px 0; border-radius: 5px; 
     return `<div class="card"><h2>${f.from} → ${f.to}</h2><p><b>${f.airline}</b></p><p>Date: ${f.date}</p><p><b>$${f.price}</b></p><button onclick="alert('Book flight to ${f.to}')">Book Flight</button></div>`;
   }
   function renderTour(t) {
-    // FIX 2: Changed p.price to t.price
     return `<div class="card"><img src="${t.image}"><h2>${t.name}</h2><p>Location: ${t.location}</p><p>Date: ${t.date}</p><p><b>$${t.price}</b></p><button onclick="alert('Book ${t.name}')">Book Tour</button></div>`;
   }
   function renderResort(r) {
