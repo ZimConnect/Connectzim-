@@ -1,1 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZimConnect v5.0 - Connecting Zimbabwe Together</title>
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+<script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0} 
+body{font-family:Arial;background:#f4f4f4;color:#333}
+header{background:linear-gradient(90deg,#009A49,#FFD700,#D21034);color:white;padding:12px;text-align:center;position:sticky;top:0;z-index:10}
+.header-top{display:flex;align-items:center;gap:10px;justify-content:center;margin-bottom:8px}
+nav{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+nav a{color:white;background:rgba(0,0,0,.25);padding:7px 12px;border-radius:6px;text-decoration:none;font-size:13px;font-weight:bold}
+nav a.btn-join{background:#FF6B00;color:white} /* ORANGE MEMBERSHIP BUTTON */
+.container{padding:10px;max-width:900px;margin:auto}
+.big-btn{display:block;padding:15px;margin:10px 0;border-radius:10px;text-align:center;font-weight:bold;text-decoration:none;font-size:16px}
+.btn-radio{background:#004d00;color:#ffcc00} .btn-tv{background:#D21034;color:white} 
+.btn-podcast{background:#009A49;color:white} .btn-video{background:#333;color:#FFD700;border:2px solid #FFD700}
+.btn-shop{background:#000;color:#ffcc00;border:2px solid #ffcc00} .btn-tickets{background:#FFD700;color:#000}
+.btn-scan{background:#D21034;color:white} .btn-map{background:#009A49;color:white} .btn-lodza{background:#8B4513;color:#FFD700} .btn-admin{background:#333;color:#FFD700}
+.btn-membership{background:#FF6B00;color:white} /* ORANGE BIG BUTTON */
+.card{background:white;padding:15px;border-radius:8px;margin-bottom:15px;box-shadow:0 2px 4px rgba(0,0,0,0.1)}
+.grid{display:grid;grid-template-columns:1fr;gap:15px}
+@media(min-width:700px){.grid{grid-template-columns:repeat(2,1fr)}}
+.buy-btn{background:#00A651;color:white;border:none;padding:12px;width:100%;border-radius:8px;font-weight:bold;margin-top:10px;cursor:pointer}
+.scan-btn{background:#D21034;color:white;border:none;padding:12px;width:100%;border-radius:8px;font-weight:bold;margin-top:10px;cursor:pointer}
+.qr-box{background:#000;padding:15px;text-align:center;border-radius:8px;margin-top:10px;display:none}
+#qr-reader { width: 100%; margin-top:10px; background:white; padding:10px; border-radius:8px; display:none; }
+#mapid{height:400px;border-radius:8px}
+#lodza-chat{background:#000;color:#FFD700;padding:10px;border-radius:8px;min-height:120px;margin:10px 0;overflow-y:auto}
+footer{background:#111;color:white;text-align:center;padding:20px 10px;margin-top:40px}
+h2{border-left:5px solid #D21034;padding-left:10px;margin-bottom:10px}
+iframe{width:100%;border:none;border-radius:8px}
+</style>
+</head>
+<body>
 
+<header>
+<div class="header-top"><h1>ZimConnect v5.0</h1><p style="font-size:12px">Connecting Zimbabwe Together</p></div>
+<nav>
+<a href="#about">About</a>
+<a href="#radio">Radio</a>
+<a href="#tv">TV</a>
+<a href="#podcast">Podcast</a>
+<a href="#videos">Video Club</a>
+<a href="#shop">Shop</a>
+<a href="#events">Events</a>
+<a href="membership.html" class="btn-join">Join Membership</a> <!-- NEW -->
+<a href="#scan">Scan Tickets</a>
+<a href="#map">Map</a>
+<a href="#lodza">Lodza AI</a>
+<a href="jobs.html">Jobs</a> <!-- CHANGED TO LINK TO NEW JOBS PAGE -->
+<a href="admin.html">Admin</a>
+<a href="store.html">Store & Travel</a>
+</nav>
+</header>
+
+<div class="container">
+
+<!-- BIG BUTTONS -->
+<a href="#radio" class="big-btn btn-radio">📻 ZimConnect Radio 263 - DJ Tewe LIVE</a>
+<a href="#tv" class="big-btn btn-tv">📺 ZimConnect TV</a>
+<a href="#podcast" class="big-btn btn-podcast">🎙️ Street Gear Sessions</a>
+<a href="#videos" class="big-btn btn-video">🎬 Video Club</a>
+<a href="#shop" class="big-btn btn-shop">💎 Street Gear Shop</a>
+<a href="#events" class="big-btn btn-tickets">🎟️ Events & Tickets</a>
+<a href="membership.html" class="big-btn btn-membership">💎 Join ZimConnect Membership</a> <!-- NEW -->
+<a href="#scan" class="big-btn btn-scan">📱 Scan Tickets</a>
+<a href="#map" class="big-btn btn-map">🗺️ ZimConnect Map</a>
+<a href="#lodza" class="big-btn btn-lodza">🦅 Talk to Lodza AI</a>
+<a href="jobs.html" class="big-btn btn-admin">💼 Jobs - No Scams</a> <!-- UPDATED -->
+<a href="admin.html" class="big-btn btn-admin">⚙️ Admin Panel</a>
+<a href="store.html" class="big-btn btn-shop">✈️ Store, Flights, Tours & Resorts</a>
+
+<!-- ABOUT -->
+<section id="about" class="card">
+<h2>About ZimConnect</h2>
+<h3>RESPECT THE ELDERS</h3>
+<p><b>Bonding with me Timer.</b> Wisdom is our foundation.</p>
+</section>
+
+<!-- RADIO -->
+<section id="radio" class="card" style="background:#004d00;color:white;text-align:center">
+<h2 style="border-left:5px solid #FFD700;color:white">📻 ZimConnect Radio 263</h2>
+<h3 style="color:#ffcc00">Connecting Zimbabwe Together - Hosted by DJ Tewe 🔥</h3>
+<audio controls style="width:100%;margin-top:10px"><source src="https://stream.zeno.fm/0r0a792kwzshx"></audio>
+</section>
+
+<!-- TV -->
+<section id="tv" class="card">
+<h2>📺 ZimConnect TV</h2>
+<iframe src="https://www.youtube.com/embed?listType=search&list=zimbabwe music 2026" height="250" allowfullscreen></iframe>
+</section>
+
+<!-- PODCAST -->
+<section id="podcast" class="card" style="background:#009A49;color:white">
+<h2 style="border-left:5px solid #FFD700;color:white">🎙️ Street Gear Sessions</h2>
+<div id="podcast-list"></div>
+</section>
+
+<!-- VIDEO CLUB -->
+<section id="videos" class="card">
+<h2>🎬 Video Club</h2>
+<video controls style="width:100%"></video>
+</section>
+
+<!-- SHOP -->
+<section id="shop" class="card">
+<h2>💎 Street Gear Shop</h2>
+<div id="shop-grid" class="grid"></div>
+</section>
+
+<!-- EVENTS + TICKETS -->
+<section id="events" class="card">
+<h2>🎟️ Events & Tickets</h2>
+<div id="events-list"></div>
+</section>
+
+<!-- SCAN TICKETS -->
+<section id="scan" class="card" style="background:#D21034;color:white">
+<h2 style="border-left:5px solid #FFD700;color:white">📱 Scan Tickets at Door</h2>
+<p>Tap button and ALLOW camera access</p>
+<button class="scan-btn" style="background:white;color:#D21034" onclick="startScanner()">📷 Start Camera Scanner</button>
+<div id="qr-reader"></div>
+<div id="scan-error" style="color:#FFD700;display:none;margin-top:10px">❌ Camera blocked. Go to Chrome > 3 dots > Site Settings > Camera > Allow</div>
+<div id="scan-result" class="card" style="background:#000;color:#00FF00;display:none;margin-top:10px">
+<b>VALID TICKET ✅</b><p id="ticket-info"></p>
+</div>
+</section>
+
+<!-- OFFLINE MAP -->
+<section id="map" class="card">
+<h2>🗺️ ZimConnect Map</h2>
+<p>Find Events, Resorts, Tours near you</p>
+<div id="mapid"></div>
+<button class="buy-btn" onclick="getLocation()">📍 Use My Location</button>
+</section>
+
+<!-- LODZA AI WITH VOICE -->
+<section id="lodza" class="card" style="background:#8B4513;color:#FFD700">
+<h2 style="border-left:5px solid #FFD700;color:#FFD700">🦅 Lodza - The Zimbabwe Bird AI</h2>
+<p>Ask me about Zim history, jobs, events. I will talk back!</p>
+<div id="lodza-chat">Hello, I am Lodza 🦅. Ask me anything about Zimbabwe!</div>
+<input id="lodza-input" placeholder="Ask Lodza..." style="width:100%;padding:10px;border-radius:8px;border:none;margin-bottom:10px">
+<button class="buy-btn" style="background:#FFD700;color:#000" onclick="askLodza()">Ask Lodza</button>
+</section>
+
+</div>
+
+<footer>© 2026 ZimConnect. Connecting Zimbabwe Together 🇿🇼</footer>
+
+<script>
+let html5QrcodeScanner;
+var map;
+
+// 1. BUY TICKET + QR
+function buyTicket(){
+let phone=prompt("Enter EcoCash Number to pay");
+if(phone){alert("EcoCash payment sent to "+phone);
+document.getElementById("qrbox").style.display="block";
+document.getElementById("qrcode").innerHTML = "";
+new QRCode(document.getElementById("qrcode"), "ZIMCONN-"+Math.random().toString(36).substr(2,9).toUpperCase()+"|"+Date.now());
+}}
+
+// 2. SCAN TICKET WITH CAMERA PERMISSION
+function startScanner(){
+document.getElementById("scan-error").style.display="none";
+document.getElementById("qr-reader").style.display="block";
+if(location.protocol !== 'https:'){alert("Camera only works on https. Use github.io link");return;}
+navigator.mediaDevices.getUserMedia({video:true})
+.then(function(stream){
+stream.getTracks().forEach(track => track.stop());
+html5QrcodeScanner = new Html5Qrcode("qr-reader");
+html5QrcodeScanner.start({ facingMode: "environment" },{ fps: 10, qrbox: 250 },onScanSuccess,(error) => {});
+})
+.catch(function(err){
+document.getElementById("scan-error").style.display="block";
+alert("Camera Permission Denied. Tap lock icon > Site Settings > Camera > Allow");
+});
+}
+function onScanSuccess(decodedText) {
+html5QrcodeScanner.stop();
+document.getElementById("qr-reader").style.display="none";
+document.getElementById("scan-result").style.display="block";
+document.getElementById("ticket-info").innerText = "Ticket: " + decodedText;
+alert("VALID TICKET! Welcome");
+}
+
+// 3. MAP
+function initMap(){
+map = L.map('mapid').setView([-19.0154, 29.1549], 6);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+}
+function getLocation(){
+if(navigator.geolocation){
+navigator.geolocation.getCurrentPosition(pos => {
+L.marker([pos.coords.latitude, pos.coords.longitude]).addTo(map).bindPopup("You are here").openPopup();
+map.setView([pos.coords.latitude, pos.coords.longitude], 13);
+});
+}}
+
+// 4. LODZA AI WITH VOICE
+async function askLodza(){
+let q = document.getElementById("lodza-input").value;
+if(!q) return;
+document.getElementById("lodza-chat").innerHTML += "<br><b>You:</b> " + q;
+try{
+let res = await fetch("https://zimconnect-backend-up.onrender.com/assistant/ask", {
+method:"POST",headers:{"Content-Type":"application/json"},
+body:JSON.stringify({question:q, user:"DJ Tewe"})
+});
+let data = await res.json();
+document.getElementById("lodza-chat").innerHTML += "<br><b>Lodza:</b> " + data.reply;
+speak(data.reply);
+}catch(e){alert("Lodza is offline")}
+document.getElementById("lodza-input").value = "";
+document.getElementById("lodza-chat").scrollTop = 99999;
+}
+function speak(text){
+let utterance = new SpeechSynthesisUtterance(text);
+utterance.lang = 'en-ZA';
+utterance.rate = 1;
+speechSynthesis.speak(utterance);
+}
+
+// 5. LOAD DATA FROM ADMIN PANEL
+function loadAdminData(){
+  // EVENTS
+  let events = JSON.parse(localStorage.getItem("zim_events")||"[]");
+  document.getElementById("events-list").innerHTML = events.map(e=>`
+  <div class="card"><h3>${e.title}</h3><p>📅 ${e.date} | 📍 ${e.place} | <b>$${e.price}</b></p>
+  <button class="buy-btn" onclick="buyTicket()">Buy Ticket with EcoCash</button>
+  <div id="qrbox" class="qr-box"><p style="color:white">Your Ticket QR:</p><div id="qrcode"></div></div></div>`).join('') || "<div class='card'><p>No events yet. Add from Admin Panel</p></div>";
+
+  // PRODUCTS
+  let prods = JSON.parse(localStorage.getItem("zim_products")||"[]");
+  document.getElementById("shop-grid").innerHTML = prods.map(p=>`<div class="card" style="border:2px solid #ffcc00;text-align:center"><h3>${p.name}</h3><p>$${p.price}</p><button class="buy-btn">Buy with EcoCash</button></div>`).join('') || "<p>No products yet. Add from Admin Panel</p>";
+
+  // PODCASTS
+  let pods = JSON.parse(localStorage.getItem("zim_podcasts")||"[]");
+  document.getElementById("podcast-list").innerHTML = pods.map(p=>`<div class="card" style="background:#000;color:white"><h3>${p.title}</h3><audio controls style="width:100%;margin-top:10px"><source src="${p.link}"></audio></div>`).join('') || "<div class='card' style='background:#000;color:white'><h3>Episode 1: The Movement Starts</h3><audio controls style='width:100%'></audio></div>";
+}
+
+// INIT
+window.onload = function(){initMap(); loadAdminData();}
+</script>
+</body></html>
