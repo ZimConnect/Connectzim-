@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><title>ZimConnect Admin - SECRET</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body{font-family:Arial;background:#111;color:#FFD700;padding:20px;text-align:center}
+h1{font-family:'Montserrat';font-size:32px;color:#FFD700}
+.card{background:#222;padding:20px;border-radius:15px;margin:15px 0;border:2px solid #FFD700;text-align:left}
+input,textarea,button{width:100%;padding:12px;margin:8px 0;border-radius:8px;border:none;font-size:16px}
+button{background:#D21034;color:white;font-weight:800;cursor:pointer}
+button.green{background:#00A651}
+.note{background:#333;padding:10px;border-radius:8px;font-size:14px;margin:10px 0}
+</style></head><body>
+<h1>🦅 ZimConnect Admin Panel</h1>
+<p class="note">KEEP THIS LINK SECRET! Only you use this to post.</p>
+
+<div class="card">
+<h2>📺 Upload Media - Radio / TV / Video Club</h2>
+<p>These will appear on the main site</p>
+<label><b>Upload Video:</b></label>
+<input type="file" id="videoUpload" accept="video/*">
+<label><b>Upload Audio - Radio/Podcast:</b></label>
+<input type="file" id="audioUpload" accept="audio/*">
+<label><b>Upload Logo/Bird Image:</b></label>
+<input type="file" id="imageUpload" accept="image/*">
+<button class="green" onclick="saveMedia()">Save Media to Site</button>
+<p id="mediaStatus" style="color:#00A651"></p>
+</div>
+
+<div class="card">
+<h2>🦅 Upload YOUR Voice for Lodza AI</h2>
+<p class="note">Record yourself: "Greetings, I am Lodza. How can I help you today?" then upload here. Lodza will talk in YOUR voice.</p>
+<input type="file" id="lodzaVoiceUpload" accept="audio/*">
+<button onclick="saveLodzaVoice()">Save My Voice</button>
+<p id="voiceStatus" style="color:#00A651"></p>
+</div>
+
+<div class="card">
+<h2>💼 Post Job - 100% FREE</h2>
+<input id="job-title" placeholder="Job Title: e.g. Driver">
+<input id="job-company" placeholder="Company Name">
+<input id="job-location" placeholder="Location: e.g. Harare">
+<textarea id="job-desc" placeholder="Job Description" rows="3"></textarea>
+<button onclick="postJob()">Post Job</button>
+<p id="jobStatus" style="color:#00A651"></p>
+</div>
+
+<div class="card">
+<h2>🏠 Post Property</h2>
+<input id="prop-title" placeholder="Property Title">
+<input id="prop-price" placeholder="Price: e.g. $500/month">
+<input id="prop-location" placeholder="Location">
+<button onclick="postProperty()">Post Property</button>
+</div>
+
+<div class="card">
+<h2>🎟️ Post Event</h2>
+<input id="event-title" placeholder="Event Name">
+<input id="event-date" placeholder="Date" type="date">
+<button onclick="postEvent()">Post Event</button>
+</div>
+
+<button style="background:#333" onclick="clearAll()">⚠️ CLEAR ALL DATA</button>
+
+<script>
+function saveMedia(){
+  let status = document.getElementById("mediaStatus");
+  let video = document.getElementById("videoUpload").files[0];
+  let audio = document.getElementById("audioUpload").files[0];
+  let image = document.getElementById("imageUpload").files[0];
+  let count = 0;
+  
+  if(video){ let r = new FileReader(); r.onload = e => {localStorage.setItem("zim_video", e.target.result); count++; if(count>0) status.innerText = count + " file(s) saved! Refresh main site."}; r.readAsDataURL(video); }
+  if(audio){ let r = new FileReader(); r.onload = e => {localStorage.setItem("zim_audio", e.target.result); count++; if(count>0) status.innerText = count + " file(s) saved! Refresh main site."}; r.readAsDataURL(audio); }
+  if(image){ let r = new FileReader(); r.onload = e => {localStorage.setItem("zim_image", e.target.result); count++; if(count>0) status.innerText = count + " file(s) saved! Refresh main site."}; r.readAsDataURL(image); }
+  if(count==0) status.innerText = "Select at least 1 file";
+}
+
+function saveLodzaVoice(){
+  let file = document.getElementById("lodzaVoiceUpload").files[0];
+  let status = document.getElementById("voiceStatus");
+  if(file){ 
+    let r = new FileReader(); 
+    r.onload = e => {
+      localStorage.setItem("zim_lodza_voice", e.target.result); 
+      status.innerText = "YOUR VOICE SAVED! Lodza will now talk like you.";
+    }; 
+    r.readAsDataURL(file);
+  } else { status.innerText = "Select a voice file first"; }
+}
+
+function postJob(){
+  let job = {
+    title:document.getElementById("job-title").value,
+    company:document.getElementById("job-company").value,
+    location:document.getElementById("job-location").value,
+    desc:document.getElementById("job-desc").value
+  };
+  let jobs = JSON.parse(localStorage.getItem("zim_jobs")||"[]");
+  jobs.push(job);
+  localStorage.setItem("zim_jobs",JSON.stringify(jobs));
+  document.getElementById("jobStatus").innerText = "Job Posted!";
+}
+
+function postProperty(){
+  let prop = {
+    title:document.getElementById("prop-title").value,
+    price:document.getElementById("prop-price").value,
+    location:document.getElementById("prop-location").value
+  };
+  let props = JSON.parse(localStorage.getItem("zim_props")||"[]");
+  props.push(prop);
+  localStorage.setItem("zim_props",JSON.stringify(props));
+  alert("Property Posted!");
+}
+
+function postEvent(){
+  let event = {
+    title:document.getElementById("event-title").value,
+    date:document.getElementById("event-date").value
+  };
+  let events = JSON.parse(localStorage.getItem("zim_events")||"[]");
+  events.push(event);
+  localStorage.setItem("zim_events",JSON.stringify(events));
+  alert("Event Posted!");
+}
+
+function clearAll(){
+  if(confirm("Delete ALL data?")){
+    localStorage.clear();
+    alert("All cleared");
+  }
+}
+</script></body></html>
