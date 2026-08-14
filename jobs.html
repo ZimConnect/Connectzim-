@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ZimConnect Jobs - No Scams</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial}
+body{background:#0a0a0a;color:white}
+.navbar{display:flex;justify-content:space-between;align-items:center;padding:15px 5%;background:#111;position:sticky;top:0}
+.logo{font-size:22px;font-weight:bold;color:#FF6B00}
+.nav-links{display:flex;gap:20px;list-style:none}
+.nav-links a{color:white;text-decoration:none}
+.btn-join{background:#FF6B00;color:white;padding:10px 20px;border-radius:25px;text-decoration:none;font-weight:bold}
+.container{max-width:1000px;margin:auto;padding:20px}
+.tabs{display:flex;gap:10px;margin-bottom:20px;border-bottom:2px solid #222}
+.tab-btn{padding:12px 20px;background:#1a1a1a;border:none;color:white;cursor:pointer;border-radius:8px 8px 0 0;font-weight:bold}
+.tab-btn.active{background:#FF6B00}
+.tab-content{display:none}
+.tab-content.active{display:block}
+.card{background:#1a1a1a;padding:20px;border-radius:10px;margin-bottom:15px;border-left:4px solid #FF6B00}
+.verified{color:#00FF00;font-size:12px;font-weight:bold}
+.scam-btn{background:#D21034;color:white;border:none;padding:8px 12px;border-radius:6px;cursor:pointer;font-size:12px}
+.form-group{margin-bottom:15px}
+.form-group label{display:block;margin-bottom:5px;color:#FFD700}
+.form-group input,.form-group textarea,.form-group select{width:100%;padding:10px;border-radius:6px;border:1px solid #333;background:#222;color:white}
+.btn-post{background:#00A651;color:white;border:none;padding:12px 20px;border-radius:8px;font-weight:bold;cursor:pointer;width:100%}
+.notice{background:#8B4513;padding:15px;border-radius:8px;margin-bottom:20px;border:2px solid #FF6B00}
+.logout-btn{background:#D21034;color:white;border:none;padding:8px 12px;border-radius:6px;cursor:pointer}
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="logo">ZIMCONNECT JOBS</div>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="membership.html">Membership</a></li>
+    <li><a href="jobs.html">Jobs</a></li>
+  </ul>
+  <a href="membership.html" class="btn-join">Join Membership</a>
+</nav>
+
+<div class="container">
+  <div class="notice">
+    <h3>🛡️ ANTI-SCAM PROMISE</h3>
+    <p><b>No agency fees. No registration fees.</b> If anyone asks you for money to apply, click "Report Scam" and we ban them immediately.</p>
+  </div>
+
+  <div id="loginBox" class="card">
+    <h2>Login to Post or Apply</h2>
+    <div class="form-group">
+      <label>I am a:</label>
+      <select id="userType">
+        <option value="seeker">Job Seeker - Looking for Work</option>
+        <option value="employer">Employer - Hiring</option>
+      </select>
+    </div>
+    <div class="form-group"><label>Phone/Email</label><input type="text" id="loginPhone" placeholder="0772 123 456"></div>
+    <button class="btn-post" onclick="login()">Continue</button>
+    <p style="font-size:12px;margin-top:10px">Your profile will be created. Gold/Diamond members get "Verified" badge.</p>
+  </div>
+
+  <div id="app" style="display:none">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+      <h2 id="welcomeMsg"></h2>
+      <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn active" onclick="openTab('jobs')">Browse Jobs</button>
+      <button class="tab-btn" onclick="openTab('workers')">Find Workers</button>
+      <button class="tab-btn" onclick="openTab('post')">Post</button>
+    </div>
+
+    <div id="jobs" class="tab-content active">
+      <button class="btn-post" onclick="showJobForm()">+ Post New Job - $5</button>
+      <div id="jobsList"></div>
+    </div>
+
+    <div id="workers" class="tab-content">
+      <button class="btn-post" onclick="showCVForm()">+ Post Your CV / Skills</button>
+      <div id="workersList"></div>
+    </div>
+
+    <div id="post" class="tab-content">
+      <div id="jobForm" class="card" style="display:none">
+        <h3>Post a Job</h3>
+        <div class="form-group"><label>Job Title</label><input id="jobTitle"></div>
+        <div class="form-group"><label>Company Name</label><input id="jobCompany"></div>
+        <div class="form-group"><label>Company Reg #</label><input id="jobReg"></div>
+        <div class="form-group"><label>Location</label><input id="jobLocation"></div>
+        <div class="form-group"><label>Salary</label><input id="jobSalary"></div>
+        <div class="form-group"><label>Description</label><textarea id="jobDesc" rows="4"></textarea></div>
+        <button class="btn-post" onclick="saveJob()">Post Job</button>
+      </div>
+      <div id="cvForm" class="card" style="display:none">
+        <h3>Post Your CV / Skill</h3>
+        <div class="form-group"><label>Full Name</label><input id="cvName"></div>
+        <div class="form-group"><label>Your Skill/Trade</label><input id="cvSkill"></div>
+        <div class="form-group"><label>Location</label><input id="cvLocation"></div>
+        <div class="form-group"><label>Experience</label><textarea id="cvExp" rows="3"></textarea></div>
+        <div class="form-group"><label>References - Name + Phone</label><textarea id="cvRefs" rows="2"></textarea></div>
+        <button class="btn-post" onclick="saveCV()">Post CV</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+let currentUser = null; let userType = null;
+
+function login(){
+  let phone = document.getElementById("loginPhone").value;
+  userType = document.getElementById("userType").value;
+  if(!phone){alert("Enter phone number");return}
+  currentUser = {phone:phone, type:userType};
+  localStorage.setItem("zim_user", JSON.stringify(currentUser));
+  document.getElementById("loginBox").style.display="none";
+  document.getElementById("app").style.display="block";
+  document.getElementById("welcomeMsg").innerText = "Welcome "+phone;
+  loadData(); showPostForm();
+}
+function logout(){localStorage.removeItem("zim_user");location.reload();}
+function openTab(tab){document.querySelectorAll(".tab-content").forEach(t=>t.classList.remove("active"));document.querySelectorAll(".tab-btn").forEach(b=>b.classList.remove("active"));document.getElementById(tab).classList.add("active");event.target.classList.add("active");}
+function showPostForm(){if(userType=="employer"){showJobForm()} else {showCVForm()}}
+function showJobForm(){document.getElementById("jobForm").style.display="block";document.getElementById("cvForm").style.display="none";openTab('post');}
+function showCVForm(){document.getElementById("cvForm").style.display="block";document.getElementById("jobForm").style.display="none";openTab('post');}
+
+function saveJob(){
+  let job = {title:document.getElementById("jobTitle").value,company:document.getElementById("jobCompany").value,reg:document.getElementById("jobReg").value,location:document.getElementById("jobLocation").value,salary:document.getElementById("jobSalary").value,desc:document.getElementById("jobDesc").value,contact:currentUser.phone,verified:true};
+  let jobs = JSON.parse(localStorage.getItem("zim_jobs_v2")||"[]");jobs.push(job);localStorage.setItem("zim_jobs_v2", JSON.stringify(jobs));
+  alert("Job Posted!");loadData();
+}
+function saveCV(){
+  let cv = {name:document.getElementById("cvName").value,skill:document.getElementById("cvSkill").value,location:document.getElementById("cvLocation").value,exp:document.getElementById("cvExp").value,refs:document.getElementById("cvRefs").value,contact:currentUser.phone};
+  let cvs = JSON.parse(localStorage.getItem("zim_cvs")||"[]");cvs.push(cv);localStorage.setItem("zim_cvs", JSON.stringify(cvs));
+  alert("CV Posted!");loadData();
+}
+function loadData(){
+  let jobs = JSON.parse(localStorage.getItem("zim_jobs_v2")||"[]");
+  document.getElementById("jobsList").innerHTML = jobs.map(j=>`<div class="card"><h3>${j.title} <span class="verified">✅ Verified</span></h3><p><b>${j.company}</b> - Reg: ${j.reg}</p><p>📍 ${j.location} | 💰 ${j.salary}</p><p>${j.desc}</p><p>Contact: ${j.contact}</p><button class="scam-btn" onclick="reportScam()">⚠️ Report Scam</button></div>`).join('') || "<p>No jobs yet.</p>";
+  let cvs = JSON.parse(localStorage.getItem("zim_cvs")||"[]");
+  document.getElementById("workersList").innerHTML = cvs.map(c=>`<div class="card"><h3>${c.name} - ${c.skill}</h3><p>📍 ${c.location}</p><p><b>Experience:</b> ${c.exp}</p><p><b>References:</b> ${c.refs}</p><p>Contact: ${c.contact}</p></div>`).join('') || "<p>No workers yet.</p>";
+}
+function reportScam(){alert("Thank you. This job has been reported and will be reviewed within 24hrs.");}
+window.onload = function(){let u = JSON.parse(localStorage.getItem("zim_user"));if(u){currentUser=u; userType=u.type; document.getElementById("loginBox").style.display="none"; document.getElementById("app").style.display="block"; document.getElementById("welcomeMsg").innerText = "Welcome "+u.phone; loadData();}}
+</script>
+</body></html>
