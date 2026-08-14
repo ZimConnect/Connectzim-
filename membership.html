@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ZimConnect Membership - Choose Your Plan</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial}
+body{background:#0a0a0a;color:white}
+.navbar{display:flex;justify-content:space-between;align-items:center;padding:15px 5%;background:#111;position:sticky;top:0;z-index:10}
+.logo{font-size:22px;font-weight:bold;color:#FF6B00}
+.nav-links{display:flex;gap:20px;list-style:none}
+.nav-links a{color:white;text-decoration:none}
+.btn-join{background:#FF6B00;color:white;padding:10px 20px;border-radius:25px;text-decoration:none;font-weight:bold}
+.container{max-width:1200px;margin:auto;padding:40px 20px}
+.hero{text-align:center;margin-bottom:40px}
+.hero h1{font-size:36px;margin-bottom:10px;color:#FFD700}
+.hero p{color:#aaa;font-size:18px}
+.pricing-container{display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:30px;margin-bottom:40px}
+.card{background:#1a1a1a;border-radius:15px;padding:30px;border:2px solid #222;position:relative;text-align:center}
+.card.popular{border-color:#FF6B00;transform:scale(1.05)}
+.popular-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:#FF6B00;color:white;padding:5px 15px;border-radius:20px;font-size:12px;font-weight:bold}
+.plan-name{font-size:24px;margin-bottom:10px}
+.price{font-size:42px;font-weight:bold;color:#FF6B00;margin:20px 0}
+.price span{font-size:16px;color:#aaa}
+.features{list-style:none;text-align:left;margin:20px 0}
+.features li{padding:10px 0;border-bottom:1px solid #333}
+.btn-upgrade{width:100%;background:#FF6B00;color:white;border:none;padding:15px;border-radius:10px;font-size:16px;font-weight:bold;cursor:pointer}
+.btn-upgrade.disabled{background:#444;cursor:default}
+.user-info{background:#00A651;padding:15px;border-radius:10px;text-align:center;margin-bottom:30px}
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="logo">ZIMCONNECT</div>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="jobs.html">Jobs</a></li>
+    <li><a href="membership.html">Membership</a></li>
+  </ul>
+  <a href="membership.html" class="btn-join">Join Membership</a>
+</nav>
+
+<div class="container">
+  <div id="userBox"></div>
+
+  <section class="hero">
+    <h1>Choose Your ZimConnect Plan</h1>
+    <p>Start FREE. Upgrade to unlock Jobs, Music, Movies + No Scams</p>
+  </section>
+
+  <section class="pricing-container">
+    <div class="card">
+      <h3 class="plan-name">FREE</h3>
+      <div class="price">$0<span>/month</span></div>
+      <ul class="features">
+        <li>✓ 1 Job Application / month</li>
+        <li>✓ Browse 10 Songs</li>
+        <li>✓ Watch 2 Movies</li>
+        <li>✓ Basic Profile</li>
+        <li>✗ Ads Included</li>
+      </ul>
+      <button class="btn-upgrade disabled" id="btn-free">Current Plan</button>
+    </div>
+
+    <div class="card">
+      <h3 class="plan-name">GOLD</h3>
+      <div class="price">$5<span>/month</span></div>
+      <ul class="features">
+        <li>✓ 2 Job Applications / month</li>
+        <li>✓ Post 1 "Hire Me" Ad</li>
+        <li>✓ 100 Songs Download</li>
+        <li>✓ 10 Movies</li>
+        <li>✓ Priority Support</li>
+      </ul>
+      <button class="btn-upgrade" onclick="upgrade('Gold',5)">Upgrade to Gold</button>
+    </div>
+
+    <div class="card popular">
+      <div class="popular-badge">MOST POPULAR</div>
+      <h3 class="plan-name">DIAMOND</h3>
+      <div class="price">$7<span>/month</span></div>
+      <ul class="features">
+        <li>✓ 5 Job Applications / month</li>
+        <li>✓ Post 3 "Hire Me" Ads</li>
+        <li>✓ 250 Songs Download</li>
+        <li>✓ 25 Movies</li>
+        <li>✓ No Ads + Verified Badge</li>
+      </ul>
+      <button class="btn-upgrade" onclick="upgrade('Diamond',7)">Upgrade to Diamond</button>
+    </div>
+
+    <div class="card">
+      <h3 class="plan-name">PLATINUM</h3>
+      <div class="price">$10<span>/month</span></div>
+      <ul class="features">
+        <li>✓ UNLIMITED Job Applications</li>
+        <li>✓ UNLIMITED Job Posts</li>
+        <li>✓ UNLIMITED Music + Movies</li>
+        <li>✓ Verified Company/Person Badge</li>
+        <li>✓ Feature on Homepage</li>
+      </ul>
+      <button class="btn-upgrade" onclick="upgrade('Platinum',10)">Upgrade to Platinum</button>
+    </div>
+  </section>
+</div>
+
+<script>
+// SHARED LOGIN SYSTEM
+function showUser(){
+  let u = JSON.parse(localStorage.getItem("zim_user"));
+  let box = document.getElementById("userBox");
+  if(u){
+    box.innerHTML = `<div class="user-info">Welcome ${u.phone} | Account Type: <b>${u.type}</b> | Plan: <b>${localStorage.getItem("zim_plan")||"FREE"}</b></div>`;
+    document.getElementById("btn-free").innerText = "Current Plan";
+  } else {
+    box.innerHTML = `<div class="card"><h3>Login First</h3><p>Use the same login from Jobs page</p><a href="jobs.html" class="btn-upgrade" style="display:inline-block;text-decoration:none;margin-top:10px">Login on Jobs Page</a></div>`;
+  }
+}
+
+function upgrade(plan, price){
+  let u = JSON.parse(localStorage.getItem("zim_user"));
+  if(!u){alert("Please login on Jobs page first");window.location="jobs.html";return}
+  let phone = prompt("Enter EcoCash Number to pay $"+price+" for "+plan);
+  if(phone){
+    alert("EcoCash payment request sent to "+phone+". Complete payment to activate "+plan);
+    localStorage.setItem("zim_plan", plan);
+    showUser();
+  }
+}
+
+window.onload = showUser;
+</script>
+</body></html>
