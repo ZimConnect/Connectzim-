@@ -1,1 +1,53 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><title>ZimConnect Admin</title>
+<style>
+body{font-family:Arial;background:#111;color:#FFD700;padding:20px}
+.card{background:#222;padding:20px;border-radius:15px;margin:15px 0;border:2px solid #FFD700}
+input,textarea,button{width:100%;padding:12px;margin:8px 0;border-radius:8px;border:none;font-size:16px}
+button{background:#D21034;color:white;font-weight:800;cursor:pointer}
+h2{color:#FFD700}
+</style></head><body>
+<h1>🦅 ZimConnect Admin Panel</h1>
 
+<div class="card">
+<h2>📺 Upload Media Files</h2>
+<p>Select file from your phone. It will save to the site.</p>
+<label>Upload Video for TV/Video Club:</label>
+<input type="file" id="videoUpload" accept="video/*">
+<label>Upload Audio for Radio/Podcast:</label>
+<input type="file" id="audioUpload" accept="audio/*">
+<label>Upload Logo/Poster Image:</label>
+<input type="file" id="imageUpload" accept="image/*">
+<button onclick="saveMedia()">Save Media to Site</button>
+<p id="mediaStatus"></p>
+</div>
+
+<div class="card">
+<h2>💼 Post Job - FREE</h2>
+<input id="job-title" placeholder="Job Title">
+<input id="job-company" placeholder="Company">
+<input id="job-location" placeholder="Location">
+<textarea id="job-desc" placeholder="Description"></textarea>
+<button onclick="postJob()">Post Job</button>
+</div>
+
+<script>
+function saveMedia(){
+  let status = document.getElementById("mediaStatus");
+  let video = document.getElementById("videoUpload").files[0];
+  let audio = document.getElementById("audioUpload").files[0];
+  let image = document.getElementById("imageUpload").files[0];
+  
+  if(video){ let r = new FileReader(); r.onload = e => localStorage.setItem("zim_video", e.target.result); r.readAsDataURL(video); }
+  if(audio){ let r = new FileReader(); r.onload = e => localStorage.setItem("zim_audio", e.target.result); r.readAsDataURL(audio); }
+  if(image){ let r = new FileReader(); r.onload = e => localStorage.setItem("zim_image", e.target.result); r.readAsDataURL(image); }
+  
+  status.innerText = "Media Saved! Refresh main site to see it.";
+}
+
+function postJob(){
+  let job = {title:document.getElementById("job-title").value,company:document.getElementById("job-company").value,location:document.getElementById("job-location").value,desc:document.getElementById("job-desc").value};
+  let jobs = JSON.parse(localStorage.getItem("zim_jobs")||"[]");jobs.push(job);
+  localStorage.setItem("zim_jobs",JSON.stringify(jobs));alert("Job Posted!");
+}
+</script></body></html>
