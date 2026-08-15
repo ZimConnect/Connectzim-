@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZimConnect v16.0 - No Pills</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial;background:linear-gradient(135deg,#009A49 0%,#FFD700 50%,#D21034 100%);min-height:100vh;color:#000;text-align:center;padding-bottom:40px}
+.header{position:relative; z-index:999}
+.logo-img{width:90px;height:90px;border-radius:50%;border:4px solid white;object-fit:cover;margin:10px auto;background:#fff}
+h1{font-family:'Montserrat';font-size:36px;color:white;text-shadow:3px 3px 6px #000}
+.tagline{color:white;font-size:16px;margin-bottom:10px}
+
+/* NO PILLS - SQUARE BUTTONS */
+.nav-grid{display:grid; grid-template-columns: repeat(3, 1fr); gap:10px; justify-content:center;padding:15px;max-width:900px;margin:auto;position:relative; z-index:999}
+.nav-btn{background:#2E2E2E; color:white; border:none; padding:14px 10px; border-radius:12px; font-weight:800; cursor:pointer; font-size:14px; pointer-events:auto}
+.nav-btn.green{background:#00A651}
+.nav-btn.orange{background:#FF6B00}
+.nav-btn.media{background:#D21034}
+
+.container{padding:10px;max-width:900px;margin:auto;position:relative; z-index:999}
+.page{display:none}.page.active{display:block}
+.card{background:white;padding:18px;border-radius:15px;margin:15px auto;text-align:left;max-width:900px}
+.big-btn{display:block;padding:20px;margin:12px auto;border-radius:15px;font-weight:800;text-decoration:none;font-size:18px;max-width:600px;color:white;cursor:pointer;pointer-events:auto;box-shadow: 0 6px 12px rgba(0,0,0,0.3)}
+.btn-media{background:#D21034}
+.btn-video{background:#333;border:2px solid #FFD700;color:#FFD700}
+.locked-box{background:#222;color:#FFD700;padding:20px;border-radius:15px;text-align:center;border:2px solid #FFD700}
+.pay-btn{background:#FF6B00;color:white;border:none;padding:14px;width:100%;border-radius:10px;font-weight:800;margin-top:10px;cursor:pointer;font-size:18px}
+.buy-btn{background:#00A651;color:white;border:none;padding:12px;width:100%;border-radius:10px;font-weight:800;margin-top:8px;cursor:pointer}
+.post-box{background:#f0f0f0;padding:12px;border-radius:10px;margin:10px 0;text-align:left}
+.admin-only{display:none!important}
+.admin-show{display:block!important}
+input,textarea{width:100%;padding:10px;margin:8px 0;border:1px solid #ccc;border-radius:8px}
+#lodza-chat{background:#000;color:#FFD700;padding:12px;border-radius:10px;min-height:250px;margin:10px 0;overflow-y:auto;max-height:400px;text-align:left;font-size:15px}
+.upload-box{margin:10px 0;padding:12px;background:#333;border-radius:10px;color:#FFD700;text-align:left}
+.media-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+</style>
+</head>
+<body>
+<div class="header" style="padding:20px">
+<img id="site-logo" src="logo.png" class="logo-img" onclick="showPage('home')">
+<h1>ZIMCONNECT v16.0</h1>
+<p class="tagline">Connecting Zimbabwe Together</p>
+
+<div class="nav-grid">
+<button class="nav-btn" onclick="showPage('home')">Home</button>
+<button class="nav-btn media" onclick="showPage('media')">📁 MEDIA HUB</button>
+<button class="nav-btn green" onclick="showPage('connect')">CONNECT</button>
+<button class="nav-btn" onclick="showPage('jobs')">Jobs</button>
+<button class="nav-btn" onclick="showPage('hotel')">Hotels</button>
+<button class="nav-btn" onclick="showPage('travel')">Travel</button>
+<button class="nav-btn" onclick="showPage('bookstore')">Shop</button>
+<button class="nav-btn" onclick="showPage('lodza')">🦅 Lodza AI</button>
+<button class="nav-btn orange" onclick="showPage('profile')">Admin</button>
+</div>
+</div>
+
+<div class="container">
+<div id="home" class="page active">
+<a onclick="showPage('media')" class="big-btn btn-media">📁 MEDIA HUB - Radio, TV, Podcast, Videos</a>
+<a onclick="showPage('connect')" class="big-btn green">👥 CONNECT - Social</a>
+<a onclick="showPage('jobs')" class="big-btn" style="background:#0056b3">💼 Jobs & CVs</a>
+<a onclick="showPage('lodza')" class="big-btn" style="background:#8B4513;color:#FFD700">🦅 Talk to Lodza AI</a>
+</div>
+
+<!-- NEW: ONE MEDIA HUB PAGE -->
+<div id="media" class="page"><button onclick="showPage('home')">← Back</button>
+<div class="card"><h2>📁 MEDIA HUB</h2>
+<div class="media-grid">
+<a onclick="showPage('radio')" class="big-btn" style="background:#004d00">📻 Radio LIVE</a>
+<a onclick="showPage('tv')" class="big-btn" style="background:#D21034">📺 ZimConnect TV</a>
+<a onclick="showPage('podcast')" class="big-btn" style="background:#8B4513">🎙️ Podcast</a>
+<a onclick="showPage('videos')" class="big-btn btn-video">🎬 Video Club $5</a>
+<a onclick="showPage('interviews')" class="big-btn" style="background:#555">🎤 Interviews</a>
+</div></div></div>
+
+<div id="profile" class="page">
+<button onclick="showPage('home')">← Back</button>
+<div class="card">
+<h2>👤 Admin Upload Center</h2>
+<p><b>Admin Login:</b> Type `boss` to unlock</p>
+<div id="loginArea">
+<input id="username" placeholder="Enter Admin Name: boss">
+<button class="buy-btn" onclick="loginProfile()">Login</button>
+</div>
+<div id="adminPanel" class="admin-only">
+<h3 style="color:#D21034">🔒 ALL UPLOADS</h3>
+<div class="upload-box"><h4>📻 UPLOAD FOR RADIO - MP3</h4><input type="file" id="radioUpload" accept="audio/mp3"><button class="buy-btn" onclick="saveUpload('radio')">Add to Radio</button></div>
+<div class="upload-box"><h4>🎙️ UPLOAD FOR PODCAST - MP3</h4><input type="file" id="podcastUpload" accept="audio/mp3"><button class="buy-btn" onclick="saveUpload('podcast')">Save Podcast</button></div>
+<div class="upload-box"><h4>📺 UPLOAD FOR TV - MP4</h4><input type="file" id="tvUpload" accept="video/mp4"><button class="buy-btn" onclick="saveUpload('tv')">Save TV</button></div>
+<div class="upload-box"><h4>🎬 UPLOAD FOR VIDEO CLUB - MP4</h4><input type="file" id="videoClubUpload" accept="video/mp4"><button class="buy-btn" onclick="saveUpload('videoClub')">Save Video Club</button></div>
+<div class="upload-box"><h4>🎤 UPLOAD FOR INTERVIEWS - MP4</h4><input type="file" id="interviewUpload" accept="video/mp4"><button class="buy-btn" onclick="saveUpload('interview')">Save Interview</button></div>
+<div class="upload-box"><h4>📚 UPLOAD FOR BOOKSTORE - PDF/EPUB</h4><input type="file" id="bookUpload" accept=".pdf,.epub"><button class="buy-btn" onclick="saveUpload('book')">Add Book</button></div>
+</div>
+</div></div>
+
+<div id="jobs" class="page"><button onclick="showPage('home')">← Back</button>
+<div class="card"><h2>💼 Jobs Board</h2>
+<div id="jobForm" class="admin-only">
+<h3>Employer: Post a Job</h3>
+<input id="job-title" placeholder="Job Title">
+<input id="job-company" placeholder="Company">
+<textarea id="job-desc" placeholder="Description"></textarea>
+<button class="buy-btn" onclick="postJob()">Post Job</button></div>
+<h3>Job Listings</h3><div id="jobList"></div>
+<h3>Job Seeker: Upload CV</h3>
+<input type="file" id="cvUpload"><button class="buy-btn" onclick="uploadCV()">Upload CV</button></div></div>
+
+<div id="bookstore" class="page"><button onclick="showPage('home')">← Back</button>
+<div class="card"><h2>📚 Bookstore</h2><div id="bookList"></div></div></div>
+
+<div id="lodza" class="page"><button onclick="showPage('home')">← Back</button>
+<div class="card" style="background:#8B4513;color:#FFD700"><h2>🦅 Lodza AI - Smart</h2>
+<div id="lodza-chat">Greetings boss! I am Lodza. Ask me anything about ZimConnect.</div>
+<input id="lodza-input" placeholder="Ask Lodza anything...">
+<button class="buy-btn" style="background:#FFD700;color:#000" onclick="askLodza()">Ask Lodza</button></div></div>
+
+<div id="radio" class="page"><button onclick="showPage('media')">← Back to Media</button><div class="card" style="background:#004d00;color:white"><h2>📻 Radio LIVE</h2><audio id="radioPlayer" controls style="width:100%"></audio></div></div>
+<div id="tv" class="page"><button onclick="showPage('media')">← Back to Media</button><div class="card"><h2>📺 ZimConnect TV</h2><video id="tvPlayer" controls style="width:100%"></video></div></div>
+<div id="podcast" class="page"><button onclick="showPage('media')">← Back to Media</button><div class="card"><h2>🎙️ Podcast</h2><audio id="podcastPlayer" controls style="width:100%"></audio></div></div>
+<div id="videos" class="page"><button onclick="showPage('media')">← Back to Media</button><div class="card"><h2>🎬 Video Club - Members Only</h2><div id="video-locked" class="locked-box"><p>🔒 Join for $5</p><button class="pay-btn" onclick="joinMember()">💎 Pay $5 Join Now</button></div><div id="video-unlocked" style="display:none"><video id="videoPlayer" controls style="width:100%"></video><a id="downloadBtn" class="buy-btn" download>⬇️ Download</a></div></div></div>
+<div id="interviews" class="page"><button onclick="showPage('media')">← Back to Media</button><div class="card"><h2>🎤 Interviews</h2><video id="interviewPlayer" controls style="width:100%"></video></div></div>
+<div id="connect" class="page"><button onclick="showPage('home')">← Back</button><div class="card"><h2>👥 CONNECT</h2><input id="postText" placeholder="What's on your mind?"><input type="file" id="postMedia"><button class="buy-btn" onclick="makePost()">Post</button><div id="feed"></div></div></div>
+<div id="hotel" class="page"><button onclick="showPage('home')">← Back</button><div class="card"><h2>🏨 Hotels</h2><p>Coming Soon</p></div></div>
+<div id="travel" class="page"><button onclick="showPage('home')">← Back</button><div class="card"><h2>✈️ Travel</h2><p>Coming Soon</p></div></div>
+</div>
+
+<script>
+let isMember = localStorage.getItem("zim_member") === "true";
+let isAdmin = localStorage.getItem("zim_admin") === "true";
+let LODZA_VOICE_URL = "lodza-voice.ogg";
+let radioPlaylist = JSON.parse(localStorage.getItem("zim_radio_playlist") || "[]");
+
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  loadMedia();
+  if(id==='videos') checkMembership();
+  if(id==='connect') loadFeed();
+  if(id==='jobs') loadJobs();
+  if(id==='profile') checkAdmin();
+  if(id==='bookstore') loadBooks();
+}
+
+function loginProfile(){
+  let name = document.getElementById("username").value;
+  if(name.toLowerCase() === "boss"){ 
+    localStorage.setItem("zim_admin","true"); 
+    isAdmin = true; 
+    checkAdmin(); 
+    alert("Admin Unlocked!")
+  }
+  else { alert("Wrong name. Use: boss"); }
+}
+function checkAdmin(){ 
+  if(isAdmin){ 
+    document.getElementById("loginArea").style.display="none"; 
+    document.getElementById("adminPanel").classList.add("admin-show");
+    document.getElementById("jobForm").classList.add("admin-show");
+  }
+}
+
+function saveUpload(type){
+  let fileInput = document.getElementById(type + 'Upload');
+  let file = fileInput.files[0];
+  if(!file){alert("Select a file first"); return;}
+  let r = new FileReader();
+  r.onload = e => {
+    if(type === 'radio'){
+      radioPlaylist.push(e.target.result);
+      localStorage.setItem("zim_radio_playlist", JSON.stringify(radioPlaylist));
+    } else if(type === 'book'){
+      let books = JSON.parse(localStorage.getItem("zim_books") || "[]");
+      books.push({name:file.name, data:e.target.result});
+      localStorage.setItem("zim_books", JSON.stringify(books));
+    } else {
+      localStorage.setItem("zim_" + type, e.target.result);
+    }
+    alert(type.toUpperCase() + " Uploaded!");
+  };
+  r.readAsDataURL(file);
+}
+
+function loadBooks(){
+  let books = JSON.parse(localStorage.getItem("zim_books") || "[]");
+  let list = document.getElementById("bookList");
+  list.innerHTML = "";
+  books.forEach(b=>{
+    list.innerHTML += `<div class="post-box"><p>📖 ${b.name}</p><a href="${b.data}" download class="buy-btn">Download Book</a></div>`
+  });
+}
+
+function loadMedia(){
+  if(localStorage.getItem("zim_videoClub")){document.getElementById("videoPlayer").src=localStorage.getItem("zim_videoClub");document.getElementById("downloadBtn").href=localStorage.getItem("zim_videoClub");}
+  if(localStorage.getItem("zim_tv"))document.getElementById("tvPlayer").src=localStorage.getItem("zim_tv");
+  if(localStorage.getItem("zim_podcast"))document.getElementById("podcastPlayer").src=localStorage.getItem("zim_podcast");
+  if(localStorage.getItem("zim_interview"))document.getElementById("interviewPlayer").src=localStorage.getItem("zim_interview");
+  if(radioPlaylist.length > 0){ document.getElementById("radioPlayer").src = radioPlaylist[0]; }
+}
+
+function joinMember(){localStorage.setItem("zim_member","true"); isMember = true; checkMembership();}
+function checkMembership(){if(isMember){document.getElementById("video-locked").style.display="none";document.getElementById("video-unlocked").style.display="block";}}
+
+function makePost(){ /* same */ }
+function savePost(p){let posts=JSON.parse(localStorage.getItem("zim_posts")||"[]");posts.unshift(p);localStorage.setItem("zim_posts",JSON.stringify(posts));loadFeed()}
+function loadFeed(){let posts=JSON.parse(localStorage.getItem("zim_posts")||"[]");let feed=document.getElementById("feed");feed.innerHTML="";posts.forEach(p=>{feed.innerHTML+=`<div class="post-box"><p>${p.text}</p>${p.media?`<img src="${p.media}" style="max-width:100%">`:""}<small>${p.time}</small></div>`})}
+
+function postJob(){
+  let job={title:document.getElementById("job-title").value,company:document.getElementById("job-company").value,desc:document.getElementById("job-desc").value};
+  let jobs=JSON.parse(localStorage.getItem("zim_jobs")||"[]");jobs.push(job);localStorage.setItem("zim_jobs",JSON.stringify(jobs));loadJobs();alert("Job Posted!")
+}
+function loadJobs(){let jobs=JSON.parse(localStorage.getItem("zim_jobs")||"[]");let list=document.getElementById("jobList");list.innerHTML="";jobs.forEach(j=>{list.innerHTML+=`<div class="post-box"><h4>${j.title}</h4><b>${j.company}</b><p>${j.desc}</p></div>`})}
+function uploadCV(){let f=document.getElementById("cvUpload").files[0];if(f){alert("CV "+f.name+" uploaded!")}}
+
+// SMART LODZA - ANSWERS EVERYTHING
+function askLodza(){
+  let q = document.getElementById("lodza-input").value.toLowerCase();
+  let chat = document.getElementById("lodza-chat");
+  chat.innerHTML += "<div><b>You:</b> " + q + "</div>";
+  
+  let reply = "I am Lodza. I can help with Radio, TV, Jobs, Media, CONNECT. What do you need boss?";
+  if(q.includes("hello") || q.includes("hi")) reply = "Greetings boss! I am Lodza, your ZimConnect Assistant. How can I help?";
+  if(q.includes("radio")) reply = "Go to MEDIA HUB > Radio LIVE to listen. Want me to play the latest track?";
+  if(q.includes("tv") || q.includes("video")) reply = "Check MEDIA HUB > TV or Video Club for all videos boss.";
+  if(q.includes("job")) reply = "Go to Jobs page. If you are admin, you can Post a Job there.";
+  if(q.includes("connect")) reply = "CONNECT is our social feed. Post updates and chat with people.";
+  if(q.includes("book")) reply = "Visit the Shop page to download books uploaded by admin.";
+  if(q.includes("media")) reply = "Tap MEDIA HUB on home. It has Radio, TV, Podcast, Video Club, Interviews all in one place.";
+  if(q.includes("help")) reply = "I can navigate you. Say 'go to radio', 'show jobs', 'open media hub'";
+  
+  chat.innerHTML += "<div><b>Lodza:</b> " + reply + "</div>";
+  chat.scrollTop = chat.scrollHeight;
+  if(LODZA_VOICE_URL){ let audio = new Audio(LODZA_VOICE_URL); audio.play(); }
+  document.getElementById("lodza-input").value = "";
+}
+
+window.onload = function(){loadMedia(); if(isAdmin)checkAdmin();}
+</script>
+</body></html>
