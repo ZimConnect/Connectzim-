@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZimConnect - Connecting Zimbabwe Together</title>
+<style>
+  body{font-family:Arial; margin:0; background: linear-gradient(to bottom, #009A49, #FFD700); min-height:100vh;}
+  .container{padding:20px; text-align:center; color:white;}
+  .logo{width:120px; height:120px; border-radius:50%; border:4px solid white; margin:10px auto; background:white; overflow:hidden;}
+  .logo img{width:100%; height:100%; object-fit:cover;}
+  h1{font-size:32px; margin:5px 0; text-shadow:2px 2px 4px rgba(0,0,0,0.3); color:white;}
+  .tagline{font-size:16px; margin-bottom:20px; color:white;}
+  .grid{display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; max-width:500px; margin:0 auto;}
+  .btn{background:#333; color:white; padding:20px 10px; border-radius:12px; text-decoration:none; font-weight:bold; font-size:14px; display:block; box-shadow:0 3px 5px rgba(0,0,0,0.2);}
+  .btn-red{background:#D32F2F;}
+  .btn-green{background:#009A49;}
+  .btn-orange{background:#FF6F00;}
+  .section{background:white; color:black; padding:20px; margin:15px; border-radius:15px; box-shadow:0 2px 10px rgba(0,0,0,0.2); text-align:left;}
+  .btn-green-small{background:#009A49; color:white; padding:12px; border-radius:10px; display:block; text-align:center; text-decoration:none; margin-top:10px; font-weight:bold;}
+  input, textarea{width:95%; padding:10px; margin:5px 0; border:1px solid #ccc; border-radius:5px;}
+</style>
+</head>
+<body>
+
+<div id="home" class="container">
+  <div class="logo"><img src="media/logo.png" alt="ZimConnect Bird"></div>
+  <h1>ZIMCONNECT</h1>
+  <p class="tagline">Connecting Zimbabwe Together</p>
+
+  <div class="grid">
+    <a href="#home" class="btn">Home</a>
+    <a href="#media" class="btn btn-red">📁 MEDIA HUB</a>
+    <a href="#events" class="btn">📅 EVENTS</a>
+    
+    <a href="#connect" class="btn btn-green">CONNECT</a>
+    <a href="#jobs" class="btn">Jobs</a>
+    <a href="#hotels" class="btn">Hotels</a>
+    
+    <a href="#travel" class="btn">Travel</a>
+    <a href="#store" class="btn">Shop</a>
+    <a href="#" onclick="toggleLoza()" class="btn">🦜 Lodza AI</a>
+    
+    <a href="#admin" class="btn btn-orange" style="grid-column: span 3;">Admin</a>
+  </div>
+</div>
+
+<!-- THE STORE - ALL INSIDE NOW -->
+<div id="store" class="section">
+<h2 style="color:#009A49; text-align:center;">🛍️ SHOP - THE STORE</h2>
+  <div class="grid" style="grid-template-columns:1fr 1fr;">
+    <a href="https://wa.me/263786288903?text=Buy%20Airtime" class="btn btn-green">📱<br>AIRTIME</a>
+    <a href="https://wa.me/263786288903?text=Buy%20ZESA%20Token" class="btn btn-green">⚡<br>ZESA TOKEN</a>
+    <a href="https://wa.me/263786288903?text=Order%20Groceries" class="btn btn-green">🛒<br>GROCERIES</a>
+    <a href="https://wa.me/263786288903?text=Buy%20Books%20Bible" class="btn btn-green">📚<br>BOOKSTORE</a>
+    <a href="https://wa.me/263786288903?text=Buy%20Clothes%20Street%20Gear" class="btn btn-green">👕<br>CLOTHING</a>
+    <a href="https://wa.me/263786288903?text=Other%20Products" class="btn btn-green">🎁<br>OTHER ITEMS</a>
+  </div>
+  <p style="text-align:center; font-size:14px; margin-top:10px;"><b>Inside Bookstore:</b> Bibles $15 | Books $5<br><b>Inside Clothing:</b> T-shirts $10 | Hoodies $25</p>
+</div>
+
+<!-- MEDIA HUB -->
+<div id="media" class="section">
+<h2 style="color:#009A49; text-align:center;">📁 MEDIA HUB - Radio, TV, Podcast, Videos</h2>
+  <div style="background:#f1f1f1; padding:15px; margin:10px 0; border-radius:10px;">
+    <h3>🎙️ RADIO & PODCASTS</h3>
+    <audio controls style="width:100%;"><source src="media/radio.mp3" type="audio/mpeg"></audio>
+    <a href="media/radio.mp3" download class="btn-green-small">Download MP3</a>
+  </div>
+  <div style="background:#f1f1f1; padding:15px; margin:10px 0; border-radius:10px;">
+    <h3>📹 VIDEOS / SERMONS</h3>
+    <video controls width="100%" style="border-radius:10px;"><source src="media/sermon.mp4" type="video/mp4"></video>
+    <a href="media/sermon.mp4" download class="btn-green-small">Download Video</a>
+  </div>
+</div>
+
+<!-- OTHER SECTIONS: JOBS, HOTELS, EVENTS, CONNECT, TRAVEL, ADMIN -->
+<div id="jobs" class="section"><h2 style="color:#009A49;">💼 JOBS</h2><p>Apply with CV and Reference</p></div>
+<div id="hotels" class="section"><h2 style="color:#009A49;">🏨 HOTELS & REAL ESTATE</h2><p>Contact on WhatsApp</p></div>
+<div id="events" class="section"><h2 style="color:#009A49;">📅 EVENTS & EXPO</h2><p>Business Expo 30 Aug</p></div>
+<div id="connect" class="section"><h2 style="color:#009A49;">⛪ CONNECT - CHURCH</h2><p>Sunday Service 9AM</p></div>
+<div id="travel" class="section"><h2 style="color:#009A49;">✈️ TRAVEL</h2><p>Bus & Flights</p></div>
+<div id="admin" class="section"><h2 style="color:#009A49;">⚙️ ADMIN</h2><p>Admin Only</p></div>
+
+<!-- LODZA AI -->
+<div style="position:fixed; bottom:20px; right:20px; z-index:999;"><button onclick="toggleLoza()" style="background:#009A49; color:white; border:none; border-radius:50%; width:60px; height:60px; font-size:30px;">🦜</button></div>
+<div id="lozaBox" style="display:none; position:fixed; bottom:90px; right:20px; width:300px; height:400px; background:white; border-radius:15px; box-shadow:0 0 20px rgba(0,0,0,0.3); color:black;">
+  <div style="background:#009A49; color:white; padding:10px; border-radius:15px 15px 0 0;"><b>Lodza - ZimConnect AI</b> <span onclick="toggleLoza()" style="float:right; cursor:pointer;">X</span></div>
+  <div id="lozaChat" style="height:300px; overflow-y:auto; padding:10px;"></div>
+  <input id="lozaInput" placeholder="Ask me anything..." style="width:70%; padding:10px; border:none;"><button onclick="sendLoza()" style="background:#FFD700; border:none; padding:10px; width:25%;">Send</button>
+</div>
+<script>
+let greeted = false;
+const hour = new Date().getHours();
+let timeGreet = hour < 12? "Good morning" : hour < 18? "Good afternoon" : "Good evening";
+function toggleLoza(){const box = document.getElementById('lozaBox');box.style.display = box.style.display === 'none'? 'block' : 'none';if(!greeted){greeted = true;addLozaMsg(`${timeGreet}. I'm Lodza. I guide you and advertise our products. What do you need?`, "bot");}}
+function sendLoza(){const input = document.getElementById('lozaInput');const msg = input.value.toLowerCase();if(msg === "") return;addLozaMsg(input.value, "user");input.value = "";let reply = "I’m Lodza. Tap any button above. I can guide you to Shop, Media, Jobs.";if(msg.includes("store")) reply = "Tap SHOP button. We have Airtime, ZESA, Groceries, Books, Clothes";if(msg.includes("advert")) reply = "🔥 We have Bibles $15, Street Gear, Food Hampers $25. Check SHOP!";setTimeout(() => addLozaMsg(reply, "bot"), 500);}
+function addLozaMsg(text, sender){const chat = document.getElementById('lozaChat');const color = sender === "bot"? "#E8F5E9" : "#FFD700";chat.innerHTML += `<div style="background:${color}; padding:8px; border-radius:10px; margin:5px 0;">${text}</div>`;chat.scrollTop = chat.scrollHeight;}
+document.getElementById('lozaInput').addEventListener("keypress", function(e){ if(e.key === "Enter") sendLoza(); });
+</script>
+</body>
+</html>
