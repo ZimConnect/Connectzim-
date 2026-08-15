@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZimConnect Events</title>
+<style>
+body{font-family:Arial;background:linear-gradient(135deg,#009A49 0%,#FFD700 50%,#D21034 100%);min-height:100vh;color:#000;padding:20px}
+.header{text-align:center;color:white;margin-bottom:20px}
+.header img{width:80px;height:80px;border-radius:50%;border:3px solid white}
+.card{background:white;padding:18px;border-radius:15px;margin:15px auto;max-width:800px;text-align:left}
+.buy-btn{background:#00A651;color:white;border:none;padding:12px;width:100%;border-radius:10px;font-weight:800;margin-top:8px;cursor:pointer}
+.event-box{border:2px solid #FFD700;padding:15px;border-radius:12px;margin:12px 0;background:#FFFEF7}
+.admin-only{display:none}
+input{width:100%;padding:10px;margin:8px 0;border:1px solid #ccc;border-radius:8px}
+</style>
+</head>
+<body>
+<div class="header">
+<img src="logo.png">
+<h1>📅 ZIMCONNECT EVENTS</h1>
+<p>Find Events, Concerts, Church, Business in Zim</p>
+<a href="index.html" style="color:white">← Back to ZimConnect</a>
+</div>
+
+<div class="card">
+<h2>🔒 Admin: Post New Event</h2>
+<div id="adminLogin">
+<input id="admin-user" placeholder="Enter Admin Name: boss">
+<button class="buy-btn" onclick="loginEventAdmin()">Login</button>
+</div>
+
+<div id="eventForm" class="admin-only">
+<input id="event-title" placeholder="Event Title">
+<input id="event-date" type="date">
+<input id="event-location" placeholder="Location: Harare, Bbyo, etc">
+<input id="event-price" placeholder="Price: Free or $10">
+<textarea id="event-desc" placeholder="Event Description"></textarea>
+<input type="file" id="event-poster" accept="image/*">
+<button class="buy-btn" onclick="postEvent()">Post Event</button>
+</div>
+</div>
+
+<div class="card">
+<h2>🎉 Upcoming Events</h2>
+<div id="eventList"></div>
+</div>
+
+<script>
+let isEventAdmin = localStorage.getItem("zim_event_admin") === "true";
+
+function loginEventAdmin(){
+  let name = document.getElementById("admin-user").value;
+  if(name.toLowerCase() === "boss"){ 
+    localStorage.setItem("zim_event_admin","true"); 
+    isEventAdmin = true; 
+    showAdmin(); 
+  }
+  else { alert("Wrong name. Use: boss"); }
+}
+
+function showAdmin(){
+  if(isEventAdmin){
+    document.getElementById("adminLogin").style.display="none";
+    document.getElementById("eventForm").classList.add("admin-only");
+    document.getElementById("eventForm").style.display="block";
+  }
+}
+
+function postEvent(){
+  let file = document.getElementById("event-poster").files[0];
+  let event = {
+    title:document.getElementById("event-title").value,
+    date:document.getElementById("event-date").value,
+    location:document.getElementById("event-location").value,
+    price:document.getElementById("event-price").value,
+    desc:document.getElementById("event-desc").value,
+    poster:null
+  };
+  if(file){let r=new FileReader(); r.onload=e=>{event.poster=e.target.result; saveEvent(event)}; r.readAsDataURL(file);}
+  else{ saveEvent(event) }
+}
+
+function saveEvent(e){
+  let events = JSON.parse(localStorage.getItem("zim_events") || "[]");
+  events.unshift(e);
+  localStorage.setItem("zim_events", JSON.stringify(events));
+  alert("Event Posted!");
+  loadEvents();
+  document.getElementById("eventForm").querySelectorAll("input,textarea").forEach(i=>i.value="");
+}
+
+function loadEvents(){
+  let events = JSON.parse(localStorage.getItem("zim_events") || "[]");
+  let list = document.getElementById("eventList");
+  list.innerHTML = "";
+  if(events.length === 0){ list.innerHTML = "<p>No events yet. Admin can post above.</p>"; return; }
+  events.forEach(ev=>{
+    list.innerHTML += `
+    <div class="event-box">
+      ${ev.poster ? `<img src="${ev.poster}" style="width:100%;border-radius:10px;margin-bottom:10px">` : ""}
+      <h3>${ev.title}</h3>
+      <p><b>📅 Date:</b> ${ev.date}</p>
+      <p><b>📍 Location:</b> ${ev.location}</p>
+      <p><b>💰 Price:</b> ${ev.price}</p>
+      <p>${ev.desc}</p>
+    </div>`
+  });
+}
+
+window.onload = function(){ loadEvents(); if(isEventAdmin) showAdmin(); }
+</script>
+</body></html>
