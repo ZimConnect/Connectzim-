@@ -154,25 +154,20 @@ function sendOTP(){ alert('OTP sent. For demo use: 123456'); document.getElement
 function verifyOTP(){ if(document.getElementById('otp').value=='123456'){ document.getElementById('signupPage').style.display='none'; document.getElementById('profilesPage').style.display='block'; } else{ alert('Wrong OTP'); } }
 
 // REAL WEATHER API - OPENWEATHERMAP FREE
+// REAL WEATHER API - 4 CITIES
 async function getWeather(){
-  try{
-    let res = await fetch('https://api.openweathermap.org/data/2.5/weather?q=Harare,ZW&units=metric&appid=ba74295c0b0dfcf2cc2f5b229edb4c60');
-    if(!res.ok) throw new Error();
-    let data = await res.json();
-    document.getElementById('weatherData').innerHTML = `
-      <h4>Harare Today</h4>
-      <p style="font-size:40px;">${Math.round(data.main.temp)}°C</p>
-      <p>${data.weather[0].description}</p>
-      <p>Low: ${Math.round(data.main.temp_min)}°C | High: ${Math.round(data.main.temp_max)}°C</p>
-    `;
-  }catch(e){
-    document.getElementById('weatherData').innerHTML = `
-      <h4>Harare Today</h4>
-      <p style="font-size:40px;">26°C ☀️</p>
-      <p>Sunny</p>
-      <small>Connect internet for live weather</small>
-    `;
+  let cities = ['Harare,ZW','Bulawayo,ZW','Mutare,ZW','Gweru,ZW'];
+  let html = '<h4 style="text-align:center;">🇿🇼 ZIMBABWE WEATHER</h4>';
+  for(let city of cities){
+    try{
+      let res = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=ba74295c0b0dfcf2cc2f5b229edb4c60`);
+      let data = await res.json();
+      html += `<p><b>${data.name}:</b> ${Math.round(data.main.temp)}°C ${data.weather[0].main}</p>`;
+    }catch(e){
+      html += `<p><b>${city.split(',')[0]}:</b> No data</p>`;
+    }
   }
+  document.getElementById('weatherData').innerHTML = html;
 }
 </script>
 
