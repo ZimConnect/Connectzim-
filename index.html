@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZimConnect</title>
+<style>
+body {font-family:Arial; margin:0; background:#F5F5F5; color:#333; text-align:center;}
+.nav {background:#222; padding:10px; display:flex; flex-wrap:wrap; justify-content:center; gap:8px; position:sticky; top:0; z-index:10;}
+.nav button {background:#444; color:white; border:none; padding:10px 15px; border-radius:8px; cursor:pointer; font-weight:bold; font-size:14px;}
+.nav button:hover {background:#666;}
+.section {display:none; padding:15px;}
+.section.active {display:block;}
+.card {background:white; margin:10px; padding:15px; border-radius:10px; box-shadow:0 2px 5px rgba(0,0,0,0.1); text-align:left; cursor:pointer;}
+.card:hover {box-shadow:0 4px 8px rgba(0,0,0,0.2);}
+.btn {border:none; padding:12px; border-radius:8px; color:white; cursor:pointer; font-weight:bold; width:100%; font-size:15px;}
+.btn:hover {opacity:0.8;}
+#lovebite {background:linear-gradient(135deg, #FF1493, #FF69B4); color:white;}
+</style>
+<script>
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+function alertMsg(msg){ alert(msg); }
+</script>
+</head>
+<body>
+
+<!-- NAV -->
+<div class="nav">
+  <button onclick="showSection('home')">🏠 HOME</button>
+  <button onclick="showSection('lovebite')">💕 LOVE BITE'S</button>
+  <button onclick="showSection('market')">🛍️ MUSIKA</button>
+  <button onclick="showSection('jobs')">💼 JOBS</button>
+  <button onclick="showSection('media')">📺 MEDIA HUB</button>
+  <button onclick="showSection('store')">📚 BOOK SHELF</button>
+  <button onclick="showSection('weather')">⛅ WEATHER</button>
+</div>
+
+<!-- HOME -->
+<div id="home" class="section active">
+  <div style="text-align:center; background:linear-gradient(to right, #006400, #FFD700, #FF0000, #000000); padding:20px 10px; border-radius:12px; margin:10px;">
+    <img src="logo.png" style="width:90px; height:90px; border-radius:50%; border:3px solid white; object-fit:cover;">
+    <h2 style="color:white; margin:8px 0 0 0; font-size:24px;">ZimConnect</h2>
+    <p style="color:white; margin:0; font-size:13px;">🇿🇼 Home of Zim Sites 🇿🇼</p>
+  </div>
+  
+  <div class="card" onclick="showSection('market')">🛍️ Market Place<br><small>Tenga & Tengesa Zvinhu</small></div>
+  <div class="card" onclick="showSection('lovebite')">💕 Love Bite's<br><small>Find Your Soulmate</small></div>
+  <div class="card" onclick="showSection('jobs')">💼 Jobs<br><small>Find Job or Post Job</small></div>
+  <div class="card" onclick="showSection('media')">📺 Media Hub<br><small>News, Music, TV</small></div>
+  <div class="card" onclick="showSection('weather')">⛅ Weather<br><small>Zim Weather Today</small></div>
+  <div class="card" onclick="showSection('store')">📚 Book Shelf<br><small>Books, PDFs, Documents</small></div>
+</div>
+
+<!-- LOVE BITE - PINK -->
+<div id="lovebite" class="section">
+  <h2>LOVE BITE'S 💕</h2>
+  <p>Connect with your soulmate for FREE</p>
+  <button class="btn" style="background:#FF1493;" onclick="alertMsg('Login/Register coming soon')">💖 JOIN NOW</button>
+  <button class="btn" style="background:white; color:#FF1493; margin-top:10px;" onclick="alertMsg('Browse profiles coming soon')">👀 Browse Profiles</button>
+</div>
+
+<!-- MARKET PLACE - NO CHANGES -->
+<div id="market" class="section">
+  <h2>🛍️ MARKET PLACE / pa MUSIKA</h2>
+  <button class="btn" style="background:#006400; margin-bottom:10px;" onclick="alertMsg('Post Item feature coming soon')">➕ Post Item For Sale</button>
+  <div class="card">📱 iPhone 13 Pro Max - $400<br><small>Harare CBD</small></div>
+  <div class="card">🚗 Toyota Runx - $4500<br><small>Bulawayo</small></div>
+  <div class="card">👗 Dresses - $20<br><small>Mutare</small></div>
+  <div class="card">🚗 Fiat 500 - $6000<br><small>Harare</small></div>
+  <div class="card">🛋️ Sofa Set - $250<br><small>Gweru</small></div>
+</div>
+
+<!-- BOOK SHELF -->
+<div id="store" class="section">
+  <h2>📚 BOOK SHELF</h2>
+  <p>Upload & Buy Books, PDFs, Documents, Affidavits</p>
+  <button class="btn" style="background:#FF8C00; margin-bottom:10px;" onclick="alertMsg('Upload feature coming soon')">📤 Upload Book/PDF/Document</button>
+  <div class="card">📖 Zimbabwean Novel - $8</div>
+  <div class="card">📄 Affidavit Template PDF - $3</div>
+  <div class="card">📄 CV Template - $2</div>
+  <div class="card">📄 Business Proposal Template - $5</div>
+  <div class="card">📖 Grade 7 Past Papers PDF - $4</div>
+</div>
+
+<!-- JOBS -->
+<div id="jobs" class="section">
+  <h2 style="color:#006400;">💼 JOBS & CAREERS</h2>
+  <div style="display:flex; gap:10px; margin:10px 0;">
+    <button class="btn" style="flex:1; background:#006400;" onclick="alertMsg('Browse jobs below')">🔍 Find Job</button>
+    <button class="btn" style="flex:1; background:#FF8C00;" onclick="alertMsg('Post Job form coming soon')">➕ Post Job</button>
+  </div>
+  <div class="card">👩‍💼 Sales Assistant - $300<br><small>Harare</small></div>
+  <div class="card">🚚 Driver - $500<br><small>Bulawayo</small></div>
+  <div class="card">👨‍💻 Web Developer - $800<br><small>Remote</small></div>
+  <div class="card">👩‍🏫 Teacher - $400<br><small>Mutare</small></div>
+</div>
+
+<!-- MEDIA HUB -->
+<div id="media" class="section">
+  <h2>📺 MEDIA HUB</h2>
+  <button class="btn" style="background:#1E90FF; margin:5px 0;" onclick="alertMsg('Podcasts coming soon')">🎙️ PODCASTS</button>
+  <button class="btn" style="background:#FF4500; margin:5px 0;" onclick="alertMsg('Video Club coming soon')">🎬 VIDEO CLUB</button>
+  <button class="btn" style="background:#FF8C00; margin:5px 0;" onclick="alertMsg('Radio coming soon')">📻 RADIO</button>
+  <button class="btn" style="background:#006400; margin:5px 0;" onclick="alertMsg('News coming soon')">📰 NEWS</button>
+</div>
+
+<!-- WEATHER REPORT - ALL CITIES -->
+<div id="weather" class="section">
+  <h2>⛅ ZIMBABWE WEATHER</h2>
+  <p style="color:#666;">Weather for major cities today</p>
+  
+  <div class="card"><h3>🏛️ Harare ☀️</h3><p style="font-size:28px; margin:5px 0;"><b>24°C</b></p><p>High: 27°C | Low: 14°C | Wind: 10km/h</p></div>
+  <div class="card"><h3>🏙️ Bulawayo ⛅</h3><p style="font-size:28px; margin:5px 0;"><b>22°C</b></p><p>High: 25°C | Low: 12°C | Wind: 12km/h</p></div>
+  <div class="card"><h3>🌴 Mutare 🌤️</h3><p style="font-size:28px; margin:5px 0;"><b>25°C</b></p><p>High: 28°C | Low: 16°C | Wind: 8km/h</p></div>
+  <div class="card"><h3>🏞️ Gweru ☀️</h3><p style="font-size:28px; margin:5px 0;"><b>23°C</b></p><p>High: 26°C | Low: 13°C | Wind: 9km/h</p></div>
+  <div class="card"><h3>⛏️ Kwekwe ☀️</h3><p style="font-size:28px; margin:5px 0;"><b>23°C</b></p><p>High: 26°C | Low: 13°C | Wind: 11km/h</p></div>
+  <div class="card"><h3>🏛️ Masvingo ☀️</h3><p style="font-size:28px; margin:5px 0;"><b>26°C</b></p><p>High: 29°C | Low: 15°C | Wind: 7km/h</p></div>
+  
+  <button class="btn" style="background:#1E90FF; margin-top:10px;" onclick="alertMsg('Live weather updates coming soon')">🔄 Refresh Weather</button>
+</div>
+
+</body>
+</html>
