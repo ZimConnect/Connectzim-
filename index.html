@@ -102,16 +102,42 @@ function alertMsg(msg){ alert(msg); }
   <button class="btn" style="background:#FF8C00; margin:5px 0;" onclick="alertMsg('Radio coming soon')">📻 RADIO</button>
 </div>
 
-<!-- WEATHER REPORT -->
+<!-- WEATHER REPORT - ALL CITIES -->
 <div id="weather" class="section">
-  <h2>⛅ HARARE WEATHER</h2>
-  <div class="card" style="text-align:center;">
-    <h3>Today: Sunny ☀️</h3>
-    <p style="font-size:40px; margin:0;">24°C</p>
-    <p>High: 27°C | Low: 14°C</p>
-    <p>Wind: 10km/h | Humidity: 45%</p>
+  <h2>⛅ ZIMBABWE WEATHER</h2>
+  <p style="color:#666;">Weather for major cities today</p>
+  
+  <div class="card">
+    <h3>🏛️ Harare ☀️</h3>
+    <p style="font-size:28px; margin:5px 0;"><b>24°C</b></p>
+    <p>High: 27°C | Low: 14°C | Wind: 10km/h</p>
   </div>
-  <button class="btn" style="background:#1E90FF;" onclick="alertMsg('Full weather forecast coming soon')">📅 7 Day Forecast</button>
+  
+  <div class="card">
+    <h3>🏙️ Bulawayo ⛅</h3>
+    <p style="font-size:28px; margin:5px 0;"><b>22°C</b></p>
+    <p>High: 25°C | Low: 12°C | Wind: 12km/h</p>
+  </div>
+  
+  <div class="card">
+    <h3>🌴 Mutare 🌤️</h3>
+    <p style="font-size:28px; margin:5px 0;"><b>25°C</b></p>
+    <p>High: 28°C | Low: 16°C | Wind: 8km/h</p>
+  </div>
+  
+  <div class="card">
+    <h3>🏞️ Gweru ☀️</h3>
+    <p style="font-size:28px; margin:5px 0;"><b>23°C</b></p>
+    <p>High: 26°C | Low: 13°C | Wind: 9km/h</p>
+  </div>
+  
+  <div class="card">
+    <h3>⛏️ Kwekwe ☀️</h3>
+    <p style="font-size:28px; margin:5px 0;"><b>23°C</b></p>
+    <p>High: 26°C | Low: 13°C | Wind: 11km/h</p>
+  </div>
+  
+  <button class="btn" style="background:#1E90FF; margin-top:10px;" onclick="alertMsg('Live weather updates coming soon')">🔄 Refresh Weather</button>
 </div>
 
 </body>
