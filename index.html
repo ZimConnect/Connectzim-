@@ -156,7 +156,7 @@ function verifyOTP(){ if(document.getElementById('otp').value=='123456'){ docume
 // REAL WEATHER API - OPENWEATHERMAP FREE
 async function getWeather(){
   try{
-    let res = await fetch('https://api.openweathermap.org/data/2.5/weather?q=Harare,ZW&units=metric&appid=demo');
+    let res = await fetch('https://api.openweathermap.org/data/2.5/weather?q=Harare,ZW&units=metric&appid=ba74295c0b0dfcf2cc2f5b229edb4c60');
     if(!res.ok) throw new Error();
     let data = await res.json();
     document.getElementById('weatherData').innerHTML = `
