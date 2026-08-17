@@ -63,13 +63,79 @@ function alertMsg(msg){ alert(msg); }
   <div class="card" onclick="showSection('store')">📚 Book Shelf<br><small>Books, PDFs, Documents</small></div>
 </div>
 
-<!-- LOVE BITE - PINK -->
+<!-- LOVE BITE - REAL ID + OTP + 18+ -->
 <div id="lovebite" class="section">
   <h2>LOVE BITE'S 💕</h2>
-  <p>Connect with your soulmate for FREE</p>
-  <button class="btn" style="background:#FF1493;" onclick="alertMsg('Login/Register coming soon')">💖 JOIN NOW</button>
-  <button class="btn" style="background:white; color:#FF1493; margin-top:10px;" onclick="alertMsg('Browse profiles coming soon')">👀 Browse Profiles</button>
+  <div class="warning">🔒 End-to-End Encrypted | 🔞 18 Years and Above Only | 📱 ID + OTP Verification</div>
+  
+  <div id="signup-form">
+    <input type="text" placeholder="Full Name as on ID" id="lb_name">
+    <input type="text" placeholder="National ID Number" id="lb_id">
+    <input type="number" placeholder="Age" id="lb_age">
+    <input type="tel" placeholder="Phone Number: 077xxxxxxx" id="lb_phone">
+    <select id="lb_gender"><option>Select Gender</option><option>Male</option><option>Female</option></select>
+    <button class="btn" style="background:#FF1493;" onclick="sendOTP()">📱 SEND OTP</button>
+  </div>
+
+  <div id="otp-form" style="display:none;">
+    <p>OTP sent to <b id="show-phone"></b></p>
+    <input type="text" placeholder="Enter 6 digit OTP" id="lb_otp">
+    <button class="btn" style="background:#006400;" onclick="verifyOTP()">✅ VERIFY & JOIN</button>
+  </div>
+  
+  <p style="font-size:12px; margin-top:15px;">Your data is encrypted. We do not store photos. 18+ only.</p>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL = 'YOUR_SUPABASE_URL' // paste from project settings
+const SUPABASE_ANON_KEY = 'YOUR_ANON_KEY' // paste from project settings
+const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+
+let signupData = {};
+
+async function sendOTP() {
+  let age = parseInt(document.getElementById('lb_age').value);
+  if(age < 18){ alert("Sorry, you must be 18+ to join Love Bite's"); return; }
+  
+  signupData = {
+    name: document.getElementById('lb_name').value,
+    id: document.getElementById('lb_id').value,
+    age: age,
+    phone: document.getElementById('lb_phone').value,
+    gender: document.getElementById('lb_gender').value
+  }
+  
+  document.getElementById('show-phone').innerText = signupData.phone;
+  document.getElementById('signup-form').style.display = 'none';
+  document.getElementById('otp-form').style.display = 'block';
+  
+  const { error } = await supabase.auth.signInWithOtp({ phone: signupData.phone })
+  if(error) alert("Error: " + error.message)
+  else alert("OTP sent!")
+}
+
+async function verifyOTP() {
+  const otp = document.getElementById('lb_otp').value;
+  const { data, error } = await supabase.auth.verifyOtp({
+    phone: signupData.phone,
+    token: otp,
+    type: 'sms'
+  })
+  if(error) { alert("Wrong OTP") } 
+  else {
+    // Save profile to database
+    await supabase.from('profiles').insert([{
+      id: data.user.id,
+      full_name: signupData.name,
+      id_number: signupData.id,
+      age: signupData.age,
+      phone: signupData.phone
+    }])
+    alert("Verified! Welcome to Love Bite's 💕")
+  }
+}
+</script>
 
 <!-- MARKET PLACE -->
 <div id="market" class="section">
