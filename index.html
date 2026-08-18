@@ -198,6 +198,47 @@ loadGallery();
 </div>
 
 <script>
+
+  <!-- MEMBERSHIP $5 - VIP ACCESS -->
+<div id="membership" class="card oneclick-section">
+  <h2>👑 MEMBERSHIP $5</h2>
+  <div class="warning">Remove Ads + VIP Badge + Priority Support</div>
+  
+  <div id="membershipStatus"></div>
+  
+  <button class="btn" style="background:gold; color:black;" onclick="buyMembership()">💳 PAY $5 VIA ECOCASH/PAYNOW</button>
+  
+  <p style="font-size:12px; margin-top:10px;">
+  After payment, WhatsApp us proof: +263... to activate instantly
+  </p>
+</div>
+
+<script>
+async function checkMembership() {
+  const user = await supabase.auth.getUser();
+  if(!user.data.user) return;
+  
+  const { data } = await supabase.from('memberships')
+    .select('*').eq('user_id', user.data.user.id).eq('active', true).single();
+    
+  if(data) {
+    document.getElementById('membershipStatus').innerHTML = 
+      '<div style="background:#25D366; color:white; padding:10px; border-radius:8px;">✅ YOU ARE VIP MEMBER</div>';
+    // Hide ads here later
+  } else {
+    document.getElementById('membershipStatus').innerHTML = 
+      '<div style="background:#ff4444; color:white; padding:10px; border-radius:8px;">❌ FREE USER - Ads Showing</div>';
+  }
+}
+
+function buyMembership() {
+  alert("Pay $5 to EcoCash 077XXXXXXX or Paynow Merchant ID: ZIMCONNECT\nThen WhatsApp proof to activate your VIP");
+  // Later we connect real Paynow API here
+}
+
+// Run check when page loads
+checkMembership();
+</script>
 async function uploadBook() {
   const user = await supabase.auth.getUser();
   if(!user.data.user) { alert("Login first with Love Bite"); return; }
