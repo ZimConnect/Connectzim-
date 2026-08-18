@@ -116,22 +116,66 @@ async function signupWithEmail() {
   }
 }
 </script>
+<!-- MEDIA HUB - REAL UPLOADS -->
+<div id="media" class="card oneclick-section">
+  <h2>📸 MEDIA HUB</h2>
+  <div class="warning">Upload Photos, Music, Videos | Max 50MB per file</div>
   
-  name: document.getElementById('lb_name').value,
-    id: document.getElementById('lb_id').value,
-    age: age,
-    phone: document.getElementById('lb_phone').value,
-    gender: document.getElementById('lb_gender').value
+  <input type="file" id="fileInput" accept="image/*,video/*,audio/*" style="margin:10px 0;">
+  <button class="btn" style="background:#25D366;" onclick="uploadFile()">⬆️ UPLOAD</button>
+  
+  <div id="uploadStatus" style="margin:10px 0; font-size:13px;"></div>
+  
+  <h3 style="margin-top:20px;">🔥 Recent Uploads</h3>
+  <div id="gallery" style="display:grid; grid-template-columns: repeat(3, 1fr); gap:10px;"></div>
+</div>
+
+<script>
+// Same supabase client from Love Bite
+// Make sure you have this at top: const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+
+async function uploadFile() {
+  const file = document.getElementById('fileInput').files[0];
+  if(!file) { alert("Pick a file first boss"); return; }
+  
+  const user = await supabase.auth.getUser();
+  if(!user.data.user) { alert("Login first with Love Bite"); return; }
+  
+  const fileName = `${user.data.user.id}/${Date.now()}_${file.name}`;
+  document.getElementById('uploadStatus').innerText = "Uploading...";
+  
+  const { data, error } = await supabase.storage
+   .from('media-hub')
+   .upload(fileName, file);
+  
+  if(error) { 
+    alert("Upload failed: " + error.message);
+    document.getElementById('uploadStatus').innerText = "";
+  } else {
+    document.getElementById('uploadStatus').innerText = "✅ Uploaded!";
+    loadGallery();
   }
-  
-  document.getElementById('show-phone').innerText = signupData.phone;
-  document.getElementById('signup-form').style.display = 'none';
-  document.getElementById('otp-form').style.display = 'block';
-  
-  const { error } = await supabase.auth.signInWithOtp({ phone: signupData.phone })
-  if(error) alert("Error: " + error.message)
-  else alert("OTP sent!")
 }
+
+async function loadGallery() {
+  const { data, error } = await supabase.storage.from('media-hub').list('', { limit: 12, sortBy: { column: 'created_at', order: 'desc' } });
+  if(error) return;
+  
+  let html = '';
+  for(let file of data) {
+    const { data: urlData } = supabase.storage.from('media-hub').getPublicUrl(file.name);
+    if(file.name.endsWith('.jpg') || file.name.endsWith('.png')) {
+      html += `<img src="${urlData.publicUrl}" style="width:100%; border-radius:8px;">`;
+    } else {
+      html += `<a href="${urlData.publicUrl}" target="_blank" style="background:#eee; padding:10px; border-radius:8px; display:block;">📁 ${file.name}</a>`;
+    }
+  }
+  document.getElementById('gallery').innerHTML = html;
+}
+
+// Load gallery when page opens
+loadGallery();
+</script>
 
 async function verifyOTP() {
   const otp = document.getElementById('lb_otp').value;
