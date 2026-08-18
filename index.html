@@ -116,6 +116,7 @@ async function signupWithEmail() {
   }
 }
 </script>
+  
 <!-- MEDIA HUB - REAL UPLOADS -->
 <div id="media" class="card oneclick-section">
   <h2>📸 MEDIA HUB</h2>
@@ -177,6 +178,85 @@ async function loadGallery() {
 loadGallery();
 </script>
 
+<!-- BOOK SHELF - SELL BOOKS & PDFs -->
+<div id="books" class="card oneclick-section">
+  <h2>📚 BOOK SHELF</h2>
+  <div class="warning">Buy & Sell Books | Authors Keep 70% | EcoCash $1-$10</div>
+  
+  <h3>⬆️ Author Upload</h3>
+  <input type="text" placeholder="Book Title" id="book_title">
+  <input type="text" placeholder="Author Name" id="book_author">
+  <input type="number" placeholder="Price in USD" id="book_price">
+  <input type="file" id="bookFile" accept=".pdf,.epub,.jpg,.png">
+  <button class="btn" style="background:#8B4513;" onclick="uploadBook()">📤 UPLOAD BOOK</button>
+  
+  <div id="bookStatus" style="margin:10px 0; font-size:13px;"></div>
+  
+  <h3 style="margin-top:20px;">🔥 Books For Sale</h3>
+  <div id="bookGallery" style="display:grid; grid-template-columns: 1fr; gap:12px;"></div>
+</div>
+
+<script>
+async function uploadBook() {
+  const user = await supabase.auth.getUser();
+  if(!user.data.user) { alert("Login first with Love Bite"); return; }
+  
+  const file = document.getElementById('bookFile').files[0];
+  if(!file) { alert("Pick a book file"); return; }
+  
+  const title = document.getElementById('book_title').value;
+  const author = document.getElementById('book_author').value;
+  const price = document.getElementById('book_price').value;
+  
+  const fileName = `books/${Date.now()}_${file.name}`;
+  document.getElementById('bookStatus').innerText = "Uploading book...";
+  
+  // 1. Upload file to storage
+  const { data: uploadData, error: uploadError } = await supabase.storage
+  .from('media-hub')
+  .upload(fileName, file);
+   
+  if(uploadError) { alert("Upload failed: " + uploadError.message); return; }
+  
+  const { data: urlData } = supabase.storage.from('media-hub').getPublicUrl(fileName);
+  
+  // 2. Save book info to database
+  const { error: dbError } = await supabase
+   .from('books')
+   .insert([{
+      title: title,
+      author: author,
+      price: price,
+      file_url: urlData.publicUrl,
+      user_id: user.data.user.id
+    }]);
+    
+  if(dbError) { alert("DB Error: " + dbError.message) }
+  else {
+    document.getElementById('bookStatus').innerText = "✅ Book uploaded!";
+    loadBooks();
+  }
+}
+
+async function loadBooks() {
+  const { data, error } = await supabase.from('books').select('*').order('created_at', {ascending: false});
+  if(error) return;
+  
+  let html = '';
+  for(let book of data) {
+    html += `
+    <div style="border:1px solid #ddd; padding:10px; border-radius:8px;">
+      <b>${book.title}</b><br>
+      by ${book.author}<br>
+      <b style="color:green;">$${book.price}</b>
+      <a href="${book.file_url}" target="_blank" class="btn" style="background:#25D366; padding:5px 10px; margin-top:5px; display:inline-block;">📥 BUY/DOWNLOAD</a>
+    </div>`;
+  }
+  document.getElementById('bookGallery').innerHTML = html;
+}
+loadBooks();
+</script>
+  
 async function verifyOTP() {
   const otp = document.getElementById('lb_otp').value;
   const { data, error } = await supabase.auth.verifyOtp({
