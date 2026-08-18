@@ -105,8 +105,9 @@ async function signupWithEmail() {
   const { data, error } = await supabase.auth.signInWithOtp({
     email: email,
     options: {
-      data: signupData
-    }
+  data: signupData,
+  emailRedirectTo: window.location.href 
+}
   })
   
   if(error) { alert("Error: " + error.message) } 
