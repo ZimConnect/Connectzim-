@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZimConnect</title>
+<style>
+body {font-family:Arial; margin:0; background:#F5F5F5; color:#333; text-align:center;}
+/* HEADER NOW ON TOP */
+.zim-header {text-align:center; background:linear-gradient(to right, #006400, #FFD700, #FF0000, #000000); padding:20px 10px;}
+.zim-header img {width:90px; height:90px; border-radius:50%; border:3px solid white; object-fit:cover;}
+.zim-header h2 {color:white; margin:8px 0 0 0; font-size:24px;}
+.zim-header p {color:white; margin:0; font-size:13px;}
+
+.nav {background:#222; padding:10px; display:flex; flex-wrap:wrap; justify-content:center; gap:8px; position:sticky; top:0; z-index:10;}
+.nav button {background:#444; color:white; border:none; padding:10px 15px; border-radius:8px; cursor:pointer; font-weight:bold; font-size:14px;}
+.nav button:hover {background:#666;}
+.section {display:none; padding:15px;}
+.section.active {display:block;}
+.card {background:white; margin:10px; padding:15px; border-radius:10px; box-shadow:0 2px 5px rgba(0,0,0,0.1); text-align:left; cursor:pointer;}
+.card:hover {box-shadow:0 4px 8px rgba(0,0,0,0.2);}
+.btn {border:none; padding:12px; border-radius:8px; color:white; cursor:pointer; font-weight:bold; width:100%; font-size:15px;}
+.btn:hover {opacity:0.8;}
+#lovebite {background:linear-gradient(135deg, #FF1493, #FF69B4); color:white;}
+
+input, select, textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 11px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+}
+button, a, input, select, textarea {
+  pointer-events: auto;
+}
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+</style>
+<script>
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+function alertMsg(msg){ alert(msg); }
+
+function supabaseReady() {
+  return typeof window.supabase !== 'undefined' && typeof supabase !== 'undefined';
+}
+</script>
+</head>
+<body>
+
+<!-- HEADER FIRST - ABOVE BUTTONS -->
+<div class="zim-header">
+  <img src="logo.png">
+  <h2>ZimConnect</h2>
+  <p>🇿🇼 Home of Zim Sites 🇿🇼</p>
+</div>
+
+<!-- NAV BUTTONS SECOND -->
+<div class="nav">
+  <button onclick="showSection('home')">🏠 HOME</button>
+  <button onclick="showSection('lovebite')">💕 LOVE BITE'S</button>
+  <button onclick="showSection('market')">🛍️ MUSIKA</button>
+  <button onclick="showSection('jobs')">🔧 JOBS</button>
+  <button onclick="showSection('media')">📺 MEDIA HUB</button>
+  <button onclick="showSection('books')">📚 BOOK SHELF</button>
+  <button onclick="showSection('weather')">⛅ WEATHER</button>
+  <button onclick="showSection('membership')">👑 MEMBERSHIP $5</button>
+</div>
+
+<!-- HOME -->
+<div id="home" class="section active">
+  <h3 style="color:#006400;">Welcome to ZimConnect</h3>
+  <div class="card" onclick="showSection('market')">🛍️ Market Place<br><small>Tenga & Tengesa Zvinhu</small></div>
+  <div class="card" onclick="showSection('lovebite')">💕 Love Bite's<br><small>Find Your Soulmate</small></div>
+  <div class="card" onclick="showSection('jobs')">Jobs/Hustle<br><small>Find Work</small></div>
+  <div class="card" onclick="showSection('media')">📺 Media Hub<br><small>News, Music, TV</small></div>
+  <div class="card" onclick="showSection('weather')">⛅ Weather<br><small>Zim Weather Today</small></div>
+  <div class="card" onclick="showSection('books')">📚 Book Shelf<br><small>Books, PDFs, Documents</small></div>
+  <div class="card" onclick="showSection('membership')">Membership $5<br><small>VIP + No Ads</small></div>
+</div>
+
+
+   <!-- LOVE BITE - EMAIL OTP + 18+ -->
+<div id="lovebite" class="section">
+  <h2>💕 LOVE BITE'S</h2>
+  <div class="warning">End-to-End Encrypted | 18 Years and Above Only | 📧 Email Verification</div>
+  
+  <div id="signup-form">
+    <input type="text" placeholder="Full Name as on ID" id="lb_name">
+    <input type="text" placeholder="National ID Number" id="lb_id">
+    <input type="number" placeholder="Age" id="lb_age">
+    <input type="email" placeholder="Email: you@gmail.com" id="lb_email">
+    <input type="tel" placeholder="Phone: 26377xxxxxxx" id="lb_phone">
+    <select id="lb_gender">
+      <option>Select Gender</option><option>Male</option><option>Female</option>
+    </select>
+    <button class="btn" style="background:#FF1493;" onclick="signupWithEmail()">📧 SEND EMAIL CODE</button>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL = 'https://vnbsvnnmajtvqjhslllw.supabase.co'
+const SUPABASE_ANON_KEY = 'sb_publishable_HbGBE-Nq0YXZhRRhf90_aQ_Bjn37BHh'
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+
+async function signupWithEmail() {
+  let age = parseInt(document.getElementById('lb_age').value);
+  if(age < 18){ alert("🔞 Sorry, you must be 18+ to join Love Bite's"); return; }
+  
+  const signupData = {
+    full_name: document.getElementById('lb_name').value,
+    id_number: document.getElementById('lb_id').value,
+    age: age,
+    phone: document.getElementById('lb_phone').value,
+    gender: document.getElementById('lb_gender').value
+  }
+  
+  const email = document.getElementById('lb_email').value;
+  
+  const { data, error } = await supabase.auth.signInWithOtp({
+    email: email,
+    options: {
+  data: signupData,
+  emailRedirectTo: window.location.href 
+}
+  })
+  
+  if(error) { alert("Error: " + error.message) } 
+  else {
+    alert("✅ Check your email! We sent a login link to " + email)
+  }
+}
+</script>
+  
+<!-- MEDIA HUB - REAL UPLOADS -->
+<div id="media" class="section">
+  <h2>📸 MEDIA HUB</h2>
+  <div class="warning">Upload Photos, Music, Videos | Max 50MB per file</div>
+  
+  <input type="file" id="fileInput" accept="image/*,video/*,audio/*" style="margin:10px 0;">
+  <button class="btn" style="background:#25D366;" onclick="uploadFile()">⬆️ UPLOAD</button>
+  
+  <div id="uploadStatus" style="margin:10px 0; font-size:13px;"></div>
+  
+  <h3 style="margin-top:20px;">🔥 Recent Uploads</h3>
+  <div id="gallery" style="display:grid; grid-template-columns: repeat(3, 1fr); gap:10px;"></div>
+</div>
+
+<script>
+// Same supabase client from Love Bite
+// Make sure you have this at top: const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+
+async function uploadFile() {
+  const file = document.getElementById('fileInput').files[0];
+  if(!file) { alert("Pick a file first boss"); return; }
+  
+  const user = await supabase.auth.getUser();
+  if(!user.data.user) { alert("Login first with Love Bite"); return; }
+  
+  const fileName = `${user.data.user.id}/${Date.now()}_${file.name}`;
+  document.getElementById('uploadStatus').innerText = "Uploading...";
+  
+  const { data, error } = await supabase.storage
+   .from('media-hub')
+   .upload(fileName, file);
+  
+  if(error) { 
+    alert("Upload failed: " + error.message);
+    document.getElementById('uploadStatus').innerText = "";
+  } else {
+    document.getElementById('uploadStatus').innerText = "✅ Uploaded!";
+    loadGallery();
+  }
+}
+
+async function loadGallery() {
+  const { data, error } = await supabase.storage.from('media-hub').list('', { limit: 12, sortBy: { column: 'created_at', order: 'desc' } });
+  if(error) return;
+  
+  let html = '';
+  for(let file of data) {
+    const { data: urlData } = supabase.storage.from('media-hub').getPublicUrl(file.name);
+    if(file.name.endsWith('.jpg') || file.name.endsWith('.png')) {
+      html += `<img src="${urlData.publicUrl}" style="width:100%; border-radius:8px;">`;
+    } else {
+      html += `<a href="${urlData.publicUrl}" target="_blank" style="background:#eee; padding:10px; border-radius:8px; display:block;">📁 ${file.name}</a>`;
+    }
+  }
+  document.getElementById('gallery').innerHTML = html;
+}
+
+// Load gallery when page opens
+if (supabaseReady()) loadGallery();
+</script>
+
+<!-- BOOK SHELF - SELL BOOKS & PDFs -->
+<div id="books" class="section">
+  <h2>📚 BOOK SHELF</h2>
+  <div class="warning">Buy & Sell Books | Authors Keep 70% | EcoCash $1-$10</div>
+  
+  <h3>⬆️ Author Upload</h3>
+  <input type="text" placeholder="Book Title" id="book_title">
+  <input type="text" placeholder="Author Name" id="book_author">
+  <input type="number" placeholder="Price in USD" id="book_price">
+  <input type="file" id="bookFile" accept=".pdf,.epub,.jpg,.png">
+  <button class="btn" style="background:#8B4513;" onclick="uploadBook()">📤 UPLOAD BOOK</button>
+  
+  <div id="bookStatus" style="margin:10px 0; font-size:13px;"></div>
+  
+  <h3 style="margin-top:20px;">🔥 Books For Sale</h3>
+  <div id="bookGallery" style="display:grid; grid-template-columns: 1fr; gap:12px;"></div>
+</div>
+
+<script>
+
+  <!-- MEMBERSHIP $5 - VIP ACCESS -->
+<div id="membership" class="section">
+  <h2>👑 MEMBERSHIP $5</h2>
+  <div class="warning">Remove Ads + VIP Badge + Priority Support</div>
+  
+  <div id="membershipStatus"></div>
+  
+  <button class="btn" style="background:gold; color:black;" onclick="buyMembership()">💳 PAY $5 VIA ECOCASH/PAYNOW</button>
+  
+  <p style="font-size:12px; margin-top:10px;">
+  After payment, WhatsApp us proof: +263... to activate instantly
+  </p>
+</div>
+    <!-- JOBS/HUSTLE BOARD -->
+<div id="jobs" class="section">
+  <h2>🔧 JOBS & HUSTLE</h2>
+  <div class="warning">Post any job, gig, or service. Free!</div>
+  
+  <!-- POST FORM -->
+  <div id="jobForm">
+    <input type="text" id="jobTitle" placeholder="What do you need? e.g. Plumber">
+    <textarea id="jobDesc" placeholder="Describe the job, pay, location..." rows="3"></textarea>
+    <input type="text" id="jobPrice" placeholder="Pay: e.g. $20 or Negotiable">
+    <input type="text" id="jobContact" placeholder="Your WhatsApp: 077...">
+    <button class="btn" onclick="postJob()">📢 POST HUSTLE</button>
+  </div>
+  
+  <hr style="margin:20px 0;">
+  
+  <!-- LIST OF JOBS -->
+  <h3>Latest Hustles</h3>
+  <div id="jobsList">Loading...</div>
+</div>
+
+<script>
+async function loadJobs() {
+  const { data, error } = await supabase.from('jobs')
+    .select('*').order('created_at', { ascending: false }).limit(20);
+    
+  if(error) { console.log(error); return; }
+  
+  const list = document.getElementById('jobsList');
+  if(data.length === 0) {
+    list.innerHTML = '<p>No jobs yet. Be the first to post!</p>';
+    return;
+  }
+  
+  list.innerHTML = data.map(job => `
+    <div class="card" style="background:#f5f5f5; margin-bottom:10px;">
+      <h4>${job.title}</h4>
+      <p>${job.description}</p>
+      <b>Pay:</b> ${job.price}<br>
+      <b>Contact:</b> <a href="https://wa.me/263${job.contact.replace('0','')}" target="_blank">${job.contact}</a>
+      <br><small>${new Date(job.created_at).toLocaleDateString()}</small>
+    </div>
+  `).join('');
+}
+
+async function postJob() {
+  const user = await supabase.auth.getUser();
+  if(!user.data.user) return alert("Login first");
+  
+  const title = document.getElementById('jobTitle').value;
+  const desc = document.getElementById('jobDesc').value;
+  const price = document.getElementById('jobPrice').value;
+  const contact = document.getElementById('jobContact').value;
+  
+  if(!title || !desc) return alert("Fill title and description");
+  
+  const { error } = await supabase.from('jobs').insert([{
+    user_id: user.data.user.id,
+    title, description: desc, price, contact
+  }]);
+  
+  if(error) alert("Error: " + error.message);
+  else {
+    alert("Job Posted!");
+    document.getElementById('jobForm').querySelectorAll('input,textarea').forEach(i=>i.value='');
+    loadJobs();
+  }
+}
+
+// Load jobs when page opens
+if (supabaseReady()) loadJobs();
+</script>
+<script>
+async function checkMembership() {
+  const user = await supabase.auth.getUser();
+  if(!user.data.user) return;
+  
+  const { data } = await supabase.from('memberships')
+    .select('*').eq('user_id', user.data.user.id).eq('active', true).single();
+    
+  if(data) {
+    document.getElementById('membershipStatus').innerHTML = 
+      '<div style="background:#25D366; color:white; padding:10px; border-radius:8px;">✅ YOU ARE VIP MEMBER</div>';
+    // Hide ads here later
+  } else {
+    document.getElementById('membershipStatus').innerHTML = 
+      '<div style="background:#ff4444; color:white; padding:10px; border-radius:8px;">❌ FREE USER - Ads Showing</div>';
+  }
+}
+
+function buyMembership() {
+  alert("Pay $5 to EcoCash 077XXXXXXX or Paynow Merchant ID: ZIMCONNECT\nThen WhatsApp proof to activate your VIP");
+  // Later we connect real Paynow API here
+}
+
+// Run check when page loads
+if (supabaseReady()) checkMembership();
+</script>
+async function uploadBook() {
+  const user = await supabase.auth.getUser();
+  if(!user.data.user) { alert("Login first with Love Bite"); return; }
+  
+  const file = document.getElementById('bookFile').files[0];
+  if(!file) { alert("Pick a book file"); return; }
+  
+  const title = document.getElementById('book_title').value;
+  const author = document.getElementById('book_author').value;
+  const price = document.getElementById('book_price').value;
+  
+  const fileName = `books/${Date.now()}_${file.name}`;
+  document.getElementById('bookStatus').innerText = "Uploading book...";
+  
+  // 1. Upload file to storage
+  const { data: uploadData, error: uploadError } = await supabase.storage
+  .from('media-hub')
+  .upload(fileName, file);
+   
+  if(uploadError) { alert("Upload failed: " + uploadError.message); return; }
+  
+  const { data: urlData } = supabase.storage.from('media-hub').getPublicUrl(fileName);
+  
+  // 2. Save book info to database
+  const { error: dbError } = await supabase
+   .from('books')
+   .insert([{
+      title: title,
+      author: author,
+      price: price,
+      file_url: urlData.publicUrl,
+      user_id: user.data.user.id
+    }]);
+    
+  if(dbError) { alert("DB Error: " + dbError.message) }
+  else {
+    document.getElementById('bookStatus').innerText = "✅ Book uploaded!";
+    loadBooks();
+  }
+}
+
+async function loadBooks() {
+  const { data, error } = await supabase.from('books').select('*').order('created_at', {ascending: false});
+  if(error) return;
+  
+  let html = '';
+  for(let book of data) {
+    html += `
+    <div style="border:1px solid #ddd; padding:10px; border-radius:8px;">
+      <b>${book.title}</b><br>
+      by ${book.author}<br>
+      <b style="color:green;">$${book.price}</b>
+      <a href="${book.file_url}" target="_blank" style="background:#25D366; color:white; padding:8px 12px; margin-top:5px; display:inline-block; border-radius:8px; text-decoration:none; font-weight:bold;">📥 BUY/DOWNLOAD</a>
+    </div>`;
+  }
+  document.getElementById('bookGallery').innerHTML = html;
+}
+if (supabaseReady()) loadBooks();
+</script>
+  
+async function verifyOTP() {
+  const otp = document.getElementById('lb_otp').value;
+  const { data, error } = await supabase.auth.verifyOtp({
+    phone: signupData.phone,
+    token: otp,
+    type: 'sms'
+  })
+  if(error) { alert("Wrong OTP") } 
+  else {
+    // Save profile to database
+    await supabase.from('profiles').insert([{
+      id: data.user.id,
+      full_name: signupData.name,
+      id_number: signupData.id,
+      age: signupData.age,
+      phone: signupData.phone
+    }])
+    alert("Verified! Welcome to Love Bite's 💕")
+  }
+}
+</script>
+
+<!-- MARKET PLACE -->
+<div id="market" class="section">
+  <h2>🛍️ MARKET PLACE / pa MUSIKA</h2>
+  <button class="btn" style="background:#006400; margin-bottom:10px;" onclick="alertMsg('Post Item feature coming soon')">➕ Post Item For Sale</button>
+  <div class="card" onclick="alertMsg('View iPhone 13')">📱 iPhone 13 Pro Max - $400<br><small>Harare CBD</small></div>
+  <div class="card" onclick="alertMsg('View Toyota Runx')">🚗 Toyota Runx - $4500<br><small>Bulawayo</small></div>
+  <div class="card" onclick="alertMsg('View Dresses')">👗 Dresses - $20<br><small>Mutare</small></div>
+  <div class="card" onclick="alertMsg('View Fiat 500')">🚗 Fiat 500 - $6000<br><small>Harare</small></div>
+</div>
+
+<!-- WEATHER - ALL CITIES -->
+<div id="weather" class="section">
+  <h2>⛅ ZIMBABWE WEATHER</h2>
+  <div class="card"><h3>🏛️ Harare ☀️</h3><p style="font-size:28px; margin:5px 0;"><b>24°C</b></p><p>High: 27°C | Low: 14°C</p></div>
+  <div class="card"><h3>🏙️ Bulawayo ⛅</h3><p style="font-size:28px; margin:5px 0;"><b>22°C</b></p><p>High: 25°C | Low: 12°C</p></div>
+  <div class="card"><h3>🌴 Mutare 🌤️</h3><p style="font-size:28px; margin:5px 0;"><b>25°C</b></p><p>High: 28°C | Low: 16°C</p></div>
+</div>
+
+<script>
+/* ZimConnect navigation safety */
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(function(section) {
+    section.classList.remove('active');
+  });
+
+  var target = document.getElementById(id);
+  if (!target) {
+    console.error('Section not found:', id);
+    return;
+  }
+
+  target.classList.add('active');
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+/* Keep the page usable even if Supabase is temporarily unavailable. */
+window.addEventListener('DOMContentLoaded', function () {
+  var sections = document.querySelectorAll('.section');
+  if (!document.querySelector('.section.active') && sections.length) {
+    sections[0].classList.add('active');
+  }
+});
+</script>
+
+</body>
+</html>
