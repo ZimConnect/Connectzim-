@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZimConnect</title>
+<style>
+body {font-family:Arial; margin:0; background:#F5F5F5; color:#333; text-align:center;}
+.zim-header {text-align:center; background:linear-gradient(to right, #006400, #FFD700, #FF0000, #000); padding:20px 10px;}
+.zim-header img {width:90px; height:90px; border-radius:50%; border:3px solid white; object-fit:cover;}
+.zim-header h2 {color:white; margin:8px 0 0 0; font-size:24px;}
+.zim-header p {color:white; margin:0; font-size:13px;}
+
+.nav {background:#222; padding:10px; display:flex; flex-wrap:wrap; justify-content:center; gap:8px; position:sticky; top:0; z-index:10;}
+.nav button {background:#444; color:white; border:none; padding:10px 15px; border-radius:8px; cursor:pointer; font-weight:bold; font-size:14px;}
+.nav button:hover {background:#666;}
+.nav button:disabled {background:#777; cursor:not-allowed;}
+.section {display:none; padding:15px; max-width:900px; margin:auto;}
+.section.active {display:block;}
+.card {background:white; margin:10px; padding:15px; border-radius:10px; box-shadow:0 2px 5px rgba(0,0,0,0.1); text-align:left; cursor:pointer;}
+.card:hover {box-shadow:0 4px 8px rgba(0,0,0,0.2);}
+.btn {border:none; padding:12px; border-radius:8px; color:white; cursor:pointer; font-weight:bold; width:100%; font-size:15px;}
+.warning {background:#FFF3CD; color:#856404; padding:10px; border-radius:8px; margin:10px 0; font-size:13px; border:1px solid #FFEAA7; text-align:left;}
+input, select, textarea {width: 100%; box-sizing: border-box; padding: 11px; margin: 5px 0; border: 1px solid #ccc; border-radius: 8px; font-size: 14px;}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="zim-header">
+  <img src="logo.png" alt="ZimConnect Logo">
+  <h2>ZimConnect</h2>
+  <p>🇿🇼 Home of Zim Sites 🇿🇼</p>
+</div>
+
+<!-- NAV -->
+<div class="nav">
+  <button onclick="showSection('home')">🏠 HOME</button>
+  <button onclick="showSection('lovebite')">💕 LOVE BITE'S</button>
+  <button onclick="showSection('market')">🛍️ MUSIKA</button>
+  <button onclick="showSection('jobs')">🔧 JOBS</button>
+  <button onclick="showSection('media')">📺 MEDIA HUB</button>
+  <button onclick="showSection('books')">📚 BOOK SHELF</button>
+  <button onclick="showSection('weather')">⛅ WEATHER</button>
+  <button onclick="showSection('membership')">👑 MEMBERSHIP $5</button>
+</div>
+
+<!-- HOME -->
+<div id="home" class="section active">
+  <h3 style="color:#006400;">Welcome to ZimConnect</h3>
+  <div class="card" onclick="showSection('market')">🛍️ Market Place<br><small>Tenga & Tengesa Zvinhu</small></div>
+  <div class="card" onclick="showSection('lovebite')">💕 Love Bite's<br><small>Find Your Soulmate</small></div>
+  <div class="card" onclick="showSection('jobs')">🔧 Jobs/Hustle<br><small>Find Work</small></div>
+  <div class="card" onclick="showSection('media')">📺 Media Hub<br><small>News, Music, TV</small></div>
+  <div class="card" onclick="showSection('weather')">⛅ Weather<br><small>Zim Weather Today</small></div>
+  <div class="card" onclick="showSection('books')">📚 Book Shelf<br><small>Books, PDFs, Documents</small></div>
+  <div class="card" onclick="showSection('membership')">👑 Membership $5<br><small>VIP + No Ads</small></div>
+</div>
+
+<!-- LOVE BITE -->
+<div id="lovebite" class="section">
+  <h2>💕 LOVE BITE'S</h2>
+  <div class="warning">End-to-End Encrypted | 18 Years and Above Only</div>
+  <input type="text" placeholder="Full Name as on ID">
+  <input type="number" placeholder="Age">
+  <input type="email" placeholder="Email: you@gmail.com">
+  <button class="btn" style="background:#FF1493;" onclick="alertMsg('Login system coming next. For now just browse')">JOIN NOW</button>
+</div>
+  
+<!-- MEDIA HUB -->
+<div id="media" class="section">
+  <h2>📸 MEDIA HUB</h2>
+  <div class="warning">Upload feature coming soon. Login required.</div>
+  <p>Photos, Videos, Music will appear here</p>
+</div>
+
+<!-- BOOK SHELF -->
+<div id="books" class="section">
+  <h2>📚 BOOK SHELF</h2>
+  <div class="warning">Buy & Sell Books | Authors Keep 70%</div>
+  <p>Books will be listed here soon</p>
+</div>
+
+<!-- MEMBERSHIP -->
+<div id="membership" class="section">
+  <h2>👑 MEMBERSHIP $5</h2>
+  <div class="warning">Remove Ads + VIP Badge + Priority Support</div>
+  <button class="btn" style="background:gold; color:black;" onclick="alertMsg('Pay $5 to EcoCash 077XXXXXXX\nThen WhatsApp proof to activate')">💳 PAY $5 VIA ECOCASH</button>
+</div>
+
+<!-- JOBS -->
+<div id="jobs" class="section">
+  <h2>🔧 JOBS & HUSTLE</h2>
+  <div class="warning">Post any job, gig, or service. Free!</div>
+  <div class="card"><h4>Plumber Needed</h4><p>Fix leaking tap in Harare CBD</p><b>Pay:</b> $20<br><b>Contact:</b> 077xxxxxxx</div>
+  <div class="card"><h4>Delivery Rider</h4><p>Deliver food in Bulawayo</p><b>Pay:</b> $50/week<br><b>Contact:</b> 071xxxxxxx</div>
+</div>
+
+<!-- MARKET PLACE -->
+<div id="market" class="section">
+  <h2>🛍️ MARKET PLACE / pa MUSIKA</h2>
+  <button class="btn" style="background:#006400; margin-bottom:10px;" onclick="alertMsg('Post Item feature coming soon')">➕ Post Item For Sale</button>
+  <div class="card" onclick="alertMsg('View iPhone 13')">📱 iPhone 13 Pro Max - $400<br><small>Harare CBD</small></div>
+  <div class="card" onclick="alertMsg('View Toyota Runx')">🚗 Toyota Runx - $4500<br><small>Bulawayo</small></div>
+  <div class="card" onclick="alertMsg('View Dresses')">👗 Dresses - $20<br><small>Mutare</small></div>
+</div>
+
+<!-- WEATHER -->
+<div id="weather" class="section">
+  <h2>⛅ ZIMBABWE WEATHER</h2>
+  <div class="card"><h3>🏛️ Harare ☀️</h3><p style="font-size:28px; margin:5px 0;"><b>24°C</b></p><p>High: 27°C | Low: 14°C</p></div>
+  <div class="card"><h3>🏙️ Bulawayo ⛅</h3><p style="font-size:28px; margin:5px 0;"><b>22°C</b></p><p>High: 25°C | Low: 12°C</p></div>
+  <div class="card"><h3>🌴 Mutare 🌤️</h3><p style="font-size:28px; margin:5px 0;"><b>25°C</b></p><p>High: 28°C | Low: 16°C</p></div>
+</div>
+
+<script>
+// ONLY 1 SCRIPT - NO SUPABASE TO BREAK IT
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+function alertMsg(msg){ alert(msg); }
+</script>
+</body>
+</html>
