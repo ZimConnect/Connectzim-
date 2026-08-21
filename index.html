@@ -178,18 +178,49 @@ input,select,textarea{width:100%;padding:11px;margin:5px 0;border:1px solid #ccc
 </div>
 
 <div id="jobs" class="section">
-  <h2>🔧 JOBS &amp; HUSTLE</h2>
-  <div class="warning">Post any job, gig, or service. Free!</div>
-  <div id="jobForm">
-    <input type="text" id="jobTitle" placeholder="What do you need? e.g. Plumber">
-    <textarea id="jobDesc" placeholder="Describe the job, pay, location..." rows="3"></textarea>
-    <input type="text" id="jobPrice" placeholder="Pay: e.g. $20 or Negotiable">
-    <input type="text" id="jobContact" placeholder="Your WhatsApp: 077...">
-    <button type="button" class="btn" style="background:#006400" id="postJobBtn">📢 POST HUSTLE</button>
+  <h2>💼 JOBS / MARICHO / HUSTLE</h2>
+  <p class="small">For Employers, Job Seekers, and Hustlers</p>
+  
+  <div style="display:flex;gap:10px;margin-bottom:15px">
+    <button type="button" class="btn" style="background:#006400;flex:1" data-alert="Employers: WhatsApp 077XXXXXXX to post job">🏢 FOR EMPLOYERS</button>
+    <button type="button" class="btn" style="background:#FFD700;color:#000;flex:1" data-alert="Employees: Scroll down to upload CV">👷 FOR EMPLOYEES</button>
   </div>
-  <hr>
-  <h3>Latest Hustles</h3>
-  <div id="jobsList">Loading...</div>
+
+  <h3>FOR EMPLOYERS</h3>
+  <button type="button" class="btn" style="background:#006400;margin-bottom:10px" data-alert="WhatsApp us: Job Title, Salary, Location">➕ POST A JOB</button>
+  <div id="jobsList">
+    <div class="card">Example: Driver Needed - $300/month - Harare</div>
+    <div class="card">Example: Maid Wanted - $150/month - Live in</div>
+  </div>
+
+  <hr style="margin:20px 0">
+
+  <h3>FOR EMPLOYEES / VANHU VANOTSVAGA MARICHO</h3>
+  
+  <div style="border:2px dashed #006400;padding:20px;border-radius:10px;text-align:center;background:#f0fff0;margin-bottom:15px">
+    <p><b>⬆️ Upload Your CV</b></p>
+    <input type="file" id="cvUpload" accept=".pdf,.doc,.docx">
+    <button class="btn" style="background:#006400;margin-top:10px" data-alert="Send CV to 077XXXXXXX on WhatsApp for now">SEND CV ON WHATSAPP</button>
+  </div>
+
+  <h3>🔍 QUICK MARICHO CATEGORIES</h3>
+  <p class="small">Tap a category to see jobs</p>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-bottom:15px">
+    <button class="btn" style="background:#ddd;color:#000" data-alert="Showing: Kuvaka / Builder jobs">🔨 KUVAKA</button>
+    <button class="btn" style="background:#ddd;color:#000" data-alert="Showing: Kubika / Cook jobs">🍳 KUBIKA</button>
+    <button class="btn" style="background:#ddd;color:#000" data-alert="Showing: Kuchenesa / Cleaning jobs">🧹 KUCHENESA</button>
+    <button class="btn" style="background:#ddd;color:#000" data-alert="Showing: Kutyaira / Driver jobs">🚗 KUTYAIRA</button>
+    <button class="btn" style="background:#ddd;color:#000" data-alert="Showing: Kurima / Farming jobs">🌽 KURIMA</button>
+    <button class="btn" style="background:#ddd;color:#000" data-alert="Showing: Kutengesa / Sales jobs">🛍️ KUTENGESA</button>
+    <button class="btn" style="background:#ddd;color:#000" data-alert="Showing: Kuchengeta Vana / Nanny jobs">👶 KUCHENGETA VANA</button>
+    <button class="btn" style="background:#ddd;color:#000" data-alert="Showing: Kugadzira / Repairs jobs">🔧 KUGADZIRA</button>
+  </div>
+
+  <input type="text" placeholder="Or search: Driver, Maid, Builder...">
+  <div id="employeeJobsList">
+    <div class="card">Gardener Needed - $80/week - Chitungwiza</div>
+    <div class="card">Shop Assistant - $200/month - CBD</div>
+  </div>
 </div>
 
 <div id="membership" class="section">
