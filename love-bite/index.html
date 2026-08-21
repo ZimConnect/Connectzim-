@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Love Bite - Zimbabwe Dating App</title>
+<style>
+  body { font-family: Arial, sans-serif; background: linear-gradient(135deg,#ffe4ec,#f3e8ff); margin:0; padding:0; }
+  .container { max-width: 500px; margin: auto; background: #fff; min-height: 100vh; padding-bottom: 80px; }
+  header { background: linear-gradient(90deg,#e91e63,#9c27b0); color: white; padding: 15px; text-align: center; }
+  header h1 { margin: 0; font-size: 24px; }
+  .section { padding: 20px; }
+  .warning { background: #fff3cd; border-left: 4px solid #e91e63; padding: 10px; margin-bottom: 15px; font-size: 13px; }
+  .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 20px; }
+  .lb-card { background: #fff; border: 2px solid #e91e63; border-radius: 12px; padding: 20px 10px; text-align: center; cursor: pointer; transition: 0.2s; }
+  .lb-card:hover { background: #ffe4ec; transform: scale(1.03); }
+  .lb-card b { color: #9c27b0; font-size: 16px; }
+  .btn { background: #e91e63; color: white; border: none; padding: 12px; border-radius: 8px; width: 100%; font-size: 16px; cursor: pointer; margin-top: 10px; }
+  .btn-back { background: #333; }
+  .small { font-size: 12px; color: #666; text-align: center; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <h1>💕 LOVE BITE</h1>
+    <p class="small">Zimbabwe's #1 Dating & Connections App</p>
+  </header>
+
+  <div class="section">
+    <div class="warning">🔞 18+ ONLY. Be respectful. Verify ID to unlock chat.</div>
+    
+    <h2 style="text-align:center;color:#e91e63">Find Your Connection</h2>
+
+    <div class="grid">
+      <div class="lb-card" data-alert="Browse Love Seekers">
+        <b>💕 LOVE SEEKERS</b><br>
+        <small>Serious Dating & Marriage</small>
+      </div>
+      <div class="lb-card" data-alert="Browse Match Makers">
+        <b>🤝 MATCH MAKING</b><br>
+        <small>Family & Friends Set You Up</small>
+      </div>
+      <div class="lb-card" data-alert="Browse Models">
+        <b>📸 MODELS</b><br>
+        <small>Portfolio, Events, Collabs</small>
+      </div>
+      <div class="lb-card" data-alert="Book Entertainers">
+        <b>💃 ENTERTAINERS</b><br>
+        <small>Exotic Dancers, Event Bookings</small>
+      </div>
+    </div>
+
+    <button class="btn" data-alert="Sign Up with Email or Phone">🔥 JOIN LOVE BITE</button>
+    <button class="btn" style="background:#9c27b0" data-alert="Login to your account">LOGIN</button>
+
+    <!-- THIS IS WHERE THE BACK BUTTON GOES -->
+    <button class="btn btn-back" onclick="window.open('https://zimconnect.co.zw')">⬅️ BACK TO ZIMCONNECT</button>
+
+    <p class="small" style="margin-top:20px">Want the full app with video chat? Download coming soon.</p>
+  </div>
+
+</div>
+
+<script>
+// simple alert for now
+document.querySelectorAll('[data-alert]').forEach(btn => {
+  btn.onclick = () => alert(btn.dataset.alert);
+});
+</script>
+</body>
+</html>
