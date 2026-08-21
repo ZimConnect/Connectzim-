@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZimConnect</title>
+<style>
+ .chip{background:#333;color:white;padding:6px 12px;border-radius:20px;border:none;font-size:13px;white-space:nowrap;cursor:pointer}
+.chip.active{background:#ff9800;color:#000}
+.book-card{display:flex;gap:12px;background:#1a1a1a;padding:12px;border-radius:10px;margin-bottom:12px}
+.btn-small{background:#ff9800;color:#000;border:none;padding:6px 10px;border-radius:6px;font-size:12px;margin-top:5px;cursor:pointer}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;font-family:Arial,sans-serif;background:#f5f5f5;color:#333}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.zim-header{text-align:center;background:linear-gradient(to right,#006400,#ffd700,#ff0000,#000);padding:20px 10px}
+.zim-header img{width:90px;height:90px;border-radius:50%;border:3px solid #fff;object-fit:cover}
+.zim-header h2{color:#fff;margin:8px 0 0;font-size:24px}
+.zim-header p{color:#fff;margin:0;font-size:13px}
+.nav{background:#222;padding:10px;display:flex;flex-wrap:wrap;justify-content:center;gap:8px;position:sticky;top:0;z-index:1000}
+.nav button{background:#444;color:#fff;border:0;padding:10px 15px;border-radius:8px;font-weight:bold;font-size:14px}
+.nav button:hover,.nav button:focus{background:#666}
+.section{display:none;padding:15px;max-width:900px;margin:0 auto}
+.section.active{display:block}
+.card{background:#fff;margin:10px 0;padding:15px;border-radius:10px;box-shadow:0 2px 5px rgba(0,0,0,.1);text-align:left}
+.clickable{cursor:pointer}
+.clickable:hover{box-shadow:0 4px 8px rgba(0,0,0,.2)}
+.btn{border:0;padding:12px;border-radius:8px;color:#fff;cursor:pointer;font-weight:bold;width:100%;font-size:15px;touch-action:manipulation}
+.btn:hover{opacity:.82}
+input,select,textarea{width:100%;padding:11px;margin:5px 0;border:1px solid #ccc;border-radius:8px;background:#fff}
+.warning{background:rgba(255,255,255,.25);padding:10px;border-radius:8px;margin-bottom:12px}
+#lovebite{background:linear-gradient(135deg,#ff1493,#ff69b4);color:#fff;border-radius:10px}
+#lovebite input,#lovebite select{color:#333}
+.status{margin:10px 0;font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.small{font-size:13px;color:#666}
+.action-link{display:inline-block;text-decoration:none;color:#fff;background:#25d366;padding:8px 12px;border-radius:8px;font-weight:bold;margin-top:6px}
+.hidden{display:none!important}
+.file-card img,.file-card video{width:100%;max-height:300px;object-fit:cover;border-radius:8px}
+.file-card audio{width:100%;margin-top:8px}
+.userbar{background:#fff;padding:10px 15px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,.1)}
+.userbar button{border:0;background:#555;color:#fff;border-radius:6px;padding:6px 10px;margin-left:6px}
+.success{color:#087f23}.error{color:#b00020}
+.tour-card{border:1px solid #ddd;padding:12px;border-radius:8px;background:#fff}
+@media(max-width:600px){
+ .nav button{flex:1 1 calc(50% - 8px);min-width:130px}
+}
+</style>
+</head>
+<body>
+ <!-- DRIVER APP LINK -->
+  <div style="background:linear-gradient(90deg,#006400,#FFD700);color:#000;padding:12px;border-radius:10px;margin:15px 0;text-align:center;font-weight:bold">
+    🚗 ARE YOU A DRIVER? EARN MONEY TODAY <br>
+    <a href="https://zimconnect.github.io/shofe-rider/" target="_blank" style="color:#000;background:#FFD700;padding:8px 15px;border-radius:8px;text-decoration:none;display:inline-block;margin-top:8px">DOWNLOAD SHOFERIDER APP</a>
+  </div>
+
+  <!-- DRIVER APP LINK -->
+  <div style="background:linear-gradient(90deg,#006400,#FFD700);color:#000;padding:12px;border-radius:10px;margin:15px 0;text-align:center;font-weight:bold">
+    🚗 ARE YOU A DRIVER? EARN MONEY TODAY <br>
+    <a href="https://zimconnect.github.io/shofe-rider/" target="_blank" rel="noopener" style="color:#000;background:#FFD700;padding:8px 15px;border-radius:8px;text-decoration:none;display:inline-block;margin-top:8px">DOWNLOAD SHOFERIDER APP</a>
+  </div>
+
+<!-- BOOK SHELF - REVAMPED -->
+<div id="bookshelf" class="section">
+  <h2>📚 BOOK SHELF</h2>
+  
+  <div style="background:#222;border-left:4px solid #ff9800;padding:10px;margin-bottom:15px;font-size:13px">
+    🇿🇼 Home of Zim Authors | eBooks, Audiobooks & Free Reads
+  </div>
+
+  <!-- CATEGORY CHIPS LIKE AMAZON -->
+  <div style="display:flex;gap:8px;overflow-x:auto;margin-bottom:15px;padding-bottom:5px">
+    <button class="chip active" onclick="filterBooks('all')">All</button>
+    <button class="chip" onclick="filterBooks('ebook')">📱 eBooks</button>
+    <button class="chip" onclick="filterBooks('audio')">🎧 Audiobooks</button>
+    <button class="chip" onclick="filterBooks('zim')">🇿🇼 Zim Authors</button>
+    <button class="chip" onclick="filterBooks('free')">Free</button>
+  </div>
+
+  <!-- WHAT ZIM IS READING -->
+  <h3>🔥 What Zim is Reading</h3>
+  <div class="book-card" data-type="ebook zim">
+    <img src="https://via.placeholder.com/100x150/ff9800/000?text=DANDE" style="width:100px;height:150px;border-radius:8px;object-fit:cover">
+    <div style="flex:1">
+      <b>Dandemutande</b><br>
+      <small style="color:#aaa">By Tsitsi Dangarembga</small><br>
+      <span style="color:#ffc107">⭐ 4.8</span> <small>234 reviews</small><br>
+      <span style="color:#4caf50;font-weight:bold">Free eBook</span><br>
+      <button class="btn-small">READ NOW</button>
+    </div>
+  </div>
+
+  <div class="book-card" data-type="audio">
+    <img src="https://via.placeholder.com/100x150/9c27b0/fff?text=AUDIO" style="width:100px;height:150px;border-radius:8px;object-fit:cover">
+    <div style="flex:1">
+      <b>Ngano Tales Vol 1</b><br>
+      <small style="color:#aaa">Narrated by Comedian Baba</small><br>
+      <span style="color:#ffc107">⭐ 4.9</span> <small>1.2k listens</small><br>
+      <span style="color:#e91e63;font-weight:bold">$1.99 Audiobook</span><br>
+      <button class="btn-small">LISTEN</button>
+    </div>
+  </div>
+
+  <!-- FROM PAGE TO SCREEN -->
+  <h3>🎬 From Page to Screen</h3>
+  <div class="book-card" data-type="ebook">
+    <img src="https://via.placeholder.com/100x150/333/fff?text=NERV" style="width:100px;height:150px;border-radius:8px;object-fit:cover">
+    <div style="flex:1">
+      <b>Nervous Conditions</b><br>
+      <small style="color:#aaa">Coming soon to ZBC</small><br>
+      <span style="color:#ffc107">⭐ 4.7</span> <small>890 reviews</small><br>
+      <span style="color:#e91e63;font-weight:bold">$2.99 eBook</span><br>
+      <button class="btn-small">BUY</button>
+    </div>
+  </div>
+
+  <!-- UPLOAD SECTION - MEMBERS ONLY -->
+  <div id="authorUploadBox" style="background:#1a1a1a;padding:15px;border-radius:10px;margin-top:20px;text-align:center">
+    <h4>✍️ Are you an Author?</h4>
+    <p style="font-size:13px">Upload your book and sell to Zim readers. 90% royalties.</p>
+    <button id="authorUploadBtn" class="btn" style="background:#ff9800">CHECK MEMBERSHIP</button>
+  </div>
+
+  <button class="btn" style="background:#333;margin-top:15px" onclick="showSection('home')">⬅️ BACK TO HOME</button>
+</div>
+ 
+function filterBooks(type){
+  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+  event.target.classList.add('active');
+  document.querySelectorAll('.book-card').forEach(card=>{
+    if(type==='all' || card.dataset.type.includes(type)){
+      card.style.display='flex';
+    } else {
+      card.style.display='none';
+    }
+  });
+}
+
+function checkMemberStatus(){
+  let isMember = localStorage.getItem('zimconnect_member') === 'true';
+  let btn = document.getElementById('uploadBtn');
+  if(btn){
+    if(isMember){
+      btn.innerText = "📤 UPLOAD YOUR BOOK";
+      btn.onclick = () => window.open('https://forms.gle/your-google-form'); // REPLACE THIS
+    } else {
+      btn.innerText = "🔐 JOIN TO UPLOAD";
+      btn.onclick = () => showSection('lovebite');
+    }
+  }
+}
+
+// Call this when bookshelf opens
+checkMemberStatus();
+ 
+<div class="zim-header">
+  <img src="logo.png" alt="ZimConnect logo" onerror="this.style.display='none'">
+  <h2>ZimConnect</h2>
+  <p>🇿🇼 Home of Zim Sites 🇿🇼</p>
+</div>
+
+<div class="nav">
+  <button type="button" data-section="home">🏠 HOME</button>
+  <button type="button" data-section="lovebite">💕 LOVE BITE'S</button>
+  <button type="button" data-section="market">🛍️ MUSIKA</button>
+  <button type="button" data-section="jobs">🔧 JOBS</button>
+  <button type="button" data-section="media">📺 MEDIA HUB</button>
+  <button type="button" data-section="books">📚 BOOK SHELF</button>
+  <button type="button" data-section="tourism">✈️ TOURISM</button> <!-- NEW -->
+  <button type="button" data-section="weather">⛅ WEATHER</button>
+  <button type="button" data-section="membership">👑 MEMBERSHIP $5</button>
+</div>
+
+<div id="userBar" class="userbar">
+  <span id="authStatus">Not logged in</span>
+  <button type="button" id="logoutBtn" class="hidden">Log out</button>
+</div>
+
+<div id="home" class="section active">
+  <h3 style="color:#006400">Welcome to ZimConnect</h3>
+  <div class="card clickable" data-section="market">🛍️ Market Place<br><small>Tenga &amp; Tengesa Zvinhu</small></div>
+      <div class="card clickable" onclick="window.open('https://zimconnect.github.io/Love-bite/','_blank','noopener')">💕 Love Bite App<br><small>Dating, Models, Match Making <br>Optional Download</small></div>
+  <div class="card clickable" data-section="jobs">🔧 Jobs/Hustle<br><small>Find Work</small></div>
+  <div class="card clickable" data-section="media">📺 Media Hub<br><small>News, Music, TV</small></div>
+  <div class="card clickable" data-section="tourism">✈️ Tourism & Travel<br><small>Visit Zim Places</small></div> <!-- NEW -->
+  <div class="card clickable" data-section="weather">⛅ Weather<br><small>Zim Weather Today</small></div>
+  <div class="card clickable" data-section="books">📚 Book Shelf<br><small>Books, PDFs, Documents</small></div>
+  <div class="card clickable" data-section="membership">👑 Membership $5<br><small>VIP + No Ads</small></div>
+  <div class="card clickable" data-section="auction">🔨 Live Auction<br><small>$20 Entry | Spin to Win | Bidding</small></div>
+</div>
+
+<div id="lovebite" class="section">
+  <h2>💕 LOVE BITE'S</h2>
+  <div class="warning">End-to-End Encrypted | 18 Years and Above Only | 📧 Email Login</div>
+  <div id="signup-form">
+    <input type="text" placeholder="Full Name as on ID" id="lb_name" autocomplete="name">
+    <input type="text" placeholder="National ID Number" id="lb_id">
+    <input type="number" placeholder="Age" id="lb_age" min="18" max="120">
+    <input type="email" placeholder="Email: you@gmail.com" id="lb_email" autocomplete="email">
+    <select id="lb_gender">
+      <option value="">Select Gender</option>
+      <option value="Male">Male</option>
+      <option value="Female">Female</option>
+    </select>
+    <button type="button" class="btn" style="background:#c71585" id="emailLoginBtn">📧 SEND EMAIL LOGIN LINK</button>
+    <div id="lb_status" class="status"></div>
+  </div>
+  <button type="button" class="btn" style="background:#e91e63" id="joinLoveBiteBtn">💕 JOIN LOVE BITE</button>
+  <button type="button" class="btn" style="background:#9c27b0" id="loveBiteLoginBtn">🔐 LOGIN</button>
+  <p class="small">Want the full Love Bite app? Tap JOIN LOVE BITE.</p>
+  <button type="button" class="btn" style="background:#333;margin-top:10px" data-section="home">⬅️ BACK TO HOME</button>
+</div>
+
+ <!-- AUCTION SECTION -->
+<div id="auction" class="section">
+  <h2>🔨 LIVE AUCTION</h2>
+  <div class="warning">$20 Minimum to Enter | Winner picked by Algorithm Spin | We Will Call Winner</div>
+  
+  <div style="border:2px solid #FFD700;background:linear-gradient(135deg,#fff,#fff8e1);padding:15px;border-radius:10px;text-align:center">
+    <h3>Today's Auction: iPhone 14 Pro</h3>
+    <p style="font-size:24px;font-weight:bold;color:#b00020">Ends: Today 8PM</p>
+    <p><b>Current Bid: $45</b></p>
+    <p class="small">48 People Entered | $20 per slot</p>
+    <button class="btn" style="background:#ff8c00" data-alert="Pay $20 EcoCash to 077XXXXXXX to enter. WhatsApp us proof.">🎯 ENTER AUCTION - $20</button>
+    <input type="number" placeholder="Place your bid $50+">
+    <button class="btn" style="background:#006400" data-alert="Bid placed! We will call you if you win.">📈 PLACE BID</button>
+  </div>
+</div>
+
+<!-- NEW TOURISM SECTION -->
+<div id="tourism" class="section">
+  <h2>✈️ TOURISM & TRAVEL</h2>
+  <div class="warning">Book Excursions | Places of Interest in Zimbabwe | Pay by EcoCash</div>
+  <h3>🔥 Top Places to Visit</h3>
+  <div class="grid">
+    <div class="tour-card"><b>Victoria Falls</b><br><small>World's largest waterfall. Entry $30</small><br><button class="btn" style="background:#ff8c00;margin-top:8px" data-alert="WhatsApp us to book Victoria Falls Tour $120">Book Excursion</button></div>
+    <div class="tour-card"><b>Hwange National Park</b><br><small>Safari & Big 5. Entry $50</small><br><button class="btn" style="background:#ff8c00;margin-top:8px" data-alert="WhatsApp us to book Hwange Safari $200">Book Safari</button></div>
+    <div class="tour-card"><b>Great Zimbabwe Ruins</b><br><small>Ancient stone city. Entry $15</small><br><button class="btn" style="background:#ff8c00;margin-top:8px" data-alert="WhatsApp us to book Great Zimbabwe Tour $80">Book Tour</button></div>
+    <div class="tour-card"><b>Eastern Highlands</b><br><small>Mutare mountains & waterfalls</small><br><button class="btn" style="background:#ff8c00;margin-top:8px" data-alert="WhatsApp us to book Eastern Highlands Trip $90">Book Trip</button></div>
+  </div>
+  <hr>
+  <h3>📞 Custom Booking Request</h3>
+  <input type="text" id="tourName" placeholder="Your Name">
+  <input type="text" id="tourPlace" placeholder="Where do you want to go?">
+  <input type="date" id="tourDate">
+  <button type="button" class="btn" style="background:#006400" id="bookTourBtn">📲 REQUEST BOOKING ON WHATSAPP</button>
+</div>
+
+<div id="market" class="section">
+  <h2>🛍️ MARKET PLACE / pa MUSIKA</h2>
+  <button type="button" class="btn" style="background:#006400;margin-bottom:10px" data-alert="Post Item feature coming soon">➕ Post Item For Sale</button>
+  <div class="card clickable" data-alert="View iPhone 13">📱 iPhone 13 Pro Max - $400<br><small>Harare CBD</small></div>
+  <div class="card clickable" data-alert="View Toyota Runx">🚗 Toyota Runx - $4500<br><small>Bulawayo</small></div>
+  <div class="card clickable" data-alert="View Dresses">👗 Dresses - $20<br><small>Mutare</small></div>
+  <div class="card clickable" data-alert="View Fiat 500">🚗 Fiat 500 - $6000<br><small>Harare</small></div>
+</div>
+
+<div id="media" class="section">
+  <h2>📸 MEDIA HUB</h2>
+  <div class="warning">Upload Photos, Music, Videos | Max 50MB per file</div>
+  <input type="file" id="fileInput" accept="image/*,video/*,audio/*">
+  <button type="button" class="btn" style="background:#25d366" id="uploadBtn">⬆️ UPLOAD</button>
+  <div id="uploadStatus" class="status"></div>
+  <h3>🔥 Recent Uploads</h3>
+  <div id="gallery" class="grid"></div>
+  <hr>
+  <button type="button" class="btn" style="background:#1e90ff;margin:5px 0" data-alert="Podcasts coming soon">🎙️ PODCASTS</button>
+  <button type="button" class="btn" style="background:#ff4500;margin:5px 0" data-alert="Video Club / TV coming soon">🎬 VIDEO CLUB / TV</button> <!-- TV BACK -->
+  <button type="button" class="btn" style="background:#ff8c00;margin:5px 0" data-alert="Radio coming soon">📻 RADIO</button>
+  <button type="button" class="btn" style="background:#006400;margin:5px 0" data-alert="News coming soon">📰 NEWS</button>
+</div>
+
+<div id="books" class="section">
+  <h2>📚 BOOK SHELF</h2>
+  <div class="warning">Buy &amp; Sell Books | Authors Keep 70% | EcoCash $1-$10</div>
+  <h3>⬆️ Author Upload</h3>
+  <input type="text" placeholder="Book Title" id="book_title">
+  <input type="text" placeholder="Author Name" id="book_author">
+  <input type="number" placeholder="Price in USD" id="book_price" min="0" step="0.01">
+  <input type="file" id="bookFile" accept=".pdf,.epub,.jpg,.jpeg,.png">
+  <button type="button" class="btn" style="background:#8b4513" id="uploadBookBtn">📤 UPLOAD BOOK</button>
+  <div id="bookStatus" class="status"></div>
+  <h3>🔥 Books For Sale</h3>
+  <div id="bookGallery"></div>
+</div>
+
+<div id="jobs" class="section">
+  <h2>💼 JOBS / MARICHO / HUSTLE</h2>
+  <p class="small">For Employers, Job Seekers, and Hustlers</p>
+  
+  <div style="display:flex;gap:10px;margin-bottom:15px">
+    <button type="button" class="btn" style="background:#006400;flex:1" data-alert="Employers: WhatsApp 077XXXXXXX to post job">🏢 FOR EMPLOYERS</button>
+    <button type="button" class="btn" style="background:#FFD700;color:#000;flex:1" data-alert="Employees: Scroll down to upload CV">👷 FOR EMPLOYEES</button>
+  </div>
+
+  <h3>FOR EMPLOYERS</h3>
+  <button type="button" class="btn" style="background:#006400;margin-bottom:10px" data-alert="WhatsApp us: Job Title, Salary, Location">➕ POST A JOB</button>
+  <div id="jobsList">
+    <div class="card">Example: Driver Needed - $300/month - Harare</div>
+    <div class="card">Example: Maid Wanted - $150/month - Live in</div>
+  </div>
+
+  <hr style="margin:20px 0">
+
+  <h3>FOR EMPLOYEES / VANHU VANOTSVAGA MARICHO</h3>
+  
+  <div style="border:2px dashed #006400;padding:20px;border-radius:10px;text-align:center;background:#f0fff0;margin-bottom:15px">
+    <p><b>⬆️ Upload Your CV</b></p>
+    <input type="file" id="cvUpload" accept=".pdf,.doc,.docx">
+    <button class="btn" style="background:#006400;margin-top:10px" data-alert="Send CV to 077XXXXXXX on WhatsApp for now">SEND CV ON WHATSAPP</button>
+  </div>
+
+  <h3>🔍 QUICK MARICHO CATEGORIES</h3>
+  <p class="small">Tap a category to see jobs</p>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-bottom:15px">
+    <button class="btn" style="background:#ddd;color:#000" data-alert="Showing: Kuvaka / Builder jobs">🔨 KUVAKA</button>
+    <button class="btn" style="background:#ddd;color:#000" data-alert="Showing: Kubika / Cook jobs">🍳 KUBIKA</button>
+    <button class="btn" style="background:#ddd;color:#000" data-alert="Showing: Kuchenesa / Cleaning jobs">🧹 KUCHENESA</button>
+    <button class="btn" style="background:#ddd;color:#000" data-alert="Showing: Kutyaira / Driver jobs">🚗 KUTYAIRA</button>
+    <button class="btn" style="background:#ddd;color:#000" data-alert="Showing: Kurima / Farming jobs">🌽 KURIMA</button>
+    <button class="btn" style="background:#ddd;color:#000" data-alert="Showing: Kutengesa / Sales jobs">🛍️ KUTENGESA</button>
+    <button class="btn" style="background:#ddd;color:#000" data-alert="Showing: Kuchengeta Vana / Nanny jobs">👶 KUCHENGETA VANA</button>
+    <button class="btn" style="background:#ddd;color:#000" data-alert="Showing: Kugadzira / Repairs jobs">🔧 KUGADZIRA</button>
+  </div>
+
+  <input type="text" placeholder="Or search: Driver, Maid, Builder...">
+  <div id="employeeJobsList">
+    <div class="card">Gardener Needed - $80/week - Chitungwiza</div>
+    <div class="card">Shop Assistant - $200/month - CBD</div>
+  </div>
+</div>
+
+<div id="membership" class="section">
+  <h2>👑 MEMBERSHIP $5</h2>
+  <div class="warning">Remove Ads + VIP Badge + Priority Support</div>
+  <div id="membershipStatus"></div>
+  <button type="button" class="btn" style="background:gold;color:#000" id="membershipBtn">💳 PAY $5 VIA ECOCASH/PAYNOW</button>
+  <p class="small">After payment, WhatsApp us proof to activate your VIP membership.</p>
+</div>
+
+<div id="weather" class="section">
+  <h2>⛅ ZIMBABWE WEATHER</h2>
+  <div class="card"><h3>🏛️ Harare ☀️</h3><p style="font-size:28px;margin:5px 0"><b>24°C</b></p><p>High: 27°C | Low: 14°C</p></div>
+  <div class="card"><h3>🏙️ Bulawayo ⛅</h3><p style="font-size:28px;margin:5px 0"><b>22°C</b></p><p>High: 25°C | Low: 12°C</p></div>
+  <div class="card"><h3>🌴 Mutare 🌤️</h3><p style="font-size:28px;margin:5px 0"><b>25°C</b></p><p>High: 28°C | Low: 14°C</p></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+'use strict';
+
+const SUPABASE_URL = "https://vnbsvnnmajtvqjhslllw.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_HbGBE-Nq0YXZhRRhf90_aQ_Bjn37BHh";
+
+let db = null;
+
+function $(id){ return document.getElementById(id); }
+
+function showSection(id){
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  const target = $(id);
+  if (!target) return;
+  target.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function alertMsg(msg){ window.alert(msg); }
+
+function escapeHtml(value){
+  return String(value?? '').replace(/[&<>"']/g, c => ({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[c]));
+}
+
+function setStatus(id, message, type=''){
+  const el = $(id);
+  if (!el) return;
+  el.textContent = message;
+  el.className = 'status ' + type;
+}
+
+function requireDb(){
+  if (!db) {
+    alertMsg('ZimConnect could not connect to Supabase. Check your Supabase URL and publishable/anon key.');
+    return false;
+  }
+  return true;
+}
+
+async function getCurrentUser(){
+  if (!requireDb()) return null;
+  const {data,error} = await db.auth.getUser();
+  if (error) return null;
+  return data?.user || null;
+}
+
+async function updateAuthUI(user){
+  $('authStatus').textContent = user? '✅ Logged in: ' + (user.email || 'user') : 'Not logged in';
+  $('logoutBtn').classList.toggle('hidden',!user);
+}
+
+async function signupWithEmail(){
+  if (!requireDb()) return;
+
+  const status = $('lb_status');
+  const age = Number($('lb_age').value);
+  const email = $('lb_email').value.trim();
+  const name = $('lb_name').value.trim();
+  const idNumber = $('lb_id').value.trim();
+  const gender = $('lb_gender').value;
+
+  if (!Number.isInteger(age) || age < 18) {
+    setStatus('lb_status','🔞 Sorry, you must be 18+ to join Love Bite\'s.','error');
+    return;
+  }
+  if (!email ||!email.includes('@')) {
+    setStatus('lb_status','Please enter a valid email address.','error');
+    return;
+  }
+
+  setStatus('lb_status','Sending email login link...');
+
+  const {error} = await db.auth.signInWithOtp({
+    email,
+    options:{
+      data:{full_name:name,id_number:idNumber,age,gender},
+      emailRedirectTo: window.location.href.split('#')[0]
+    }
+  });
+
+  if (error) {
+    setStatus('lb_status','Error: ' + error.message,'error');
+  } else {
+    setStatus('lb_status','✅ Check your email. Your login link was sent to ' + email,'success');
+  }
+}
+
+async function uploadFile(){
+  if (!requireDb()) return;
+  const user = await getCurrentUser();
+  if (!user) return alertMsg('Please log in with your email first.');
+
+  const file = $('fileInput').files[0];
+  if (!file) return alertMsg('Pick a file first.');
+
+  if (file.size > 50 * 1024 * 1024) {
+    return alertMsg('File is larger than 50MB.');
+  }
+
+  const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g,'_');
+  const fileName = user.id + '/' + Date.now() + '_' + safeName;
+
+  setStatus('uploadStatus','Uploading...');
+  const {error} = await db.storage.from('media-hub').upload(fileName,file,{upsert:false});
+
+  if (error) {
+    setStatus('uploadStatus','Upload failed: ' + error.message,'error');
+    return;
+  }
+
+  setStatus('uploadStatus','✅ Uploaded!','success');
+  $('fileInput').value = '';
+  loadGallery();
+}
+
+async function loadGallery(){
+  if (!requireDb()) return;
+
+  const gallery = $('gallery');
+  gallery.innerHTML = '<p>Loading uploads...</p>';
+
+  const {data:userData} = await db.auth.getUser();
+  const user = userData?.user;
+
+  if (!user) {
+    gallery.innerHTML = '<p>Please log in to view your uploads.</p>';
+    return;
+  }
+
+  const {data,error} = await db.storage.from('media-hub')
+   .list(user.id,{limit:50,sortBy:{column:'created_at',order:'desc'}});
+
+  if (error) {
+    gallery.innerHTML = '<p>Unable to load uploads: ' + escapeHtml(error.message) + '</p>';
+    return;
+  }
+
+  const files = (data || []).filter(f => f.name);
+  if (!files.length) {
+    gallery.innerHTML = '<p>No uploads yet.</p>';
+    return;
+  }
+
+  gallery.innerHTML = files.map(file => {
+    const path = user.id + '/' + file.name;
+    const {data:urlData} = db.storage.from('media-hub').getPublicUrl(path);
+    const url = urlData?.publicUrl || '#';
+    const ext = file.name.split('.').pop().toLowerCase();
+
+    if (['jpg','jpeg','png','gif','webp'].includes(ext)) {
+      return '<div class="card file-card"><img src="' + escapeHtml(url) + '" alt="Upload"></div>';
+    }
+    if (['mp4','webm','mov'].includes(ext)) {
+      return '<div class="card file-card"><video controls src="' + escapeHtml(url) + '"></video></div>';
+    }
+    if (['mp3','wav','ogg','m4a'].includes(ext)) {
+      return '<div class="card file-card"><b>' + escapeHtml(file.name) + '</b><audio controls src="' + escapeHtml(url) + '"></audio></div>';
+    }
+    return '<div class="card file-card"><a class="action-link" href="' + escapeHtml(url) + '" target="_blank" rel="noopener">📁 ' + escapeHtml(file.name) + '</a></div>';
+  }).join('');
+}
+
+async function postJob(){
+  if (!requireDb()) return;
+  const user = await getCurrentUser();
+  if (!user) return alertMsg('Please log in first.');
+
+  const title = $('jobTitle').value.trim();
+  const desc = $('jobDesc').value.trim();
+  const price = $('jobPrice').value.trim();
+  const contact = $('jobContact').value.trim();
+
+  if (!title ||!desc) return alertMsg('Fill in the job title and description.');
+
+  const {error} = await db.from('jobs').insert([{
+    user_id:user.id,title,description:desc,price,contact
+  }]);
+
+  if (error) return alertMsg('Error: ' + error.message);
+
+  alertMsg('Job posted successfully!');
+  $('jobForm').querySelectorAll('input,textarea').forEach(i => i.value='');
+  loadJobs();
+}
+
+async function loadJobs(){
+  if (!requireDb()) return;
+
+  const list = $('jobsList');
+  const {data,error} = await db.from('jobs')
+   .select('*').order('created_at',{ascending:false}).limit(20);
+
+  if (error) {
+    list.innerHTML = '<p>Unable to load jobs. Check that the jobs table and RLS policies exist.</p>';
+    return;
+  }
+
+  if (!data?.length) {
+    list.innerHTML = '<p>No jobs yet. Be the first to post!</p>';
+    return;
+  }
+
+  list.innerHTML = data.map(job => {
+    let contact = String(job.contact || '').replace(/\D/g,'');
+    if (contact.startsWith('0')) contact = '263' + contact.substring(1);
+    const wa = contact? 'https://wa.me/' + contact : '#';
+
+    return '<div class="card">' +
+      '<h4>' + escapeHtml(job.title) + '</h4>' +
+      '<p>' + escapeHtml(job.description) + '</p>' +
+      '<b>Pay:</b> ' + escapeHtml(job.price || '') + '<br>' +
+      '<b>Contact:</b> ' +
+      (contact? '<a href="' + escapeHtml(wa) + '" target="_blank" rel="noopener">' + escapeHtml(job.contact || '') + '</a>' : 'Not provided') +
+      '<br><small>' + (job.created_at? new Date(job.created_at).toLocaleDateString() : '') + '</small>' +
+      '</div>';
+  }).join('');
+}
+
+async function uploadBook(){
+  if (!requireDb()) return;
+  const user = await getCurrentUser();
+  if (!user) return alertMsg('Please log in with your email first.');
+
+  const file = $('bookFile').files[0];
+  const title = $('book_title').value.trim();
+  const author = $('book_author').value.trim();
+  const price = $('book_price').value.trim();
+
+  if (!file) return alertMsg('Pick a book file.');
+  if (!title ||!author ||!price) return alertMsg('Fill in book title, author and price.');
+  if (file.size > 50 * 1024 * 1024) return alertMsg('Book file is larger than 50MB.');
+
+  const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g,'_');
+  const fileName = 'books/' + user.id + '/' + Date.now() + '_' + safeName;
+
+  setStatus('bookStatus','Uploading book...');
+  const {error:uploadError} = await db.storage.from('media-hub').upload(fileName,file,{upsert:false});
+
+  if (uploadError) {
+    setStatus('bookStatus','Upload failed: ' + uploadError.message,'error');
+    return;
+  }
+
+  const {data:urlData} = db.storage.from('media-hub').getPublicUrl(fileName);
+  const fileUrl = urlData?.publicUrl;
+
+  const {error:dbError} = await db.from('books').insert([{
+    title,author,price,file_url:fileUrl,user_id:user.id
+  }]);
+
+  if (dbError) {
+    setStatus('bookStatus','Database error: ' + dbError.message,'error');
+    return;
+  }
+
+  setStatus('bookStatus','✅ Book uploaded!','success');
+  $('book_title').value='';
+  $('book_author').value='';
+  $('book_price').value='';
+  $('bookFile').value='';
+  loadBooks();
+}
+
+async function loadBooks(){
+  if (!requireDb()) return;
+
+  const gallery = $('bookGallery');
+  const {data,error} = await db.from('books').select('*')
+   .order('created_at',{ascending:false}).limit(50);
+
+  if (error) {
+    gallery.innerHTML = '<p>Unable to load books. Check that the books table and RLS policies exist.</p>';
+    return;
+  }
+
+  gallery.innerHTML = (data || []).map(book =>
+    '<div class="card">' +
+    '<b>' + escapeHtml(book.title) + '</b><br>' +
+    'by ' + escapeHtml(book.author) + '<br>' +
+    '<b style="color:green">$' + escapeHtml(book.price) + '</b><br>' +
+    '<a href="' + escapeHtml(book.file_url || '#') + '" target="_blank" rel="noopener" class="action-link">📥 BUY/DOWNLOAD</a>' +
+    '</div>'
+  ).join('') || '<p>No books yet.</p>';
+}
+
+function filterBooks(type){
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+  const cards = document.querySelectorAll('.book-card');
+  cards.forEach(card => {
+    const types = card.dataset.type || '';
+    card.style.display = (type === 'all' || types.includes(type)) ? 'flex' : 'none';
+  });
+  const clicked = Array.from(document.querySelectorAll('.chip')).find(c => {
+    const text = c.textContent.toLowerCase();
+    return (type === 'all' && text === 'all') || text.includes(type);
+  });
+  if (clicked) clicked.classList.add('active');
+}
+
+function checkMemberStatus(){
+  const isMember = localStorage.getItem('lovebite_member') === 'true';
+  const btn = $('authorUploadBtn');
+  if (!btn) return;
+  if (isMember) {
+    btn.innerText = '📤 UPLOAD YOUR BOOK';
+    btn.onclick = () => showSection('books');
+  } else {
+    btn.innerText = '🔐 JOIN TO UPLOAD';
+    btn.onclick = () => showSection('lovebite');
+  }
+}
+
+function joinLoveBite(){
+  const age = Number($('lb_age')?.value || 0);
+  const email = $('lb_email')?.value.trim() || '';
+  if (!Number.isInteger(age) || age < 18) {
+    setStatus('lb_status', "🔞 You must be 18+ to join Love Bite's.", 'error');
+    return;
+  }
+  if (!email || !email.includes('@')) {
+    setStatus('lb_status', 'Please enter a valid email address first.', 'error');
+    return;
+  }
+  localStorage.setItem('lovebite_member', 'true');
+  localStorage.setItem('lovebite_email', email);
+  alertMsg('✅ Welcome to Love Bite!');
+  checkMemberStatus();
+  setTimeout(() => {
+    window.location.href = 'https://zimconnect.github.io/Love-bite/';
+  }, 700);
+}
+
+async function checkMembership(){
+  if (!requireDb()) return;
+
+  const user = await getCurrentUser();
+  if (!user) {
+    $('membershipStatus').innerHTML = '<div class="card">❌ FREE USER - Log in for VIP status.</div>';
+    return;
+  }
+
+  const {data,error} = await db.from('memberships')
+   .select('*').eq('user_id',user.id).eq('active',true).maybeSingle();
+
+  if (error) {
+    $('membershipStatus').innerHTML = '<div class="card">Membership status unavailable.</div>';
+    return;
+  }
+
+  $('membershipStatus').innerHTML = data
+   ? '<div style="background:#25d366;color:#fff;padding:10px;border-radius:8px">✅ YOU ARE VIP MEMBER</div>'
+    : '<div style="background:#ff4444;color:#fff;padding:10px;border-radius:8px">❌ FREE USER - Ads Showing</div>';
+}
+
+function buyMembership(){
+  alertMsg('Pay $5 to EcoCash or Paynow, then WhatsApp proof to activate your VIP membership.');
+}
+
+async function logout(){
+  if (!db) return;
+  const {error} = await db.auth.signOut();
+  if (error) return alertMsg('Logout failed: ' + error.message);
+  updateAuthUI(null);
+  loadGallery();
+  checkMembership();
+}
+
+// NEW TOUR BOOKING
+const bookTourBtn = $('bookTourBtn');
+if (bookTourBtn) bookTourBtn.addEventListener('click', function(){
+  const name = $('tourName').value;
+  const place = $('tourPlace').value;
+  const date = $('tourDate').value;
+  const msg = `Hi ZimConnect Tours! Booking: ${place} for ${name} on ${date}`;
+  window.open("https://wa.me/263716386784?text=" + encodeURIComponent(msg), "_blank"); // CHANGE YOUR NUMBER
+});
+
+function bindEvents(){
+  document.querySelectorAll('[data-section]').forEach(el => {
+    el.addEventListener('click', () => showSection(el.dataset.section));
+  });
+
+  document.querySelectorAll('[data-alert]').forEach(el => {
+    el.addEventListener('click', () => alertMsg(el.dataset.alert));
+  });
+
+  const bindings = [
+    ['emailLoginBtn', signupWithEmail],
+    ['uploadBtn', uploadFile],
+    ['uploadBookBtn', uploadBook],
+    ['postJobBtn', postJob],
+    ['membershipBtn', buyMembership],
+    ['logoutBtn', logout],
+    ['joinLoveBiteBtn', joinLoveBite],
+    ['loveBiteLoginBtn', signupWithEmail]
+  ];
+  bindings.forEach(([id, fn]) => {
+    const el = $(id);
+    if (el) el.addEventListener('click', fn);
+  });
+
+  document.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      const text = chip.textContent.toLowerCase();
+      const type = text.includes('ebook') ? 'ebook' : text.includes('audio') ? 'audio' : text.includes('zim') ? 'zim' : text.includes('free') ? 'free' : 'all';
+      filterBooks(type);
+    });
+  });
+}
+
+async function init(){
+  bindEvents();
+
+  if (!window.supabase ||!window.supabase.createClient) {
+    $('authStatus').textContent = '❌ Supabase library failed to load';
+    return;
+  }
+
+  try {
+    db = window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+  } catch (e) {
+    $('authStatus').textContent = '❌ Supabase configuration error';
+    console.error(e);
+    return;
+  }
+
+  const {data:{session}} = await db.auth.getSession();
+  await updateAuthUI(session?.user || null);
+
+  db.auth.onAuthStateChange((_event,newSession) => {
+    updateAuthUI(newSession?.user || null);
+    loadGallery();
+    checkMembership();
+  });
+
+  loadGallery();
+  loadBooks();
+  loadJobs();
+  checkMembership();
+  checkMemberStatus();
+}
+
+document.addEventListener('DOMContentLoaded',init);
+</script>
+</body>
+</html>
