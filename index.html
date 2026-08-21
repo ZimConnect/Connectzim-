@@ -47,9 +47,105 @@ input,select,textarea{width:100%;padding:11px;margin:5px 0;border:1px solid #ccc
  .nav button{flex:1 1 calc(50% - 8px);min-width:130px}
 }
 </style>
+ .chip{background:#333;color:white;padding:6px 12px;border-radius:20px;border:none;font-size:13px;white-space:nowrap;cursor:pointer}
+.chip.active{background:#ff9800;color:#000}
+.book-card{display:flex;gap:12px;background:#1a1a1a;padding:12px;border-radius:10px;margin-bottom:12px}
+.btn-small{background:#ff9800;color:#000;border:none;padding:6px 10px;border-radius:6px;font-size:12px;margin-top:5px;cursor:pointer}
 </head>
 <body>
+<!-- BOOK SHELF - REVAMPED -->
+<div id="bookshelf" class="section">
+  <h2>📚 BOOK SHELF</h2>
+  
+  <div style="background:#222;border-left:4px solid #ff9800;padding:10px;margin-bottom:15px;font-size:13px">
+    🇿🇼 Home of Zim Authors | eBooks, Audiobooks & Free Reads
+  </div>
 
+  <!-- CATEGORY CHIPS LIKE AMAZON -->
+  <div style="display:flex;gap:8px;overflow-x:auto;margin-bottom:15px;padding-bottom:5px">
+    <button class="chip active" onclick="filterBooks('all')">All</button>
+    <button class="chip" onclick="filterBooks('ebook')">📱 eBooks</button>
+    <button class="chip" onclick="filterBooks('audio')">🎧 Audiobooks</button>
+    <button class="chip" onclick="filterBooks('zim')">🇿🇼 Zim Authors</button>
+    <button class="chip" onclick="filterBooks('free')">Free</button>
+  </div>
+
+  <!-- WHAT ZIM IS READING -->
+  <h3>🔥 What Zim is Reading</h3>
+  <div class="book-card" data-type="ebook zim">
+    <img src="https://via.placeholder.com/100x150/ff9800/000?text=DANDE" style="width:100px;height:150px;border-radius:8px;object-fit:cover">
+    <div style="flex:1">
+      <b>Dandemutande</b><br>
+      <small style="color:#aaa">By Tsitsi Dangarembga</small><br>
+      <span style="color:#ffc107">⭐ 4.8</span> <small>234 reviews</small><br>
+      <span style="color:#4caf50;font-weight:bold">Free eBook</span><br>
+      <button class="btn-small">READ NOW</button>
+    </div>
+  </div>
+
+  <div class="book-card" data-type="audio">
+    <img src="https://via.placeholder.com/100x150/9c27b0/fff?text=AUDIO" style="width:100px;height:150px;border-radius:8px;object-fit:cover">
+    <div style="flex:1">
+      <b>Ngano Tales Vol 1</b><br>
+      <small style="color:#aaa">Narrated by Comedian Baba</small><br>
+      <span style="color:#ffc107">⭐ 4.9</span> <small>1.2k listens</small><br>
+      <span style="color:#e91e63;font-weight:bold">$1.99 Audiobook</span><br>
+      <button class="btn-small">LISTEN</button>
+    </div>
+  </div>
+
+  <!-- FROM PAGE TO SCREEN -->
+  <h3>🎬 From Page to Screen</h3>
+  <div class="book-card" data-type="ebook">
+    <img src="https://via.placeholder.com/100x150/333/fff?text=NERV" style="width:100px;height:150px;border-radius:8px;object-fit:cover">
+    <div style="flex:1">
+      <b>Nervous Conditions</b><br>
+      <small style="color:#aaa">Coming soon to ZBC</small><br>
+      <span style="color:#ffc107">⭐ 4.7</span> <small>890 reviews</small><br>
+      <span style="color:#e91e63;font-weight:bold">$2.99 eBook</span><br>
+      <button class="btn-small">BUY</button>
+    </div>
+  </div>
+
+  <!-- UPLOAD SECTION - MEMBERS ONLY -->
+  <div id="authorUploadBox" style="background:#1a1a1a;padding:15px;border-radius:10px;margin-top:20px;text-align:center">
+    <h4>✍️ Are you an Author?</h4>
+    <p style="font-size:13px">Upload your book and sell to Zim readers. 90% royalties.</p>
+    <button id="uploadBtn" class="btn" style="background:#ff9800">CHECK MEMBERSHIP</button>
+  </div>
+
+  <button class="btn" style="background:#333;margin-top:15px" onclick="showSection('home')">⬅️ BACK TO HOME</button>
+</div>
+ 
+function filterBooks(type){
+  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+  event.target.classList.add('active');
+  document.querySelectorAll('.book-card').forEach(card=>{
+    if(type==='all' || card.dataset.type.includes(type)){
+      card.style.display='flex';
+    } else {
+      card.style.display='none';
+    }
+  });
+}
+
+function checkMemberStatus(){
+  let isMember = localStorage.getItem('zimconnect_member') === 'true';
+  let btn = document.getElementById('uploadBtn');
+  if(btn){
+    if(isMember){
+      btn.innerText = "📤 UPLOAD YOUR BOOK";
+      btn.onclick = () => window.open('https://forms.gle/your-google-form'); // REPLACE THIS
+    } else {
+      btn.innerText = "🔐 JOIN TO UPLOAD";
+      btn.onclick = () => showSection('lovebite');
+    }
+  }
+}
+
+// Call this when bookshelf opens
+checkMemberStatus();
+ 
 <div class="zim-header">
   <img src="logo.png" alt="ZimConnect logo" onerror="this.style.display='none'">
   <h2>ZimConnect</h2>
