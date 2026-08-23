@@ -152,17 +152,156 @@ input,select,textarea{width:100%;padding:11px;margin:5px 0;border:1px solid #ccc
 
 <div id="media" class="section">
   <h2>📸 MEDIA HUB</h2>
-  <div class="warning">Upload Photos, Music, Videos | Max 50MB per file</div>
-  <input type="file" id="fileInput" accept="image/*,video/*,audio/*">
-  <button type="button" class="btn" style="background:#25d366" id="mediaUploadBtn">⬆️ UPLOAD</button>
-  <div id="uploadStatus" class="status"></div>
-  <h3>🔥 Recent Uploads</h3><div id="gallery" class="grid"></div><hr>
-  <button class="btn" style="background:#1e90ff;margin:5px 0" data-alert="Podcasts coming soon">🎙️ PODCASTS</button>
-  <button class="btn" style="background:#ff4500;margin:5px 0" data-alert="Video Club / TV coming soon">🎬 VIDEO CLUB / TV</button>
-  <button class="btn" style="background:#ff8c00;margin:5px 0" data-alert="Radio coming soon">📻 RADIO</button>
-  <button class="btn" style="background:#006400;margin:5px 0" data-alert="News coming soon">📰 NEWS</button>
+  
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZIMCONNECT MEDIA HUB 🇿🇼</title>
+<style>
+  :root{ --pink:#e91e63; --orange:#ff9800; --bg:#0a0a0a; --card:#121212; --text:#fff; }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:system-ui,Arial;background:var(--bg);color:var(--text)}
+  header{background:linear-gradient(90deg,var(--pink),var(--orange));padding:16px;text-align:center;font-size:20px;font-weight:800;position:sticky;top:0;z-index:10}
+  .container{max-width:1000px;margin:0 auto;padding:15px}
+  .section{display:none}.active{display:block;animation:fade .3s}
+  @keyframes fade{from{opacity:0}to{opacity:1}}
+  .btn{background:var(--pink);color:#fff;padding:14px;border:none;border-radius:12px;width:100%;margin:8px 0;font-size:16px;font-weight:700;cursor:pointer;text-decoration:none;display:block;text-align:center}
+  .btn:hover{opacity:.9}
+  .btn.gray{background:#2a2a2a}.btn.green{background:#22c55e}
+  .card{background:var(--card);padding:16px;border-radius:14px;margin-bottom:15px;border:1px solid #222}
+  h2{color:var(--pink);margin-bottom:10px}
+  .small{font-size:12px;color:#aaa}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  @media(max-width:650px){.grid{grid-template-columns:1fr}}
+  video,audio{width:100%;border-radius:12px;background:#000}
+  .podcast-item{display:flex;gap:12px;background:#1a1a1a;padding:12px;border-radius:12px;margin-bottom:12px;align-items:flex-start}
+  .podcast-item img{width:70px;height:70px;border-radius:10px;object-fit:cover}
+  .podcast-info{flex:1}
+  .live-dot{display:inline-block;width:8px;height:8px;background:#f00;border-radius:50%;margin-right:6px;animation:blink 1s infinite}
+  @keyframes blink{50%{opacity:0}}
+</style>
+</head>
+<body>
+
+<header>ZIMCONNECT MEDIA HUB 🇿🇼</header>
+<div class="container">
+
+<!-- HOME -->
+<div id="home" class="section active">
+  <div class="card">
+    <h2>Welcome Home</h2>
+    <p class="small">Watch TV • Listen Radio • Street Gear Podcast • Movies</p>
+  </div>
+  <div class="grid">
+    <button class="btn" onclick="show('tv')">📺 ZIMCONNECT TV</button>
+    <button class="btn" onclick="show('radio')">📻 GROOVE FM</button>
+    <button class="btn green" onclick="show('podcast')">🎙️ STREET GEAR PODCAST</button>
+    <button class="btn" onclick="show('movies')">🎬 VIDEO CLUB</button>
+  </div>
+  <button class="btn gray" onclick="show('news')">📰 ZIM NEWS</button>
 </div>
 
+<!-- TV -->
+<div id="tv" class="section">
+  <h2><span class="live-dot"></span>ZIMCONNECT TV</h2>
+  <div class="card" style="background:#000">
+    <p class="small">🔴 24/7 Looped • Powered by Viloud</p>
+    <video id="tvPlayer" controls autoplay playsinline></video>
+    <a href="https://app.viloud.tv/channel/e855e1fe253e2054566f4b521fd22d1e" target="_blank" class="btn">OPEN IN VILLOUD APP</a>
+  </div>
+  <button class="btn gray" onclick="show('home')">⬅️ BACK</button>
+</div>
+
+<!-- RADIO -->
+<div id="radio" class="section">
+  <h2><span class="live-dot"></span>GROOVE FM</h2>
+  <div class="card">
+    <p class="small">🔴 LIVE 24/7 • Best Zim Music & Vibes</p>
+    <audio id="radioPlayer" controls autoplay></audio>
+    <p class="small">Powered by Zeno.fm</p>
+  </div>
+  <button class="btn gray" onclick="show('home')">⬅️ BACK</button>
+</div>
+
+<!-- PODCAST -->
+<div id="podcast" class="section">
+  <h2>🎙️ STREET GEAR PODCAST</h2>
+  <div class="card">
+    <p class="small">New Episodes: Audio + Video. Upload to GitHub /podcasts/ folder</p>
+    
+    <!-- EPISODE TEMPLATE - DUPLICATE FOR NEW EPISODES -->
+    <div class="podcast-item">
+      <img src="https://via.placeholder.com/70x70/e91e63/ffffff?text=SG1" alt="Ep1">
+      <div class="podcast-info">
+        <b>Ep 1: Street Gear Launch</b>
+        <p class="small">The beginning of the movement</p>
+        <audio controls><source src="https://YOUR-USERNAME.github.io/podcasts/ep1.mp3" type="audio/mpeg"></audio>
+        <video controls style="margin-top:8px"><source src="https://YOUR-USERNAME.github.io/podcasts/ep1.mp4" type="video/mp4"></video>
+      </div>
+    </div>
+
+    <div class="podcast-item">
+      <img src="https://via.placeholder.com/70x70/ff9800/ffffff?text=SG2">
+      <div class="podcast-info">
+        <b>Ep 2: Coming Soon</b>
+        <p class="small">Add your mp3 + mp4 here</p>
+      </div>
+    </div>
+
+  </div>
+  <button class="btn gray" onclick="show('home')">⬅️ BACK</button>
+</div>
+
+<!-- VIDEO CLUB -->
+<div id="movies" class="section">
+  <h2>🎬 VIDEO CLUB</h2>
+  <div class="card">
+    <p class="small">Host movies on GitHub or Google Drive</p>
+    <a href="#" class="btn">🎥 Zim Comedy 2025</a>
+    <a href="#" class="btn">🎥 Drama Series Ep 1</a>
+    <a href="#" class="btn">🎥 Music Videos Mix</a>
+    <a href="#" class="btn gray">+ Add More Movies</a>
+  </div>
+  <button class="btn gray" onclick="show('home')">⬅️ BACK</button>
+</div>
+
+<!-- NEWS -->
+<div id="news" class="section">
+  <h2>📰 ZIM NEWS</h2>
+  <div class="card">
+    <p class="small">Add your news iframe or RSS feed here</p>
+    <p>Example: <a href="https://www.newsday.co.zw" target="_blank" class="btn gray">Read NewsDay</a></p>
+  </div>
+  <button class="btn gray" onclick="show('home')">⬅️ BACK</button>
+</div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<script>
+function show(id){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  // stop other media
+  document.getElementById('tvPlayer').pause();
+  document.getElementById('radioPlayer').pause();
+  document.querySelectorAll('audio,video').forEach(m=>{if(m.id!='tvPlayer' && m.id!='radioPlayer') m.pause()});
+}
+
+// TV - VILLOUD HLS
+const tv = document.getElementById('tvPlayer');
+const tvSrc = 'https://app.viloud.tv/hls/channel/e855e1fe253e2054566f4b521fd22d1e.m3u8';
+if(Hls.isSupported()){const hls=new Hls();hls.loadSource(tvSrc);hls.attachMedia(tv);}
+else if(tv.canPlayType('application/vnd.apple.mpegurl')){tv.src=tvSrc;}
+
+// RADIO - ZENO HLS
+document.getElementById('radioPlayer').src = 'https://stream.zeno.fm/hls/m7becdafi0vtv';
+</script>
+
+</body>
+</html>
 <div id="books" class="section">
   <h2>📚 BOOK SHELF</h2>
   <div class="warning">Buy &amp; Sell Books | Authors Keep 70% | EcoCash $1-$10</div>
