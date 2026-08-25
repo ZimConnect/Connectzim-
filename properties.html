@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZIMCONNECT PROPERTIES 🇿🇼</title>
+<style>
+  :root{ --pink:#e91e63; --orange:#ff9800; --bg:#0a0a0a; --card:#121212; --text:#fff; }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:system-ui,Arial;background:var(--bg);color:var(--text)}
+  header{background:linear-gradient(90deg,var(--pink),var(--orange));padding:16px;text-align:center;font-size:20px;font-weight:800;position:sticky;top:0}
+  .container{max-width:900px;margin:0 auto;padding:15px}
+  .btn{background:var(--pink);color:#fff;padding:14px;border:none;border-radius:12px;width:100%;margin:8px 0;font-size:16px;font-weight:700;cursor:pointer;text-decoration:none;display:block;text-align:center}
+  .btn:hover{opacity:.9}.btn.gray{background:#2a2a2a}.btn.green{background:#22c55e}
+  .card{background:var(--card);padding:16px;border-radius:14px;margin-bottom:15px;border:1px solid #222}
+  h2{color:var(--pink);margin-bottom:10px}
+  .small{font-size:12px;color:#aaa}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  @media(max-width:650px){.grid{grid-template-columns:1fr}}
+  .property-item{background:#1a1a1a;padding:12px;border-radius:12px;margin-bottom:12px;border-left:4px solid var(--orange)}
+  .badge{display:inline-block;background:#333;padding:4px 8px;border-radius:6px;font-size:11px;margin-right:5px}
+  .warning{background:#ff980020;border:1px solid #ff9800;padding:12px;border-radius:8px;margin:10px 0}
+</style>
+</head>
+<body>
+
+<header>🏠 ZIMCONNECT PROPERTIES</header>
+<div class="container">
+
+  <div class="warning">
+    <b>🔒 MEMBERS ONLY TO POST</b><br>
+    <span class="small">$5 Membership to post listings. This stops scammers.</span><br>
+    <a href="https://wa.me/263XXXXXXXXX?text=Join%20ZimConnect%20Membership%20$5" class="btn green" style="margin-top:8px">JOIN MEMBERSHIP $5</a>
+  </div>
+
+  <div class="grid">
+    <a href="#houses-rent" class="btn gray">🏡 Houses To Rent</a>
+    <a href="#houses-sale" class="btn gray">🏠 Houses For Sale</a>
+    <a href="#flats-rent" class="btn gray">🏢 Flats To Let</a>
+    <a href="#flats-sale" class="btn gray">🏢 Flats For Sale</a>
+    <a href="#stands" class="btn gray">🌍 Residential Stands</a>
+    <a href="#students" class="btn gray">🎓 Student Accommodation</a>
+  </div>
+
+  <!-- HOUSES TO RENT -->
+  <div id="houses-rent" class="card">
+    <h2>🏡 Houses To Rent</h2>
+    <div class="property-item">
+      <span class="badge">Harare</span><span class="badge">3 Bed</span>
+      <b>House in Borrowdale</b><br>
+      <span class="small">$800/month • WhatsApp: 077X XXX XXX</span>
+    </div>
+  </div>
+
+  <!-- HOUSES FOR SALE -->
+  <div id="houses-sale" class="card">
+    <h2>🏠 Houses For Sale</h2>
+    <div class="property-item">
+      <span class="badge">Bulawayo</span><span class="badge">4 Bed</span>
+      <b>House in Suburbs</b><br>
+      <span class="small">$95,000 • WhatsApp: 071X XXX XXX</span>
+    </div>
+  </div>
+
+  <!-- FLATS TO LET -->
+  <div id="flats-rent" class="card">
+    <h2>🏢 Flats To Let</h2>
+    <div class="property-item">
+      <span class="badge">Harare CBD</span><span class="badge">2 Bed</span>
+      <b>Flat in Avenues</b><br>
+      <span class="small">$450/month • WhatsApp: 078X XXX</span>
+    </div>
+  </div>
+
+  <!-- FLATS FOR SALE -->
+  <div id="flats-sale" class="card">
+    <h2>🏢 Flats For Sale</h2>
+    <p class="small">No listings yet. Members can post.</p>
+  </div>
+
+  <!-- RESIDENTIAL STANDS -->
+  <div id="stands" class="card">
+    <h2>🌍 Residential Stands For Sale</h2>
+    <div class="property-item">
+      <span class="badge">Harare</span><span class="badge">300sqm</span>
+      <b>Stand in Southlea Park</b><br>
+      <span class="small">$12,000 • WhatsApp: 077X XXX XXX</span>
+    </div>
+  </div>
+
+  <!-- STUDENT ACCOMMODATION -->
+  <div id="students" class="card">
+    <h2>🎓 Student Accommodation</h2>
+    <div class="property-item">
+      <span class="badge">UZ</span><span class="badge">Single Room</span>
+      <b>Room near University of Zim</b><br>
+      <span class="small">$120/month • WhatsApp: 071X XXX</span>
+    </div>
+  </div>
+
+  <a href="index.html" class="btn gray">⬅️ BACK TO HOME</a>
+
+</div>
+</body>
+</html>
