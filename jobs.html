@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZimConnect JOBS 🇿🇼</title>
+<style>
+  :root{ --bg:#0a0a0a; --card:#121212; --text:#fff; }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:system-ui,Arial;background:var(--bg);color:var(--text);padding:15px}
+  header{background:linear-gradient(90deg,#e91e63,#ff9800);padding:16px;text-align:center;font-size:20px;font-weight:800;position:sticky;top:0}
+  .card{background:var(--card);padding:16px;border-radius:14px;margin-bottom:15px;border:1px solid #222}
+  .btn{background:#006400;color:#fff;padding:12px;border:none;border-radius:10px;width:100%;margin:8px 0;font-weight:700;cursor:pointer}
+  .btn:hover{opacity:.9}
+  input,textarea{width:100%;padding:10px;margin:6px 0;border-radius:8px;border:1px solid #333;background:#1a1a1a;color:#fff}
+  .job-card{background:#1a1a1a;padding:12px;border-radius:12px;margin-bottom:10px;border-left:4px solid #ff9800}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  @media(max-width:650px){.grid{grid-template-columns:1fr}}
+  .small{font-size:12px;color:#aaa}
+  .warning{background:#ff980020;border:1px solid #ff9800;padding:10px;border-radius:8px;margin:10px 0}
+</style>
+</head>
+<body>
+
+<header>ZimConnect 🇿🇼</header>
+
+<div class="container">
+
+  <div class="card">
+    <h2>🔧 JOBS / MARCHIO / HUSTLE</h2>
+    <p class="small">For Employers, Job Seekers, and Hustlers</p>
+    
+    <!-- POST JOB -->
+    <input id="jobTitle" type="text" placeholder="Job Title *ex: Tuckshop Assistant">
+    <textarea id="jobDesc" placeholder="Job description"></textarea>
+    <input id="jobPay" type="text" placeholder="Salary / Pay">
+    <input id="jobContact" type="text" placeholder="Contact phone">
+    <button class="btn" id="postJobBtn">POST A JOB</button>
+    <div id="jobStatus"></div>
+  </div>
+
+  <div style="border:2px dashed #006400;padding:20px;border-radius:10px;text-align:center;background:#0f0f0f;margin:10px 0">
+    <p>Upload Your CV/Resume <input type="file" id="cvUpload" accept=".pdf,.doc,.docx"></p>
+    <button class="btn" style="background:#006400">Send CV to 077XXXXXXX on WhatsApp for now</button>
+  </div>
+
+  <!-- QUICK CATEGORIES -->
+  <h3>QUICK MARCHIO CATEGORIES</h3>
+  <div class="grid">
+    <button class="btn" style="background:#444" data-alert="Showing Kubika / Cook jobs">KUBIKA</button>
+    <button class="btn" style="background:#444" data-alert="Showing Kuchenesa / Cleaning jobs">KUCHENESA</button>
+    <button class="btn" style="background:#444" data-alert="Showing Kutyaira / Driver jobs">KUTYAIRA</button>
+    <button class="btn" style="background:#444" data-alert="Showing Kurima / Farming jobs">KURIMA</button>
+    <button class="btn" style="background:#444" data-alert="Showing Kutengesa / Sales jobs">KUTENGESA</button>
+    <button class="btn" style="background:#444" data-alert="Showing Kuchengera Vana / Nanny jobs">KUCHENGERA</button>
+    <button class="btn" style="background:#444" data-alert="Showing Kugadzira / Repairs jobs">KUGADZIRA</button>
+  </div>
+
+  <input type="text" placeholder="Search: Driver, Maid, Builder..." id="jobSearch">
+  <div id="employeeJobsList"></div>
+
+  <a href="index.html" class="btn" style="background:#555">⬅️ BACK TO HOME</a>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+'use strict';
+
+const SUPABASE_URL = 'https://vbsnvsmvjjgqslille.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_HG6GE-HG6Y2NXRKf90_Q_B_JYTBHN';
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+function setStatus(id,msg,type=''){const el=document.getElementById(id);if(el){el.textContent=msg;el.className='status '+type}}
+function escapeHtml(u){return String(u??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');}
+
+async function postJob(){
+  const title=document.getElementById('jobTitle').value.trim();
+  const desc=document.getElementById('jobDesc').value.trim();
+  const pay=document.getElementById('jobPay').value.trim();
+  const contact=document.getElementById('jobContact').value.trim();
+  if(!title||!desc){setStatus('jobStatus','Fill in the job title and description.','error');return;}
+  const {error}=await supabase.from('jobs').insert([{title,description:desc,price:pay,contact}]);
+  if(error){setStatus('jobStatus','Error: '+error.message,'error');return;}
+  setStatus('jobStatus','Job posted successfully!','success');
+  ['jobTitle','jobDesc','jobPay','jobContact'].forEach(id=>document.getElementById(id).value='');
+  loadJobs();
+}
+
+async function loadJobs(){
+  const list=document.getElementById('employeeJobsList');
+  const q=document.getElementById('jobSearch').value.toLowerCase();
+  list.innerHTML='<div class="card">Loading jobs...</div>';
+  let {data,error}=await supabase.from('jobs').select('*').order('created_at',{ascending:false}).limit(20);
+  if(error){list.innerHTML='<div class="card">Unable to load jobs. Check that the jobs table and RLS policies exist.</div>';return;}
+  if(q){data=data.filter(j=>j.title.toLowerCase().includes(q)||j.description.toLowerCase().includes(q))}
+  if(!data.length){list.innerHTML='<div class="card">No jobs yet. Be the first to post!</div>';return;}
+  list.innerHTML=data.map(j=>`
+    <div class="job-card">
+      <h3>${escapeHtml(j.title)}</h3>
+      <p>${escapeHtml(j.description)}</p>
+      <p><b>Pay:</b> ${escapeHtml(j.price)}</p>
+      <p><b>Contact:</b> ${escapeHtml(j.contact)}</p>
+    </div>
+  `).join('');
+}
+
+// Events
+document.getElementById('postJobBtn').onclick=postJob;
+document.getElementById('jobSearch').oninput=loadJobs;
+document.querySelectorAll('[data-alert]').forEach(b=>b.onclick=()=>alert(b.dataset.alert));
+
+loadJobs(); // load on page open
+</script>
+
+</body>
+</html>
