@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZimConnect FLIGHTS ✈️</title>
+<style>
+  :root{ --bg:#0a0a0a; --card:#121212; --text:#fff; --btn:#006400; --accent:#00bfff; }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:system-ui,Arial;background:var(--bg);color:var(--text);padding-bottom:80px}
+  header{background:linear-gradient(90deg,#006400,#00bfff);padding:16px;text-align:center;font-size:20px;font-weight:800;position:sticky;top:0;z-index:100}
+  .container{max-width:900px;margin:0 auto;padding:15px}
+  .card{background:var(--card);padding:14px;border-radius:14px;margin-bottom:12px;border:1px solid #222}
+  input,select{width:100%;padding:12px;margin:6px 0;background:#1a1a1a;border:1px solid #333;border-radius:8px;color:#fff}
+  .btn{background:var(--btn);color:#fff;padding:12px;border:none;border-radius:8px;width:100%;font-weight:700;cursor:pointer}
+  .btn:hover{opacity:.9}
+  .flight{background:#1a1a1a;padding:12px;border-radius:10px;margin:8px 0;display:flex;justify-content:space-between;align-items:center}
+  .small{font-size:12px;color:#aaa}
+</style>
+</head>
+<body>
+
+<header>✈️ ZIMCONNECT FLIGHTS</header>
+
+<div class="container">
+
+  <div class="card">
+    <h3>🔍 Search Flights</h3>
+    <input type="text" id="from" placeholder="From: Harare HRE">
+    <input type="text" id="to" placeholder="To: Vic Falls VFA / JNB / CPT">
+    <input type="date" id="date">
+    <button class="btn" id="searchFlightsBtn">SEARCH FLIGHTS</button>
+  </div>
+
+  <div id="results" class="card">
+    <h3>Available Flights</h3>
+    <div id="flightList"><p class="small">Search to see flights</p></div>
+  </div>
+
+  <a href="index.html" class="btn" style="background:#333;margin-top:15px">⬅️ BACK TO HOME</a>
+
+</div>
+
+<script>
+const API_URL = "https://your-backend-url.com/api"; // <-- CHANGE THIS TO YOUR RENDER/RAILWAY URL
+
+document.getElementById('searchFlightsBtn').onclick = async () => {
+  let from = document.getElementById('from').value;
+  let to = document.getElementById('to').value;
+  let date = document.getElementById('date').value;
+  
+  if(!from || !to || !date){ alert("Fill all fields"); return; }
+  
+  document.getElementById('flightList').innerHTML = "Loading...";
+  
+  try {
+    // THIS CALLS YOUR flights.js GET ROUTE
+    let res = await fetch(`${API_URL}/flights?from=${from}&to=${to}&date=${date}`);
+    let data = await res.json();
+    
+    if(data.length === 0){
+      document.getElementById('flightList').innerHTML = "No flights found";
+      return;
+    }
+    
+    document.getElementById('flightList').innerHTML = data.map(f => `
+      <div class="flight">
+        <div>
+          <b>${f.airline}</b><br>
+          <small>${f.from} → ${f.to} | ${f.time}</small><br>
+          <b style="color:#4caf50">$${f.price}</b>
+        </div>
+        <button class="btn" style="width:100px" onclick="bookFlight('${f.id}')">BOOK</button>
+      </div>
+    `).join('');
+    
+  } catch(e){
+    document.getElementById('flightList').innerHTML = "Error loading flights. Check backend URL";
+  }
+}
+
+function bookFlight(id){
+  // THIS CALLS YOUR flights.js POST ROUTE
+  fetch(`${API_URL}/flights/book`, {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({flightId: id, user: "Guest"})
+  }).then(()=>alert("Booking request sent! We will WhatsApp you for EcoCash payment"));
+}
+</script>
+
+</body>
+</html>
