@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZimConnect AUCTION 🇿🇼</title>
+<style>
+  :root{ --bg:#0a0a0a; --card:#121212; --text:#fff; --btn:#006400; --gold:#ffd700; }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:system-ui,Arial;background:var(--bg);color:var(--text);padding:15px}
+  header{background:linear-gradient(90deg,#e91e63,#ff9800);padding:16px;text-align:center;font-size:20px;font-weight:800}
+  .card{background:var(--card);padding:16px;border-radius:14px;margin-bottom:15px;border:1px solid #222}
+  .btn{background:var(--btn);color:#fff;padding:14px;border:none;border-radius:10px;width:100%;margin:8px 0;font-weight:700;cursor:pointer;text-decoration:none;display:block;text-align:center}
+  .btn.gold{background:var(--gold);color:#000}
+  .btn:hover{opacity:.9}
+  .auction-item{background:#1a1a1a;padding:14px;border-radius:12px;margin-bottom:12px;border-left:4px solid var(--gold)}
+  .timer{font-size:22px;font-weight:800;color:#ffd700;text-align:center;margin:10px 0}
+  .small{font-size:12px;color:#aaa}
+  h2{color:#e91e63;margin-bottom:10px}
+  .warning{background:#ff980020;border:1px solid #ff9800;padding:10px;border-radius:8px;margin:10px 0}
+</style>
+</head>
+<body>
+
+<header>🔨 ZIMCONNECT AUCTION</header>
+
+<div class="container">
+
+  <div class="warning">
+    <b>💰 $20 ENTRY FEE</b><br>
+    <span class="small">Pay to join live auctions. Spin to Win prizes every Friday 8PM</span><br>
+    <a href="https://wa.me/263XXXXXXXXX?text=Join%20ZimConnect%20Auction%20$20" class="btn gold">JOIN AUCTION $20</a>
+  </div>
+
+  <div class="card">
+    <h2>🔥 LIVE AUCTION NOW</h2>
+    <div class="timer" id="timer">02:15:30</div>
+    <div class="auction-item">
+      <b>Item:</b> iPhone 14 Pro Max<br>
+      <b>Current Bid:</b> $800<br>
+      <b>By:</b> @Tariq_Hre<br>
+      <button class="btn" onclick="alert('Place bid via WhatsApp: 077XXXXXXX')">PLACE BID</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>📦 UPCOMING ITEMS</h2>
+    <div class="auction-item">
+      <b>Toyota Runx 2010</b><br>
+      <span class="small">Starting Bid: $3500 • Sunday 7PM</span>
+    </div>
+    <div class="auction-item">
+      <b>2 Seater Couch</b><br>
+      <span class="small">Starting Bid: $200 • Sunday 7:30PM</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🎡 SPIN TO WIN</h2>
+    <p class="small">Every Friday 8PM. $20 entry gets you 1 spin. Win phones, groceries, cash</p>
+    <button class="btn gold" onclick="alert('Spin starts Friday 8PM. Join $20 to enter')">JOIN SPIN TO WIN</button>
+  </div>
+
+  <a href="index.html" class="btn" style="background:#555">⬅️ BACK TO HOME</a>
+</div>
+
+<script>
+// Simple countdown timer
+function updateTimer(){
+  const t = document.getElementById('timer');
+  let [h,m,s] = t.textContent.split(':').map(Number);
+  s--; if(s<0){s=59;m--;} if(m<0){m=59;h--;} if(h<0){h=2;m=15;s=30;}
+  t.textContent = String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+}
+setInterval(updateTimer,1000);
+</script>
+
+</body>
+</html>
