@@ -1,1 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZimConnect TOURISM 🇿🇼</title>
+<style>
+  :root{ --bg:#0a0a0a; --card:#121212; --text:#fff; --btn:#ff8c00; --btn-green:#006400; --accent:#ff8c00; }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:system-ui,Arial;background:var(--bg);color:var(--text);padding-bottom:80px}
+  header{background:linear-gradient(90deg,#006400,#ff8c00);padding:16px;text-align:center;font-size:20px;font-weight:800;position:sticky;top:0;z-index:100}
+  .container{max-width:1000px;margin:0 auto;padding:15px}
+  .warning{background:#ff8c00;color:#000;padding:12px;border-radius:10px;margin:15px 0;text-align:center;font-weight:700}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+  .tour-card{background:var(--card);padding:14px;border-radius:14px;border:1px solid #222}
+  .tour-card b{font-size:16px;color:var(--accent)}
+  .tour-card small{color:#aaa;font-size:12px}
+  .btn{background:var(--btn);color:#000;padding:10px;border:none;border-radius:8px;width:100%;margin-top:8px;font-weight:700;cursor:pointer}
+  .btn.green{background:var(--btn-green);color:#fff}
+  .btn:hover{opacity:.9}
+  input{width:100%;padding:12px;margin:6px 0;background:#1a1a1a;border:1px solid #333;border-radius:8px;color:#fff}
+  h2,h3{margin:15px 0 8px;color:var(--accent)}
+  .small{font-size:12px;color:#aaa}
+</style>
+</head>
+<body>
 
+<header>✈️ ZIMCONNECT TOURISM & TRAVEL</header>
+
+<div class="container">
+
+<div class="warning">Book Excursions | Places of Interest in Zimbabwe | Pay by EcoCash</div>
+
+<h3>🔥 Top Places to Visit</h3>
+<div class="grid">
+
+<div class="tour-card"><b>Victoria Falls</b><br><small>World's largest waterfall. Entry $30 USD</small><br><button class="btn" onclick="bookWhatsApp('Victoria Falls Tour $120')">Book Excursion</button></div>
+
+<div class="tour-card"><b>Hwange National Park</b><br><small>Safari & Big 5. Entry $50 USD</small><br><button class="btn" onclick="bookWhatsApp('Hwange Safari $200')">Book Safari</button></div>
+
+<div class="tour-card"><b>Great Zimbabwe Ruins</b><br><small>Ancient stone city. Entry $15 USD</small><br><button class="btn" onclick="bookWhatsApp('Great Zimbabwe Tour $80')">Book Tour</button></div>
+
+<div class="tour-card"><b>Eastern Highlands</b><br><small>Mutare mountains, waterfalls & Troutbeck</small><br><button class="btn" onclick="bookWhatsApp('Eastern Highlands Trip $90')">Book Trip</button></div>
+
+<div class="tour-card"><b>Lake Kariba</b><br><small>Houseboats, Tiger fishing & Sunset cruises</small><br><button class="btn" onclick="bookWhatsApp('Lake Kariba Houseboat $150')">Book Cruise</button></div>
+
+<div class="tour-card"><b>Matobo National Park</b><br><small>Rhinos, Rock art & Cecil Rhodes grave</small><br><button class="btn" onclick="bookWhatsApp('Matobo Rhino Tour $100')">Book Tour</button></div>
+
+<div class="tour-card"><b>Gonarezhou National Park</b><br><small>"Place of Elephants". Wild & remote</small><br><button class="btn" onclick="bookWhatsApp('Gonarezhou Safari $250')">Book Safari</button></div>
+
+<div class="tour-card"><b>Chinhoyi Caves</b><br><small>Deep blue diving cave. "Sleeping Pool"</small><br><button class="btn" onclick="bookWhatsApp('Chinhoyi Caves Day Trip $60')">Book Trip</button></div>
+
+<div class="tour-card"><b>Nyanga National Park</b><br><small>Zim's highest peaks, trout & World’s View</small><br><button class="btn" onclick="bookWhatsApp('Nyanga Mountains Trip $85')">Book Trip</button></div>
+
+<div class="tour-card"><b>Mana Pools National Park</b><br><small>Walking safari with lions. UNESCO Site</small><br><button class="btn" onclick="bookWhatsApp('Mana Pools Walking Safari $300')">Book Safari</button></div>
+
+<div class="tour-card"><b>Bulawayo & Railway Museum</b><br><small>City of Kings + Historic trains</small><br><button class="btn" onclick="bookWhatsApp('Bulawayo City Tour $70')">Book City Tour</button></div>
+
+<div class="tour-card"><b>Kyle Dam / Lake Mutirikwi</b><br><small>Boating, fishing & wildlife near Masvingo</small><br><button class="btn" onclick="bookWhatsApp('Lake Mutirikwi Day Trip $50')">Book Day Trip</button></div>
+
+</div>
+
+<hr style="border:0;border-top:1px solid #222;margin:20px 0">
+
+<h3>📞 Custom Booking Request</h3>
+<p class="small">Fill this and we’ll WhatsApp you with EcoCash payment details</p>
+<input type="text" id="tourName" placeholder="Your Name">
+<input type="text" id="tourPlace" placeholder="Where do you want to go?">
+<input type="date" id="tourDate">
+<button type="button" class="btn green" id="bookTourBtn">📲 REQUEST BOOKING ON WHATSAPP</button>
+
+<a href="index.html" class="btn" style="background:#333;color:#fff;margin-top:15px">⬅️ BACK TO HOME</a>
+
+</div>
+
+<script>
+const WHATSAPP_NUMBER = "26377XXXXXXX"; // <-- PUT YOUR WHATSAPP NUMBER HERE WITH 263
+
+function bookWhatsApp(package) {
+  let msg = `Hi ZimConnect! I want to book: ${package}. Please send EcoCash details.`;
+  window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
+}
+
+document.getElementById('bookTourBtn').onclick = function() {
+  let name = document.getElementById('tourName').value;
+  let place = document.getElementById('tourPlace').value;
+  let date = document.getElementById('tourDate').value;
+  if(!name || !place || !date) { alert("Please fill all fields"); return; }
+  let msg = `Hi ZimConnect! Booking Request\nName: ${name}\nPlace: ${place}\nDate: ${date}\nPlease send EcoCash details.`;
+  window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
+}
+</script>
+
+</body>
+</html>
