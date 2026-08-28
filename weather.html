@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZimConnect WEATHER 🇿🇼</title>
+<style>
+  :root{ --bg:#0a0a0a; --card:#121212; --text:#fff; --btn:#006400; --accent:#ff9800; }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:system-ui,Arial;background:var(--bg);color:var(--text);padding:15px}
+  header{background:linear-gradient(90deg,#e91e63,#ff9800);padding:16px;text-align:center;font-size:20px;font-weight:800;position:sticky;top:0}
+  .card{background:var(--card);padding:14px;border-radius:14px;margin-bottom:12px;border:1px solid #222}
+  .btn{background:var(--btn);color:#fff;padding:12px;border:none;border-radius:10px;width:100%;margin:8px 0;font-weight:700;cursor:pointer;text-decoration:none;display:block;text-align:center}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px}
+  .city-card{text-align:center;padding:12px}
+  .city-card.loading{opacity:.5}
+  .city-name{font-size:15px;font-weight:700;margin-bottom:4px}
+  .temp{font-size:26px;font-weight:800;color:var(--accent)}
+  .desc{font-size:12px;text-transform:capitalize}
+  .small{font-size:10px;color:#aaa}
+  h2{color:#e91e63;margin-bottom:10px;text-align:center}
+</style>
+</head>
+<body>
+
+<header>🌤️ ZIMCONNECT WEATHER</header>
+
+<div class="container">
+
+  <div class="card">
+    <h2>WEATHER ACROSS ZIMBABWE</h2>
+    <p class="small">Live data updates every 10 minutes</p>
+    <input type="text" id="searchCity" placeholder="Search any Zim town..." style="width:100%;padding:10px;margin-top:8px;border-radius:8px;border:1px solid #333;background:#1a1a1a;color:#fff">
+  </div>
+
+  <div class="grid" id="weatherGrid"></div>
+
+  <a href="index.html" class="btn" style="background:#555">⬅️ BACK TO HOME</a>
+</div>
+
+<script>
+const API_KEY = 'YOUR_API_KEY'; // Get free key from openweathermap.org
+
+const majorCities = [
+  'Harare', 'Bulawayo', 'Chitungwiza', 'Mutare', 'Gweru', 'Kwekwe', 
+  'Kadoma', 'Masvingo', 'Chinhoyi', 'Norton', 'Marondera', 'Bindura',
+  'Beitbridge', 'Hwange', 'Redcliff', 'Zvishavane', 'Victoria Falls'
+];
+
+const grid = document.getElementById('weatherGrid');
+
+// Create all city cards
+grid.innerHTML = majorCities.map(city => `
+  <div class="card city-card loading" id="card-${city.replace(' ','')}">
+    <div class="city-name">${city}</div>
+    <div class="temp" id="temp-${city.replace(' ','')}">--°C</div>
+    <div class="desc" id="desc-${city.replace(' ','')}">Loading</div>
+    <div class="small" id="other-${city.replace(' ','')}"></div>
+  </div>
+`).join('');
+
+async function getWeather(city){
+  const id = city.replace(' ','');
+  try{
+    const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city},ZW&appid=${API_KEY}&units=metric`);
+    const data = await res.json();
+    document.getElementById(`temp-${id}`).textContent = Math.round(data.main.temp)+'°C';
+    document.getElementById(`desc-${id}`).textContent = data.weather[0].description;
+    document.getElementById(`other-${id}`).textContent = `💧${data.main.humidity}% 💨${data.wind.speed}m/s`;
+    document.getElementById(`card-${id}`).classList.remove('loading');
+  }catch(e){
+    document.getElementById(`desc-${id}`).textContent = 'No data';
+  }
+}
+
+// Load all cities
+majorCities.forEach(city => getWeather(city));
+
+// Refresh every 10 min
+setInterval(() => majorCities.forEach(city => getWeather(city)), 600000);
+
+// Search function
+document.getElementById('searchCity').addEventListener('keypress', e => {
+  if(e.key === 'Enter'){
+    const town = e.target.value.trim();
+    if(town) getWeather(town);
+  }
+});
+</script>
+
+</body>
+</html>
