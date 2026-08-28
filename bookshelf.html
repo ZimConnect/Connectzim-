@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZimConnect BOOKSHELF 📚</title>
+<style>
+  :root{ --bg:#0a0a0a; --card:#131921; --sidebar:#232f3e; --text:#fff; --accent:#ff9900; --btn:#8b4513; }
+  *{box-sizing:border-box;margin:0;padding:0;font-family:Arial,Helvetica,sans-serif}
+  body{background:var(--bg);color:var(--text)}
+  
+  /* HEADER */
+  header{background:var(--sidebar);padding:12px 15px;display:flex;align-items:center;gap:15px;position:sticky;top:0;z-index:100}
+  header h1{font-size:18px;color:var(--accent)}
+  .search{flex:1;display:flex}
+  .search input{flex:1;padding:10px;border:none;border-radius:4px 0 0 4px;background:#fff;color:#000}
+  .search button{background:var(--accent);border:none;padding:0 15px;border-radius:0 4px 4px 0;cursor:pointer;font-weight:700}
+  
+  /* LAYOUT */
+  .wrap{display:flex;max-width:1400px;margin:0 auto}
+  .sidebar{width:220px;background:var(--sidebar);padding:15px;min-height:100vh}
+  .sidebar h3{color:var(--accent);margin-bottom:10px;font-size:14px}
+  .sidebar button{display:block;width:100%;text-align:left;background:none;border:none;color:#ddd;padding:8px;border-radius:4px;cursor:pointer}
+  .sidebar button:hover,.sidebar button.active{background:#37475a;color:#fff}
+  
+  .main{flex:1;padding:15px}
+  .banner{background:linear-gradient(90deg,#8b4513,#e91e63);padding:20px;border-radius:8px;margin-bottom:15px;text-align:center}
+  .banner b{font-size:20px}
+  
+  /* BOOK GRID */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:15px}
+  .book{background:var(--card);border:1px solid #2a2a2a;border-radius:8px;padding:10px;text-align:center}
+  .book-cover{font-size:60px;margin-bottom:8px}
+  .book b{font-size:14px;display:block}
+  .book small{color:#aaa;font-size:12px}
+  .price{color:#4caf50;font-weight:700;margin:5px 0}
+  .price.paid{color:var(--accent)}
+  .btn{background:var(--btn);color:#fff;border:none;padding:8px;border-radius:4px;width:100%;cursor:pointer;font-weight:700;font-size:13px}
+  .btn:hover{opacity:.9}
+  
+  .warning{background:#8b4513;color:#fff;padding:10px;border-radius:6px;margin:15px 0;text-align:center;font-weight:700;font-size:13px}
+  input.upload{width:100%;padding:10px;margin:6px 0;background:#1a1a1a;border:1px solid #333;border-radius:4px;color:#fff}
+  .status{padding:10px;border-radius:6px;margin-top:8px;display:none;font-size:13px}
+  .status.ok{background:#1b5e20}
+  
+  @media(max-width:768px){.sidebar{display:none}}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>📚 ZIMCONNECT BOOKSHELF</h1>
+  <div class="search">
+    <input type="text" id="searchInput" placeholder="Search books, authors...">
+    <button onclick="searchBooks()">Search</button>
+  </div>
+</header>
+
+<div class="wrap">
+  <!-- SIDEBAR CATEGORIES -->
+  <div class="sidebar">
+    <h3>CATEGORIES</h3>
+    <button class="active" data-cat="all">All Books</button>
+    <button data-cat="ebook">📱 eBooks</button>
+    <button data-cat="audio">🎧 Audiobooks</button>
+    <button data-cat="zim">🇿🇼 Zim Authors</button>
+    <button data-cat="fiction">📖 Fiction</button>
+    <button data-cat="nonfiction">📘 Non-Fiction</button>
+    <button data-cat="kids">🧒 Kids</button>
+    <button data-cat="religion">✝️ Religion</button>
+    <button data-cat="business">💼 Business</button>
+    
+    <h3 style="margin-top:20px">SELL BOOKS</h3>
+    <input type="text" placeholder="Book Title" id="book_title" class="upload">
+    <input type="text" placeholder="Author Name" id="book_author" class="upload">
+    <input type="number" placeholder="Price USD" id="book_price" class="upload" min="0" step="0.01">
+    <input type="file" id="bookFile" class="upload" accept=".pdf,.epub,.jpg,.jpeg,.png">
+    <button class="btn" id="uploadBookBtn">📤 UPLOAD BOOK</button>
+    <div id="bookStatus" class="status"></div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="main">
+    <div class="warning">Buy & Sell Books | Authors Keep 70% | Pay by EcoCash $1-$10</div>
+    
+    <div class="banner">
+      <b>🔥 What Zim is Reading Today</b><br>
+      <small>Support Local Authors</small>
+    </div>
+
+    <div class="grid" id="bookGrid">
+      
+      <!-- BOOK 1 -->
+      <div class="book" data-cat="ebook zim fiction">
+        <div class="book-cover">📕</div>
+        <b>Dandemutande</b>
+        <small>Tsitsi Dangarembga</small>
+        <div class="price">Free eBook</div>
+        <button class="btn" onclick="alert('DM us on WhatsApp for free PDF')">READ NOW</button>
+      </div>
+
+      <!-- BOOK 2 -->
+      <div class="book" data-cat="audio zim">
+        <div class="book-cover">🎧</div>
+        <b>Ngano Tales Vol 1</b>
+        <small>Comedian Baba</small>
+        <div class="price paid">$1.99 Audiobook</div>
+        <button class="btn" onclick="buyBook('Ngano Tales Vol 1', 1.99)">LISTEN</button>
+      </div>
+
+      <!-- BOOK 3 -->
+      <div class="book" data-cat="ebook zim fiction">
+        <div class="book-cover">📘</div>
+        <b>Nervous Conditions</b>
+        <small>Tsitsi Dangarembga</small>
+        <div class="price paid">$2.99 eBook</div>
+        <button class="btn" onclick="buyBook('Nervous Conditions', 2.99)">BUY</button>
+      </div>
+
+      <!-- BOOK 4 -->
+      <div class="book" data-cat="nonfiction business">
+        <div class="book-cover">📗</div>
+        <b>Street Hustle Guide</b>
+        <small>Zim Entrepreneur</small>
+        <div class="price paid">$4.99 eBook</div>
+        <button class="btn" onclick="buyBook('Street Hustle Guide', 4.99)">BUY</button>
+      </div>
+
+      <!-- BOOK 5 -->
+      <div class="book" data-cat="kids">
+        <div class="book-cover">📙</div>
+        <b>Shona Folktales</b>
+        <small>For Kids</small>
+        <div class="price paid">$1.50 eBook</div>
+        <button class="btn" onclick="buyBook('Shona Folktales', 1.50)">BUY</button>
+      </div>
+
+      <!-- BOOK 6 -->
+      <div class="book" data-cat="religion">
+        <div class="book-cover">📕</div>
+        <b>Prayers of Hope</b>
+        <small>Pastor Mike</small>
+        <div class="price paid">$3.00 eBook</div>
+        <button class="btn" onclick="buyBook('Prayers of Hope', 3.00)">BUY</button>
+      </div>
+
+    </div>
+
+    <a href="index.html" class="btn" style="background:#333;margin-top:20px">⬅️ BACK TO HOME</a>
+  </div>
+</div>
+
+<script>
+const WHATSAPP_NUMBER = "26377XXXXXXX"; // <-- PUT YOUR ECOCASH WHATSAPP
+
+// CATEGORY FILTER
+document.querySelectorAll('.sidebar button[data-cat]').forEach(btn=>{
+  btn.onclick=()=>{
+    document.querySelectorAll('.sidebar button').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    let cat=btn.dataset.cat;
+    document.querySelectorAll('.book').forEach(book=>{
+      book.style.display = (cat==='all' || book.dataset.cat.includes(cat)) ? 'block' : 'none';
+    });
+  }
+});
+
+// SEARCH
+function searchBooks(){
+  let q=document.getElementById('searchInput').value.toLowerCase();
+  document.querySelectorAll('.book').forEach(book=>{
+    let txt=book.innerText.toLowerCase();
+    book.style.display = txt.includes(q) ? 'block' : 'none';
+  });
+}
+
+// BUY BUTTON
+function buyBook(title, price){
+  let msg=`Hi ZimConnect! I want to buy: ${title} for $${price}. Please send EcoCash details.`;
+  window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
+}
+
+// UPLOAD BOOK
+document.getElementById('uploadBookBtn').onclick=()=>{
+  let title=document.getElementById('book_title').value;
+  let author=document.getElementById('book_author').value;
+  let price=document.getElementById('book_price').value;
+  let file=document.getElementById('bookFile').files[0];
+  let status=document.getElementById('bookStatus');
+  
+  if(!title||!author||!price||!file){
+    status.style.display='block';status.style.background='#b71c1c';
+    status.innerHTML='Please fill all fields and attach file';return;
+  }
+  let msg=`NEW BOOK UPLOAD\nTitle: ${title}\nAuthor: ${author}\nPrice: $${price}\nFile: ${file.name}\n\nSend upload + 70% EcoCash details`;
+  window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
+  status.className='status ok';status.style.display='block';
+  status.innerHTML='✅ Upload request sent! We will WhatsApp you.';
+  document.getElementById('book_title').value='';document.getElementById('book_author').value='';
+  document.getElementById('book_price').value='';document.getElementById('bookFile').value='';
+}
+</script>
+</body>
+</html>
