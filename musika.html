@@ -1,1 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZimConnect MUSIKA 🇿🇼</title>
+<style>
+  :root{ --bg:#0a0a0a; --card:#121212; --text:#fff; --btn:#006400; --orange:#ff9800; }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:system-ui,Arial;background:var(--bg);color:var(--text);padding:15px}
+  header{background:linear-gradient(90deg,#e91e63,#ff9800);padding:16px;text-align:center;font-size:20px;font-weight:800;position:sticky;top:0}
+  .card{background:var(--card);padding:16px;border-radius:14px;margin-bottom:15px;border:1px solid #222}
+  .btn{background:var(--btn);color:#fff;padding:12px;border:none;border-radius:10px;width:100%;margin:8px 0;font-weight:700;cursor:pointer;text-decoration:none;display:block;text-align:center}
+  .btn:hover{opacity:.9}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  @media(max-width:650px){.grid{grid-template-columns:1fr}}
+  .market-item{background:#1a1a1a;padding:14px;border-radius:12px;margin-bottom:12px;border-left:4px solid var(--orange);cursor:pointer}
+  .market-item:hover{background:#222}
+  .small{font-size:12px;color:#aaa}
+  h2{color:#e91e63;margin-bottom:10px}
+</style>
+</head>
+<body>
 
+<header>🛍️ ZIMCONNECT MUSIKA</header>
+
+<div class="container">
+
+  <div class="card">
+    <h2>MARKET PLACE / pa MUSIKA</h2>
+    <button class="btn" onclick="alert('Post Item feature coming soon. WhatsApp admin to post: 077XXXXXXX')">+ POST ITEM $5</button>
+    <p class="small">Buy and Sell Anything in Zim. Members only to post.</p>
+  </div>
+
+  <!-- LISTINGS - SAME AS YOUR INDEX -->
+  <div class="grid">
+    <div class="market-item" onclick="alert('Toyota Runx - $4500\nBulawayo\nContact: 077XXXXXXX')">
+      <b>🚗 Toyota Runx</b><br>
+      $4500<br>
+      <span class="small">Bulawayo</span>
+    </div>
+
+    <div class="market-item" onclick="alert('iPhone 13 Pro Max - $400\nHarare CBD\nContact: 078XXXXXXX')">
+      <b>📱 iPhone 13 Pro Max</b><br>
+      $400<br>
+      <span class="small">Harare CBD</span>
+    </div>
+
+    <div class="market-item" onclick="alert('Dresses - $20\nMutare\nContact: 071XXXXXXX')">
+      <b>👗 Dresses</b><br>
+      $20<br>
+      <span class="small">Mutare</span>
+    </div>
+
+    <div class="market-item" onclick="alert('Flat 500 - $6000\nHarare\nContact: 077XXXXXXX')">
+      <b>🏠 Flat 500</b><br>
+      $6000<br>
+      <span class="small">Harare</span>
+    </div>
+  </div>
+
+  <a href="index.html" class="btn" style="background:#555">⬅️ BACK TO HOME</a>
+
+</div>
+</body>
+</html>
