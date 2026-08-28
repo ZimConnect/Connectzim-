@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZimConnect MEDIA HUB 🇿🇼</title>
+<style>
+  :root{ --bg:#0a0a0a; --card:#121212; --text:#fff; --btn:#006400; --btn-gray:#333; --accent:#e91e63; }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:system-ui,Arial;background:var(--bg);color:var(--text);padding-bottom:80px}
+  header{background:linear-gradient(90deg,#e91e63,#ff9800);padding:16px;text-align:center;font-size:20px;font-weight:800;position:sticky;top:0;z-index:100}
+  .container{max-width:900px;margin:0 auto;padding:15px}
+  .card{background:var(--card);padding:14px;border-radius:14px;margin-bottom:12px;border:1px solid #222}
+  .media-btn{background:var(--btn);color:#fff;padding:12px;border:none;border-radius:10px;width:100%;margin:6px 0;font-weight:700;cursor:pointer;text-decoration:none;display:block;text-align:center;font-size:15px}
+  .media-btn.gray{background:var(--btn-gray)}
+  .media-btn:hover{opacity:.9}
+  .media-card{background:#1a1a1a;padding:12px;border-radius:10px;margin:8px 0}
+  .small{font-size:12px;color:#aaa}
+  h3{color:var(--accent);margin-bottom:8px;font-size:18px}
+  video,audio{width:100%;border-radius:8px;margin-top:8px;background:#000}
+</style>
+</head>
+<body>
+
+<header>📺 ZIMCONNECT MEDIA HUB</header>
+
+<div class="container">
+
+  <!-- 1. TV -->
+  <div id="mediaTV" class="card">
+    <h3>🔴 ZIMCONNECT TV</h3>
+    <p class="small">24/7 Looped • Powered by Viloud</p>
+    <!-- Replace SRC with your Viloud HLS .m3u8 link from Viloud Dashboard > Embed -->
+    <video id="tvPlayer" controls playsinline autoplay muted>
+      <source src="https://app.viloud.tv/channel/e855e1fe253e2054566f4b521fd22d1e" type="application/x-mpegURL">
+      Your browser does not support video. 
+      <a href="https://app.viloud.tv/channel/e855e1fe253e2054566f4b521fd22d1e" target="_blank">Open in Viloud</a>
+    </video>
+    <a href="https://app.viloud.tv/channel/e855e1fe253e2054566f4b521fd22d1e" target="_blank" rel="noopener" class="media-btn">OPEN IN VILLOUD APP</a>
+  </div>
+
+  <!-- 2. RADIO -->
+  <div id="mediaRadio" class="card">
+    <h3>🔴 GROOVE FM</h3>
+    <p class="small">LIVE 24/7 • Best Zim Music & Vibes • Powered by Zeno.fm</p>
+    <!-- Replace SRC with your Zeno Stream URL from Zeno Dashboard > Embed -->
+    <audio id="radioPlayer" controls>
+      <source src="https://stream.zeno.fm/PUT_YOUR_ZENO_STREAM_HERE" type="audio/mpeg">
+      Your browser does not support audio.
+    </audio>
+    <a href="https://zeno.fm" target="_blank" class="media-btn gray">LISTEN ON ZENO.FM</a>
+  </div>
+
+  <!-- 3. PODCAST -->
+  <div id="mediaPodcast" class="card">
+    <h3>🎙️ STREET GEAR PODCAST</h3>
+    <div class="media-card">
+      <b>Ep 1: Street Gear Launch</b>
+      <p class="small">The beginning of the movement</p>
+      <audio controls><source src="podcasts/ep1.mp3" type="audio/mpeg"></audio>
+      <video controls><source src="podcasts/ep1.mp4" type="video/mp4"></video>
+    </div>
+    <div class="media-card">
+      <b>Ep 2: Coming Soon</b>
+      <p class="small">Upload MP3 + MP4 to `/podcasts/` folder on GitHub</p>
+    </div>
+  </div>
+
+  <!-- 4. MOVIES -->
+  <div id="mediaMovies" class="card">
+    <h3>🎬 VIDEO CLUB</h3>
+    <div class="media-card">
+      <p class="small">Add your hosted movie/video links below</p>
+      <button class="media-btn" type="button" onclick="alert('Paste your movie embed link here')">🎥 Zim Comedy</button>
+      <button class="media-btn" type="button" onclick="alert('Paste your movie embed link here')">🎥 Drama Series</button>
+      <button class="media-btn" type="button" onclick="alert('Paste your movie embed link here')">🎥 Music Videos Mix</button>
+    </div>
+  </div>
+
+  <!-- 5. NEWS -->
+  <div id="mediaNews" class="card">
+    <h3>📰 ZIM NEWS</h3>
+    <div class="media-card">
+      <p class="small">Read the latest news from NewsDay Zimbabwe</p>
+      <a href="https://www.newsday.co.zw" target="_blank" rel="noopener" class="media-btn">READ NEWSDAY</a>
+    </div>
+  </div>
+
+  <a href="index.html" class="media-btn gray">⬅️ BACK TO HOME</a>
+
+</div>
+
+</body>
+</html>
