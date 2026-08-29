@@ -2,72 +2,130 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Love Bite - Zimbabwe Dating App</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Love Bite | ZimConnect Dating</title>
 <style>
-  body { font-family: Arial, sans-serif; background: linear-gradient(135deg,#ffe4ec,#f3e8ff); margin:0; padding:0; }
-  .container { max-width: 500px; margin: auto; background: #fff; min-height: 100vh; padding-bottom: 80px; }
-  header { background: linear-gradient(90deg,#e91e63,#9c27b0); color: white; padding: 15px; text-align: center; }
-  header h1 { margin: 0; font-size: 24px; }
-  .section { padding: 20px; }
-  .warning { background: #fff3cd; border-left: 4px solid #e91e63; padding: 10px; margin-bottom: 15px; font-size: 13px; }
-  .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 20px; }
-  .lb-card { background: #fff; border: 2px solid #e91e63; border-radius: 12px; padding: 20px 10px; text-align: center; cursor: pointer; transition: 0.2s; }
-  .lb-card:hover { background: #ffe4ec; transform: scale(1.03); }
-  .lb-card b { color: #9c27b0; font-size: 16px; }
-  .btn { background: #e91e63; color: white; border: none; padding: 12px; border-radius: 8px; width: 100%; font-size: 16px; cursor: pointer; margin-top: 10px; }
-  .btn-back { background: #333; }
-  .small { font-size: 12px; color: #666; text-align: center; }
+body{margin:0;font-family:Arial;background:#fff}
+.header{background:linear-gradient(135deg,#e91e63,#9c27b0);color:#fff;text-align:center;padding:20px}
+.header h1{margin:0;font-size:28px}
+.header p{margin:5px 0 0;font-size:13px;opacity:.9}
+.warning{background:#fff3cd;padding:12px;margin:10px;border-left:4px solid #ffc107;font-size:14px;border-radius:6px}
+h2{text-align:center;color:#e91e63}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;padding:15px}
+.card{border:2px solid #e91e63;border-radius:12px;padding:15px;text-align:center;cursor:pointer;transition:.2s;background:#fff}
+.card:hover{transform:scale(1.03);background:#fce4ec}
+.card h3{margin:8px 0;color:#9c27b0}
+.btn{width:calc(100% - 30px);margin:8px 15px;padding:14px;border:0;border-radius:10px;font-weight:bold;font-size:16px;cursor:pointer}
+.btn.join{background:#e91e63;color:#fff}
+.btn.login{background:#9c27b0;color:#fff}
+.btn.back{background:#333;color:#fff}
+.section{display:none;padding:15px}
+.section.active{display:block}
+.profile{background:#f5f5f5;border-radius:10px;padding:12px;margin:10px 0;display:flex;gap:10px}
+.profile img{width:60px;height:60px;border-radius:50%;object-fit:cover}
+.chat-btn{background:#25d366;color:#fff;border:0;padding:8px 12px;border-radius:8px;font-weight:bold}
 </style>
 </head>
 <body>
-<div class="container">
 
-  <header>
-    <h1>💕 LOVE BITE</h1>
-    <p class="small">Zimbabwe's #1 Dating & Connections App</p>
-  </header>
-
-  <div class="section">
-    <div class="warning">🔞 18+ ONLY. Be respectful. Verify ID to unlock chat.</div>
-    
-    <h2 style="text-align:center;color:#e91e63">Find Your Connection</h2>
-
-    <div class="grid">
-      <div class="lb-card" data-alert="Browse Love Seekers">
-        <b>💕 LOVE SEEKERS</b><br>
-        <small>Serious Dating & Marriage</small>
-      </div>
-      <div class="lb-card" data-alert="Browse Match Makers">
-        <b>🤝 MATCH MAKING</b><br>
-        <small>Family & Friends Set You Up</small>
-      </div>
-      <div class="lb-card" data-alert="Browse Models">
-        <b>📸 MODELS</b><br>
-        <small>Portfolio, Events, Collabs</small>
-      </div>
-      <div class="lb-card" data-alert="Book Entertainers">
-        <b>💃 ENTERTAINERS</b><br>
-        <small>Exotic Dancers, Event Bookings</small>
-      </div>
-    </div>
-
-    <button class="btn" data-alert="Sign Up with Email or Phone">🔥 JOIN LOVE BITE</button>
-    <button class="btn" style="background:#9c27b0" data-alert="Login to your account">LOGIN</button>
-
-    <!-- THIS IS WHERE THE BACK BUTTON GOES -->
-    <button class="btn btn-back" onclick="window.open('https://zimconnect.github.io/Connectzim-/')">⬅️ BACK TO ZIMCONNECT</button>
-
-    <p class="small" style="margin-top:20px">Want the full app with video chat? Download coming soon.</p>
-  </div>
-
+<div class="header">
+  <h1>💕 LOVE BITE</h1>
+  <p>Zimbabwe's #1 Dating & Connections App</p>
 </div>
 
+<div class="warning">🔞 18+ ONLY. Be respectful. Verify ID to unlock chat.</div>
+
+<section id="main" class="section active">
+  <h2>Find Your Connection</h2>
+  <div class="grid">
+    <div class="card" onclick="showSection('seekers')">
+      <div style="font-size:28px">💕</div>
+      <h3>LOVE SEEKERS</h3>
+      <p>Serious Dating & Marriage</p>
+    </div>
+    <div class="card" onclick="showSection('match')">
+      <div style="font-size:28px">🤝</div>
+      <h3>MATCH MAKING</h3>
+      <p>Family & Friends Set You Up</p>
+    </div>
+    <div class="card" onclick="showSection('models')">
+      <div style="font-size:28px">📸</div>
+      <h3>MODELS</h3>
+      <p>Portfolio, Events, Collabs</p>
+    </div>
+    <div class="card" onclick="showSection('entertainers')">
+      <div style="font-size:28px">💃</div>
+      <h3>ENTERTAINERS</h3>
+      <p>Exotic Dancers, Event Bookings</p>
+    </div>
+  </div>
+
+  <button class="btn join" onclick="alert('Signup form coming soon!')">🔥 JOIN LOVE BITE</button>
+  <button class="btn login" onclick="alert('Login with email coming soon!')">LOGIN</button>
+  <a href="index.html"><button class="btn back">⬅️ BACK TO ZIMCONNECT</button></a>
+  <p style="text-align:center;font-size:12px;color:#666">Want the full app with video chat? Download coming soon.</p>
+</section>
+
+<!-- LOVE SEEKERS SECTION -->
+<section id="seekers" class="section">
+  <h2>💕 Love Seekers</h2>
+  <div class="profile">
+    <img src="https://i.pravatar.cc/100?u=1" alt="">
+    <div>
+      <b>Tari, 26, Harare</b><br>
+      <span class="small">Looking for marriage. Christian, teacher.</span><br>
+      <button class="chat-btn" onclick="window.open('https://wa.me/26377XXXXXXX')">Chat on WhatsApp</button>
+    </div>
+  </div>
+  <button class="btn back" onclick="showSection('main')">⬅️ BACK</button>
+</section>
+
+<!-- MATCH MAKING SECTION -->
+<section id="match" class="section">
+  <h2>🤝 Match Making</h2>
+  <p>Fill this form and we’ll match you through family/friends</p>
+  <input placeholder="Your Name">
+  <input placeholder="WhatsApp Number">
+  <textarea placeholder="What are you looking for?"></textarea>
+  <button class="btn join">SUBMIT TO MATCH MAKERS</button>
+  <button class="btn back" onclick="showSection('main')">⬅️ BACK</button>
+</section>
+
+<!-- MODELS SECTION -->
+<section id="models" class="section">
+  <h2>📸 Models</h2>
+  <div class="profile">
+    <img src="https://i.pravatar.cc/100?u=2" alt="">
+    <div>
+      <b>Rudo Model</b><br>
+      <span class="small">Fashion, Events, Brand Collabs</span><br>
+      <button class="chat-btn" onclick="window.open('https://wa.me/26377XXXXXXX')">Book Me</button>
+    </div>
+  </div>
+  <button class="btn back" onclick="showSection('main')">⬅️ BACK</button>
+</section>
+
+<!-- ENTERTAINERS SECTION -->
+<section id="entertainers" class="section">
+  <h2>💃 Entertainers</h2>
+  <div class="profile">
+    <img src="https://i.pravatar.cc/100?u=3" alt="">
+    <div>
+      <b>DJ Flame</b><br>
+      <span class="small">Weddings, Parties, Club Events</span><br>
+      <button class="chat-btn" onclick="window.open('https://wa.me/26377XXXXXXX')">Book Now</button>
+    </div>
+  </div>
+  <button class="btn back" onclick="showSection('main')">⬅️ BACK</button>
+</section>
+
 <script>
-// simple alert for now
-document.querySelectorAll('[data-alert]').forEach(btn => {
-  btn.onclick = () => alert(btn.dataset.alert);
-});
+function showSection(id){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
 </script>
+
 </body>
 </html>
